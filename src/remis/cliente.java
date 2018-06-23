@@ -16,19 +16,19 @@ public class cliente {
     private int codCliente;
     private Date fechaAlta;
     
-    public String getcodCliente( ){
+    public int getcodCliente( ){
     return this.codCliente;
   }
  
-    public void setCodCli(String codCliente){
+    public void setCodCli(int codCliente){
     this.codCliente = codCliente;
   }
         
-    public String getfechaAlta( ){
+    public Date getfechaAlta( ){
     return this.fechaAlta;
   }
  
-    public void setfechaAlta(String fechaAlta){
+    public void setfechaAlta(Date fechaAlta){
     this.fechaAlta = fechaAlta;
   }    
     public void altaCli(){
