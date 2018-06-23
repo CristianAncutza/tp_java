@@ -12,7 +12,7 @@ package remis;
 public class ticket {
     
     private int idTicket;
-    private date fecha;
+    private Date fecha;
     private float importe;
     
     public void listarTicket(){

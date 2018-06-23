@@ -10,12 +10,9 @@ package remis;
  * @author 272623
  */
 class Chofer {
-    private String nombre;
-    private String apellido;
-    private String direccion;
-    private String telefono;
-    private Double dni;
-
+    private int legajo;
+    private int licencia;
+    
     public Chofer(String nombre, String apellido, String direccion, String telefono, Double dni){
         this.nombre = nombre;
         this.apellido = apellido;

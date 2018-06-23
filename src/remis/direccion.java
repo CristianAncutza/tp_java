@@ -15,7 +15,7 @@ public class direccion {
     private String []calle;
     private int num;
     private String [] localidad;
-    
+
     public void altaDir(){
     
     }
