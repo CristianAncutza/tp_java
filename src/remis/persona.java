@@ -11,4 +11,9 @@ package remis;
  */
 public class persona {
     
+    private int idPersona;
+    private String [] nombre;
+    private String [] apellido;
+    
+    
 }

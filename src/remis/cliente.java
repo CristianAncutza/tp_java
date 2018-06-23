@@ -11,4 +11,17 @@ package remis;
  */
 public class cliente {
     
+    private int codCliente;
+    private date fechaAlta;
+    
+    public void altaCli(){
+    
+    }
+    public void bajaCli(){
+    
+    }
+    public void modifCli(){
+    
+        
+    }
 }

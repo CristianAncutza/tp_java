@@ -11,4 +11,20 @@ package remis;
  */
 public class ticket {
     
+    private int idTicket;
+    private date fecha;
+    private float importe;
+    
+    public void listarTicket(){
+    
+        
+    }
+    
+    public void listarTicket (int num){
+              
+    }
+    
+    public void generarTicket(){
+    
+    }
 }

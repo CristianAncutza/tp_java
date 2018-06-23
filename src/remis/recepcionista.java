@@ -11,4 +11,12 @@ package remis;
  */
 public class recepcionista {
     
+    private int usuario;
+    private int legajo;
+    private int password;
+    
+    public void validarUsuario(int leg){
+    
+        
+    }
 }

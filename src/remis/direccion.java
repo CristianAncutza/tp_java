@@ -11,4 +11,19 @@ package remis;
  */
 public class direccion {
     
+    private int idDireccion;
+    private String []calle;
+    private int num;
+    private String [] localidad;
+    
+    public void altaDir(){
+    
+    }
+    public void bajaDir(){
+    
+    }
+    public void modifDir(){
+    
+        
+    }
 }

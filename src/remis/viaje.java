@@ -18,6 +18,7 @@ class Viaje {
         this.origen = origen;
         this.destino = destino;
         this.tiempo = tiempo;
+    
         
     }
             
