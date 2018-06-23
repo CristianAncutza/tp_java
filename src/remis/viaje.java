@@ -7,27 +7,18 @@ package remis;
 
 /**
  *
- * @author u583313
+ * @author 272623
  */
-public class viaje {
-
-    private int idViaje;
-    private int origen;
-    private int destino;
-    private float kms;
-    private date fechaSalida;
-    private date fechaLlegada;
-    private float valor;
+class Viaje {
+    private String origen;
+    private String destino;
+    private String tiempo;
     
-    public viaje altaViaje(){
-    
-    }
-    
-    public void consultarInformes(){
+    public Viaje(String origen, String destino,String tiempo){
+        this.origen = origen;
+        this.destino = destino;
+        this.tiempo = tiempo;
         
     }
-    
-    public void actualizarEstadoViaje(){
-}
-    
+            
 }

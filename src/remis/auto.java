@@ -7,8 +7,19 @@ package remis;
 
 /**
  *
- * @author u583313
+ * @author 272623
  */
-public class auto {
+class Auto {
+    private String marca;
+    private String patente;
+    private String modelo;
+    
+    public Auto(String marca, String patente, String modelo){
+        this.marca = marca;
+        this.patente = patente;
+        this.modelo = modelo;
+    }
+
+    
     
 }

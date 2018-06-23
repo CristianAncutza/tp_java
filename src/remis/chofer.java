@@ -7,8 +7,24 @@ package remis;
 
 /**
  *
- * @author u583313
+ * @author 272623
  */
-public class chofer {
+class Chofer {
+    private String nombre;
+    private String apellido;
+    private String direccion;
+    private String telefono;
+    private Double dni;
+
+    public Chofer(String nombre, String apellido, String direccion, String telefono, Double dni){
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.direccion = direccion;
+        this.dni = dni;
+        this.telefono = telefono;
+        
+        
+        
+    }
     
 }
