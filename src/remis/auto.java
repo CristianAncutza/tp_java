@@ -10,11 +10,16 @@ package remis;
  * @author 272623
  */
 class Auto {
+    private int idAuto;
+    int año;
     private String marca;
-    private String patente;
     private String modelo;
+    private String patente;
     
-    public Auto(String marca, String patente, String modelo){
+    
+    public Auto(int año, String marca, String patente, String modelo){
+       
+        this.año= año;
         this.marca = marca;
         this.patente = patente;
         this.modelo = modelo;

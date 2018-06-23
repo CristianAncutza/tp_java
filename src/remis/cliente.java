@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * @author u583313
  */
-public class cliente {
+public class cliente extends persona{
     
     private int codCliente;
     private Date fechaAlta;
@@ -30,7 +30,8 @@ public class cliente {
  
     public void setfechaAlta(Date fechaAlta){
     this.fechaAlta = fechaAlta;
-  }    
+  }   
+    
     public void altaCli(){
     
     }
