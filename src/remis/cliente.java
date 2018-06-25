@@ -40,6 +40,15 @@ public class cliente extends persona{
     }
     public void modifCli(){
     
+    }
+
+    
+    public cliente(int codCliente,Date fechaAlta, String nombre, String apellido){
+      
+        this.codCliente = codCliente;
+        this.fechaAlta = fechaAlta;
+        this.nombre = nombre;
+        this.apellido = apellido;
         
     }
 }

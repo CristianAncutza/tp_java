@@ -12,9 +12,9 @@ package remis;
 public class direccion {
 
     private int idDireccion;
-    private String []calle;
+    private String calle;
     private int num;
-    private String [] localidad;
+    private String localidad;
     /**
      * @return the idDireccion
      */
@@ -32,14 +32,14 @@ public class direccion {
     /**
      * @return the calle
      */
-    public String[] getCalle() {
+    public String getCalle() {
         return calle;
     }
 
     /**
      * @param calle the calle to set
      */
-    public void setCalle(String[] calle) {
+    public void setCalle(String calle) {
         this.calle = calle;
     }
 
@@ -60,14 +60,14 @@ public class direccion {
     /**
      * @return the localidad
      */
-    public String[] getLocalidad() {
+    public String getLocalidad() {
         return localidad;
     }
 
     /**
      * @param localidad the localidad to set
      */
-    public void setLocalidad(String[] localidad) {
+    public void setLocalidad(String localidad) {
         this.localidad = localidad;
     }
     

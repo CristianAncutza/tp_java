@@ -40,7 +40,19 @@ public class chofer extends persona{
     public void setLicencia(int licencia) {
         this.licencia = licencia;
     }
-   
+       
+    public void altaChofer(){
+    
+    }
+    
+    public void modifCchofer(){
+    
+    }
+    
+    public void bajaChofer(){
+    
+    }
+    
     public chofer(){};
             
     public chofer(int legajo, int licencia, String nombre, String apellido){
@@ -48,10 +60,7 @@ public class chofer extends persona{
         this.legajo = legajo;
         this.licencia = licencia;
         setNombre(nombre);
-        setApellido(apellido);
-              
-        
-        
+        setApellido(apellido);    
         
     }
     

@@ -11,21 +11,18 @@ package remis;
  */
 public class persona {
 
-    /**
+    public int idPersona;
+    public String nombre;
+    public String apellido;
+    
+     /**
      * @return the idPersona
      */
     public int getIdPersona() {
         return idPersona;
     }
 
-    /**
-     * @param idPersona the idPersona to set
-     */
-    public void setIdPersona(int idPersona) {
-        this.idPersona = idPersona;
-    }
-
-    /**
+     /**
      * @return the nombre
      */
     public String getNombre() {
@@ -52,10 +49,6 @@ public class persona {
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
-    
-    public int idPersona;
-    public String nombre;
-    public String apellido;
     
     
 }
