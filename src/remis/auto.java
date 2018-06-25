@@ -9,7 +9,7 @@ package remis;
  *
  * @author 272623
  */
-class Auto {
+class auto {
     private int idAuto;
     int año;
     private String marca;
@@ -17,7 +17,7 @@ class Auto {
     private String patente;
     
     
-    public Auto(int año, String marca, String patente, String modelo){
+    public auto(int año, String marca, String patente, String modelo){
        
         this.año= año;
         this.marca = marca;

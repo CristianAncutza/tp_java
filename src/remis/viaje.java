@@ -9,12 +9,12 @@ package remis;
  *
  * @author 272623
  */
-class Viaje {
+class viaje {
     private String origen;
     private String destino;
     private String tiempo;
     
-    public Viaje(String origen, String destino,String tiempo){
+    public viaje(String origen, String destino,String tiempo){
         this.origen = origen;
         this.destino = destino;
         this.tiempo = tiempo;
