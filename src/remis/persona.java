@@ -53,9 +53,9 @@ public class persona {
         this.apellido = apellido;
     }
     
-    private int idPersona;
-    private String nombre;
-    private String apellido;
+    public int idPersona;
+    public String nombre;
+    public String apellido;
     
     
 }
