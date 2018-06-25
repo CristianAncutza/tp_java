@@ -11,10 +11,15 @@ package remis;
  */
 public class frmMenu extends javax.swing.JFrame {
 
+    
     /**
      * Creates new form frmMenu
      */
-    public frmMenu() {
+    public frmMenu(persona per ) {
+        initComponents();
+        jLabel1.setText(per.getNombre());
+    }
+        public frmMenu( ) {
         initComponents();
     }
 
@@ -27,6 +32,7 @@ public class frmMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
         jMenuBarRemis = new javax.swing.JMenuBar();
         jMenuRemis = new javax.swing.JMenu();
         jMenuItemSalir = new javax.swing.JMenuItem();
@@ -49,6 +55,8 @@ public class frmMenu extends javax.swing.JFrame {
         jMenuTicketsListado = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("jLabel1");
 
         jMenuRemis.setText("File");
 
@@ -86,9 +94,19 @@ public class frmMenu extends javax.swing.JFrame {
         jMenuAuto.setText("Auto");
 
         jMenuAutoAlta.setText("Alta");
+        jMenuAutoAlta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuAutoAltaMouseReleased(evt);
+            }
+        });
         jMenuAuto.add(jMenuAutoAlta);
 
         jMenuAutoBaja.setText("Baja");
+        jMenuAutoBaja.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuAutoBajaMouseReleased(evt);
+            }
+        });
         jMenuAuto.add(jMenuAutoBaja);
 
         jMenuAutoModificacion.setText("Modificación");
@@ -119,15 +137,33 @@ public class frmMenu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 660, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(616, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 419, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(394, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuAutoAltaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuAutoAltaMouseReleased
+        // TODO add your handling code here:
+        frmAutoAltaDial frmAuto = new  frmAutoAltaDial(this,true);
+        frmAuto.setVisible(true);
+    }//GEN-LAST:event_jMenuAutoAltaMouseReleased
+
+    private void jMenuAutoBajaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuAutoBajaMouseReleased
+        frmAutoBajaDialog autoBaja = new frmAutoBajaDialog(this, true);
+        autoBaja.setVisible(true);// TODO add your handling code here:
+
+    }//GEN-LAST:event_jMenuAutoBajaMouseReleased
 
     /**
      * @param args the command line arguments
@@ -165,6 +201,7 @@ public class frmMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenuAuto;
     private javax.swing.JMenuItem jMenuAutoAlta;
     private javax.swing.JMenuItem jMenuAutoBaja;

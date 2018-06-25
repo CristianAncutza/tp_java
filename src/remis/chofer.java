@@ -9,7 +9,7 @@ package remis;
  *
  * @author 272623
  */
-class Chofer extends persona{
+public class chofer extends persona{
  
     private int legajo;
     private int licencia;
@@ -41,13 +41,14 @@ class Chofer extends persona{
         this.licencia = licencia;
     }
    
-    
-    public Chofer(int legajo, int licencia, String nombre, String apellido){
+    public chofer(){};
+            
+    public chofer(int legajo, int licencia, String nombre, String apellido){
         
         this.legajo = legajo;
         this.licencia = licencia;
-        this.nombre = nombre;
-        this.apellido = apellido;
+        setNombre(nombre);
+        setApellido(apellido);
               
         
         

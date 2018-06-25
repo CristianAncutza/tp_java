@@ -4,6 +4,24 @@
  * and open the template in the editor.
  */
 package remis;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
+import javax.swing.JFrame;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 
 /**
  *
@@ -16,6 +34,22 @@ public class frmLogin extends javax.swing.JFrame {
      */
     public frmLogin() {
         initComponents();
+        
+        Centrado();
+    }
+    
+    /**
+     * Funcion para centrar form
+     */
+    private void Centrado()
+    {
+        Dimension windowSize = getSize();
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        Point centerPoint = ge.getCenterPoint();
+
+        int dx = centerPoint.x - windowSize.width / 2;
+        int dy = centerPoint.y - windowSize.height / 2;    
+        setLocation(dx, dy);
     }
 
     /**
@@ -27,12 +61,16 @@ public class frmLogin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroupLog = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JTextField();
-        txtContraseña = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        rdbRecepcionista = new javax.swing.JRadioButton();
+        rdbChofer = new javax.swing.JRadioButton();
+        lblMensaje = new javax.swing.JLabel();
+        txtContraseña = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -41,39 +79,67 @@ public class frmLogin extends javax.swing.JFrame {
         jLabel2.setText("Contraseña:");
 
         btnAceptar.setText("Aceptar");
+        btnAceptar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnAceptarMousePressed(evt);
+            }
+        });
 
         jLabel3.setText("LOGIN");
+
+        buttonGroupLog.add(rdbRecepcionista);
+        rdbRecepcionista.setSelected(true);
+        rdbRecepcionista.setText("Recepcionista");
+        rdbRecepcionista.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                rdbRecepcionistaMousePressed(evt);
+            }
+        });
+
+        buttonGroupLog.add(rdbChofer);
+        rdbChofer.setText("Chofer");
+        rdbChofer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                rdbChoferMousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(119, 119, 119)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblMensaje)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(84, 84, 84)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1))
-                                .addGap(27, 27, 27)
-                                .addComponent(txtContraseña))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(111, 111, 111)
-                                .addComponent(btnAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(88, 88, 88)
+                        .addComponent(jLabel3))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(156, 156, 156)
-                        .addComponent(jLabel3)))
-                .addContainerGap(115, Short.MAX_VALUE))
+                        .addComponent(rdbRecepcionista)
+                        .addGap(18, 18, 18)
+                        .addComponent(rdbChofer))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtContraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                            .addComponent(txtUsuario)
+                            .addComponent(btnAceptar, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addContainerGap(140, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addContainerGap()
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rdbRecepcionista)
+                    .addComponent(rdbChofer))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -83,12 +149,170 @@ public class frmLogin extends javax.swing.JFrame {
                     .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnAceptar)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(lblMensaje)
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAceptarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMousePressed
+        // TODO add your handling code here:
+        frmMenu menu;
+        if(rdbRecepcionista.isSelected())
+        {                
+            if (LoginRecepcionista())
+            {
+                recepcionista rep = new recepcionista();
+                rep.setNombre("jose");
+                menu = new frmMenu(rep);
+                menu.setVisible(true);
+                menu.setLocationRelativeTo(this);
+                this.dispose();
+            }
+        }
+        else
+        {
+           if (LoginChofer())
+           {
+                chofer ch = new chofer();
+                ch.setNombre("Juan");
+                menu = new frmMenu(ch);
+                menu.setVisible(true);
+                menu.setLocationRelativeTo(this);
+                this.dispose();
+           }
+        }
+        
+        
+        
+        
+      
+    }//GEN-LAST:event_btnAceptarMousePressed
+
+    private void rdbRecepcionistaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdbRecepcionistaMousePressed
+        // TODO add your handling code here:
+        jLabel2.setVisible(true);
+        txtContraseña.setVisible(true);
+    }//GEN-LAST:event_rdbRecepcionistaMousePressed
+
+    private void rdbChoferMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdbChoferMousePressed
+// TODO add your handling code here:
+        jLabel2.setVisible(false);
+        txtContraseña.setVisible(false);        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbChoferMousePressed
+
+    /**
+     * validacion de logion del chofer
+     * @return 
+     */
+    private boolean LoginChofer()
+    {
+        Connection conn = null;
+        String url = "jdbc:sqlserver://localhost:1433;databaseName=RemisJava";
+        String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+        String databaseUserName = "jona";
+        String databasePassword = "1234";
+        
+        try {
+            Class.forName(driver).newInstance();
+            conn = DriverManager.getConnection(url, databaseUserName, databasePassword);
+            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_CHOFER_LOGIN] ?");
+            statement.setString(1, txtUsuario.getText());
+            
+            boolean hadResults = statement.execute();
+        
+            int rowCount = 0;    
+            while (hadResults) 
+            {
+                ResultSet resultSet = statement.getResultSet();
+                
+              
+                // process result set
+                while (resultSet.next()) {
+                    rowCount++;
+                    String title = resultSet.getString("NOMBRE");
+                    String description = resultSet.getString("APELLIDO");
+                  
+                    lblMensaje.setText("| " + title + " | " + description + " | ");
+                }
+ 
+                hadResults = statement.getMoreResults();
+                
+            }
+ 
+            statement.close();
+            conn.close();
+            
+            if(rowCount < 1)
+            {
+                 lblMensaje.setText("Usuario o Contraseña incorrecta!!!");
+                 return false;
+            }
+            
+        } catch (Exception e) {
+             lblMensaje.setText("Usuario o Contraseña incorrecta!!!");
+            e.getMessage();
+        }
+        return true;
+    }
+    
+    /**
+     * validacion de login de la recpcionista
+     * @return 
+     */
+    private boolean LoginRecepcionista()
+    {
+        Connection conn = null;
+        String url = "jdbc:sqlserver://localhost:1433;databaseName=RemisJava";
+        String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+        String databaseUserName = "jona";
+        String databasePassword = "1234";
+        
+        try {
+            Class.forName(driver).newInstance();
+            conn = DriverManager.getConnection(url, databaseUserName, databasePassword);
+            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_RECEPCIONISTA_LOGIN] ?,?");
+            statement.setString(1, txtUsuario.getText());
+            statement.setString(2, txtContraseña.getText());
+            boolean hadResults = statement.execute();
+        
+            int rowCount = 0;    
+            while (hadResults) 
+            {
+                ResultSet resultSet = statement.getResultSet();
+                
+              
+                // process result set
+                while (resultSet.next()) {
+                    rowCount++;
+                    String title = resultSet.getString("NOMBRE");
+                    String description = resultSet.getString("APELLIDO");
+                  
+                    lblMensaje.setText("| " + title + " | " + description + " | ");
+                }
+ 
+                hadResults = statement.getMoreResults();
+                
+            }
+ 
+            statement.close();
+            conn.close();
+            
+            if(rowCount < 1)
+            {
+                 lblMensaje.setText("Usuario o Contraseña incorrecta!!!");
+                 return false;
+            }
+            
+        } catch (Exception e) {
+             lblMensaje.setText("Usuario o Contraseña incorrecta!!!");
+            e.getMessage();
+        }
+        return true;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -126,10 +350,14 @@ public class frmLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
+    private javax.swing.ButtonGroup buttonGroupLog;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField txtContraseña;
+    private javax.swing.JLabel lblMensaje;
+    private javax.swing.JRadioButton rdbChofer;
+    private javax.swing.JRadioButton rdbRecepcionista;
+    private javax.swing.JPasswordField txtContraseña;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }
