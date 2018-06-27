@@ -5,17 +5,53 @@
  */
 package remis;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
+
 /**
  *
- * @author ex1fernajo
+ * @author Cristian Ancutza
  */
 public class frmAutoModificacion extends javax.swing.JFrame {
 
     /**
      * Creates new form frmAutoModificacion
-     */
-    public frmAutoModificacion() {
+     */        
+    @SuppressWarnings("OverridableMethodCallInConstructor")
+    public frmAutoModificacion() {        
         initComponents();
+        lista_autos();
+    }
+
+    Connection conn = null;
+    Statement stmt = null;
+    ResultSet rs = null;    
+    
+    /**
+     *Metodo para cargar el listado de autos.
+     */
+    public void lista_autos(){     
+        try{
+            String dbURL = "jdbc:sqlserver://localhost:1433;databaseName=RemisJava";
+            String user = "sa";
+            String pass = "Sqlserver";
+            conn = DriverManager.getConnection(dbURL,user,pass);
+            auto autos;
+            String query = "SELECT * FROM auto";
+
+            Statement st = conn.createStatement();
+            @SuppressWarnings("LocalVariableHidesMemberVariable")
+            ResultSet rs = st.executeQuery(query);
+            
+            tblAuto.setModel(DbUtils.resultSetToTableModel(rs));               
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }            
     }
 
     /**
@@ -193,11 +229,13 @@ public class frmAutoModificacion extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        java.awt.EventQueue.invokeLater(new Runnable() {            
+
             public void run() {
-                new frmAutoModificacion().setVisible(true);
+                new frmAutoModificacion().setVisible(true);                
             }
         });
+                
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
