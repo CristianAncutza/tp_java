@@ -254,6 +254,7 @@ public class frmLogin extends javax.swing.JFrame {
         } catch (Exception e) {
              lblMensaje.setText("Usuario o Contraseña incorrecta!!!");
             e.getMessage();
+               return false;
         }
         return true;
     }
@@ -309,6 +310,7 @@ public class frmLogin extends javax.swing.JFrame {
         } catch (Exception e) {
              lblMensaje.setText("Usuario o Contraseña incorrecta!!!");
             e.getMessage();
+               return false;
         }
         return true;
     }

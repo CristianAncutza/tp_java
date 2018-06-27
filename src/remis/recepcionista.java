@@ -63,5 +63,10 @@ public class recepcionista extends persona{
         
     }
 
-    
+    public recepcionista getRecepcionista ( int id)
+    { 
+        recepcionista rep = new recepcionista();
+        
+        return rep;
+    }
 }

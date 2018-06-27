@@ -64,4 +64,10 @@ public class chofer extends persona{
         
     }
     
+    public chofer getChofer ( int id)
+    { 
+        chofer ch = new chofer();
+        
+        return ch;
+    }
 }
