@@ -13,6 +13,62 @@ import java.util.Date;
  */
 class viaje {
 
+    /**
+     * @return the Chofer
+     */
+    public chofer getChofer() {
+        return Chofer;
+    }
+
+    /**
+     * @param Chofer the Chofer to set
+     */
+    public void setChofer(chofer Chofer) {
+        this.Chofer = Chofer;
+    }
+
+    /**
+     * @return the Cliente
+     */
+    public cliente getCliente() {
+        return Cliente;
+    }
+
+    /**
+     * @param Cliente the Cliente to set
+     */
+    public void setCliente(cliente Cliente) {
+        this.Cliente = Cliente;
+    }
+
+    /**
+     * @return the Recepcionista
+     */
+    public recepcionista getRecepcionista() {
+        return Recepcionista;
+    }
+
+    /**
+     * @param Recepcionista the Recepcionista to set
+     */
+    public void setRecepcionista(recepcionista Recepcionista) {
+        this.Recepcionista = Recepcionista;
+    }
+
+    /**
+     * @return the estado
+     */
+    public EnumEstados getEstado() {
+        return estado;
+    }
+
+    /**
+     * @param estado the estado to set
+     */
+    public void setEstado(EnumEstados estado) {
+        this.estado = estado;
+    }
+
     private int idViaje;
     private char origen;
     private char destino;
@@ -20,10 +76,18 @@ class viaje {
     private Date fechaSalida;
     private Date fechaLlegada;
     private float valor;
+    private chofer Chofer;
+    private cliente Cliente;
+    private recepcionista Recepcionista;
+    private EnumEstados estado;
+    
     
       /**
      * @return the idViaje
      */
+    
+    public viaje(){};
+     
     public int getIdViaje() {
         return idViaje;
     }
