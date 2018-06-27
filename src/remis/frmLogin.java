@@ -268,8 +268,8 @@ public class frmLogin extends javax.swing.JFrame {
         Connection conn = null;
         String url = "jdbc:sqlserver://localhost:1433;databaseName=RemisJava";
         String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-        String databaseUserName = "jona";
-        String databasePassword = "1234";
+        String databaseUserName = "sa";
+        String databasePassword = "Sqlserver";
         
         try {
             Class.forName(driver).newInstance();
