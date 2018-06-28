@@ -15,12 +15,19 @@ public class frmMenu extends javax.swing.JFrame {
     /**
      * Creates new form frmMenu
      */
-    public frmMenu(persona per ) {
+
+    private persona person = new persona();
+    
+    public frmMenu( ) {
         initComponents();
-        jLabel1.setText("Bienvenido " + per.getNombre() + " " + per.getApellido());
+      
     }
-        public frmMenu( ) {
-        initComponents();
+        public frmMenu(persona per ) {
+            initComponents();
+            
+            person = per; 
+            jLabel1.setText("Bienvenido " + person.getNombre() + " " + person.getApellido()); 
+            
     }
 
     /**
@@ -172,14 +179,14 @@ public class frmMenu extends javax.swing.JFrame {
 
     private void jMenuViajeAltaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuViajeAltaMousePressed
         // TODO add your handling code here:
-        frmViajeAltaDialog viajeAlta = new frmViajeAltaDialog(this, true);
+        frmViajeAltaDialog viajeAlta = new frmViajeAltaDialog(this, true, person);
         viajeAlta.setVisible(true);// TODO add your handling code here:
     }//GEN-LAST:event_jMenuViajeAltaMousePressed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public  void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -202,13 +209,16 @@ public class frmMenu extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(frmMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+  
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new frmMenu().setVisible(true);
+           
             }
         });
+        
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

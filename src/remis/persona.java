@@ -5,21 +5,61 @@
  */
 package remis;
 
+import java.util.Objects;
+
 /**
  *
  * @author u583313
  */
 public class persona {
 
-    private int idPersona;
-    private String nombre;
-    private String apellido;
+    public int idPersona;
+    public String nombre;
+    public String apellido;
     
      /**
      * @return the idPersona
      */
     public int getIdPersona() {
         return idPersona;
+    }
+
+    @Override
+    public String toString() {
+        return  nombre + ", " + apellido ;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 71 * hash + this.idPersona;
+        hash = 71 * hash + Objects.hashCode(this.nombre);
+        hash = 71 * hash + Objects.hashCode(this.apellido);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final persona other = (persona) obj;
+        if (this.idPersona != other.idPersona) {
+            return false;
+        }
+        if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        if (!Objects.equals(this.apellido, other.apellido)) {
+            return false;
+        }
+        return true;
     }
 
      /**

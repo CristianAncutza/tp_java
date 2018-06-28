@@ -166,6 +166,7 @@ public class frmLogin extends javax.swing.JFrame {
             {
                 recepcionista rep = new recepcionista();
                 rep.setNombre("jose");
+                rep.setIdPersona(1);
                 menu = new frmMenu(rep);
                 menu.setVisible(true);
                 menu.setLocationRelativeTo(this);
@@ -210,14 +211,11 @@ public class frmLogin extends javax.swing.JFrame {
     private boolean LoginChofer()
     {
         Connection conn = null;
-        String url = "jdbc:sqlserver://localhost:1433;databaseName=RemisJava";
-        String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-        String databaseUserName = "sa";
-        String databasePassword = "Sqlserver";
+        Conectar cn = new Conectar();
         
         try {
-            Class.forName(driver).newInstance();
-            conn = DriverManager.getConnection(url, databaseUserName, databasePassword);
+            Class.forName(cn.getDriver()).newInstance();
+            conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
             CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_CHOFER_LOGIN] ?");
             statement.setString(1, txtUsuario.getText());
             
@@ -266,14 +264,11 @@ public class frmLogin extends javax.swing.JFrame {
     private boolean LoginRecepcionista()
     {
         Connection conn = null;
-        String url = "jdbc:sqlserver://localhost:1433;databaseName=RemisJava";
-        String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-        String databaseUserName = "sa";
-        String databasePassword = "Sqlserver";
+        Conectar cn = new Conectar();
         
         try {
-            Class.forName(driver).newInstance();
-            conn = DriverManager.getConnection(url, databaseUserName, databasePassword);
+            Class.forName(cn.getDriver()).newInstance();
+            conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
             CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_RECEPCIONISTA_LOGIN] ?,?");
             statement.setString(1, txtUsuario.getText());
             statement.setString(2, txtContraseña.getText());

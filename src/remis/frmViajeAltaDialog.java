@@ -24,14 +24,19 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
     /**
      * Creates new form frmViajeAltaDialog
      */
-    public frmViajeAltaDialog(java.awt.Frame parent, boolean modal) {
+    
+    private persona person = new persona();
+    
+    public frmViajeAltaDialog(java.awt.Frame parent, boolean modal, persona per) {
         super(parent, modal);
         initComponents();
          setLocationRelativeTo(null);
-        
+        person = per;
          CargarClientes();
          CargarLocalidadOrigen();
          CargarLocalidadDestino();
+         
+         lblRecpcionista.setText(person.getNombre());
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -94,6 +99,16 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
         jLabel10.setText("Numero :");
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnGuardarMousePressed(evt);
+            }
+        });
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         jLabel11.setText("Localidad :");
 
@@ -225,13 +240,33 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
         dispose();
     }//GEN-LAST:event_closeDialog
 
+    private void btnGuardarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMousePressed
+        // TODO add your handling code here:
+        
+        viaje v = new viaje();
+        v.setChofer((chofer)cboClientes.getSelectedItem());
+        v.setCalleOrigen(txtCalleOrigen.getText());
+        v.setNumerOrigen(txtNumeroOrigen.getText());
+        v.setCalleDestino(txtCalleDestino.getText());
+        v.setNumeroDestino(txtNumeroDestino.getText());
+        v.setLocalidadOrigen((localidad)cboLocalidadOrigen.getSelectedItem());
+        v.setLocalidadDestino((localidad)cboLocalidadDestino.getSelectedItem());
+        v.setRecepcionista((recepcionista)person);
+        v.altaViaje();
+               
+    }//GEN-LAST:event_btnGuardarMousePressed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                frmViajeAltaDialog dialog = new frmViajeAltaDialog(new java.awt.Frame(), true);
+                frmViajeAltaDialog dialog = new frmViajeAltaDialog(new java.awt.Frame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
@@ -269,20 +304,23 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
             {
                 ResultSet resultSet = statement.getResultSet();
                 
-                List<String> ls = new ArrayList<String>(); 
-               
+                List<localidad> locList = new ArrayList<localidad>();
+                 
+                 localidad loc;
                 // process result set
                 while (resultSet.next()) {
+                    
+                    loc = new localidad();
+                    
                     rowCount++;
-                    String id = resultSet.getString("ID_LOCALIDAD");
-                    String desc = resultSet.getString("DESCRIPCION");
-                  
-                  
-                    //lblMensaje.setText("| " + nombre + " | " + apellido + " | ");
-                    ls.add(id + " " + desc + " " );
+                    
+                    loc.setId_localidad(Integer.parseInt(resultSet.getString("ID_LOCALIDAD")));
+                    loc.setDescripcion(resultSet.getString("DESCRIPCION"));
+                   
+                    locList.add(loc);
                    
                 }
-                cboLocalidadOrigen.setModel(new DefaultComboBoxModel(ls.toArray()));
+                cboLocalidadOrigen.setModel(new DefaultComboBoxModel(locList.toArray()));
                 hadResults = statement.getMoreResults();
                 
             }
@@ -325,20 +363,24 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
             {
                 ResultSet resultSet = statement.getResultSet();
                 
-                List<String> ls = new ArrayList<String>(); 
-               
+                //List<String> ls = new ArrayList<String>(); 
+                 List<localidad> locList = new ArrayList<localidad>();
+                 
+                 localidad loc;
                 // process result set
                 while (resultSet.next()) {
+                    
+                    loc = new localidad();
+                    
                     rowCount++;
-                    String id = resultSet.getString("ID_LOCALIDAD");
-                    String desc = resultSet.getString("DESCRIPCION");
-                  
-                  
-                    //lblMensaje.setText("| " + nombre + " | " + apellido + " | ");
-                    ls.add(id + " " + desc + " " );
+                    
+                    loc.setId_localidad(Integer.parseInt(resultSet.getString("ID_LOCALIDAD")));
+                    loc.setDescripcion(resultSet.getString("DESCRIPCION"));
+                   
+                    locList.add(loc);
                    
                 }
-                cboLocalidadDestino.setModel(new DefaultComboBoxModel(ls.toArray()));
+                cboLocalidadDestino.setModel(new DefaultComboBoxModel(locList.toArray()));
                 hadResults = statement.getMoreResults();
                 
             }
@@ -358,14 +400,11 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
     public void CargarClientes()
     {
         Connection conn = null;
-        String url = "jdbc:sqlserver://localhost:1433;databaseName=RemisJava";
-        String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-        String databaseUserName = "sa";
-        String databasePassword = "Sqlserver";
+        Conectar cn = new Conectar();
         
         try {
-            Class.forName(driver).newInstance();
-            conn = DriverManager.getConnection(url, databaseUserName, databasePassword);
+            Class.forName(cn.getDriver()).newInstance();
+            conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
             CallableStatement statement = conn.prepareCall("SELECT [ID_CLIENTE]\n" +
                                                             "      ,[NOMBRE]\n" +
                                                             "      ,[APELLIDO]\n" +
@@ -380,20 +419,30 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
             {
                 ResultSet resultSet = statement.getResultSet();
                 
-                List<String> ls = new ArrayList<String>(); 
-               
+                //List<String> ls = new ArrayList<String>(); 
+                List<cliente> cliList = new ArrayList<cliente>();
+                cliente cliente;
                 // process result set
                 while (resultSet.next()) {
                     rowCount++;
-                    String id = resultSet.getString("ID_CLIENTE");
-                    String nombre = resultSet.getString("NOMBRE");
-                    String apellido = resultSet.getString("APELLIDO");
+                    
+                    cliente = new cliente();
+                    cliente.setApellido(resultSet.getString("APELLIDO"));
+                    cliente.setNombre(resultSet.getString("NOMBRE"));
+                    cliente.setCodCli(Integer.parseInt(resultSet.getString("ID_CLIENTE")));
+                    
+                    
+//                    String id = resultSet.getString("ID_CLIENTE");
+//                    String nombre = resultSet.getString("NOMBRE");
+//                    String apellido = resultSet.getString("APELLIDO");
                   
                     //lblMensaje.setText("| " + nombre + " | " + apellido + " | ");
-                    ls.add(id + " " + nombre + " " + apellido);
+                    cliList.add(cliente);
+                    //ls.add(id + " " + nombre + " " + apellido);
                    
                 }
-                cboClientes.setModel(new DefaultComboBoxModel(ls.toArray()));
+                //cboClientes.setModel(new DefaultComboBoxModel(ls.toArray()));
+                 cboClientes.setModel(new DefaultComboBoxModel(cliList.toArray()));
                 hadResults = statement.getMoreResults();
                 
             }

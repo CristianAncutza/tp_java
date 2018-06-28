@@ -42,7 +42,8 @@ public class cliente extends persona{
     
     }
 
-    
+    public cliente () 
+    {}
     public cliente(int codCliente,Date fechaAlta, String nombre, String apellido){
       
         this.codCliente = codCliente;
