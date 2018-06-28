@@ -156,12 +156,12 @@ public class viaje {
 	statement.setString(4, this.calleDestino);//@CALLE_DESTINO nvarchar(50),
         statement.setString(5, this.numeroDestino);//@NUMERO_DESTINO nvarchar(50),
         statement.setInt(6, this.localidadDestino.getId_localidad());//@ID_LOCALIDAD_DESTINO int,
-        statement.setDouble(7, 0.0);//@KMS float,
+        statement.setDouble(7, 0);//@KMS float,
         statement.setString(8, null);//@FECHA_SALIDA datetime,
         statement.setString(9, null);//@FECHA_LLEGADA datetime,
         statement.setString(10, null);//@VALOR float,
-        statement.setInt(11, this.Chofer.getIdPersona());//@ID_CHOFER int,
-        statement.setInt(12, this.Cliente.getIdPersona());//@ID_CLIENTE int,
+        statement.setString(11, null);//@ID_CHOFER int,
+        statement.setInt(12, this.Cliente.getcodCliente());//@ID_CLIENTE int,
         statement.setInt(13, 1);//@ID_ESTADO int,
         statement.setInt(14, this.Recepcionista.getIdPersona());//@ID_RECEPCIONISTA_CREADO int
             
@@ -203,7 +203,7 @@ public class viaje {
         return calleDestino;
     }
 
-    public String getNumerOrigenDestino() {
+    public String getNumeroDestino() {
         return numeroDestino;
     }
 
@@ -239,7 +239,7 @@ public class viaje {
         this.calleDestino = calleDestino;
     }
 
-    public void setNumeroDestino(String numerDestino) {
+    public void setNumeroDestino(String numeroDestino) {
         this.numeroDestino = numeroDestino;
     }
 

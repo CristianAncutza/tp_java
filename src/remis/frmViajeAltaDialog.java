@@ -244,7 +244,7 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
         // TODO add your handling code here:
         
         viaje v = new viaje();
-        v.setChofer((chofer)cboClientes.getSelectedItem());
+        v.setCliente((cliente)cboClientes.getSelectedItem());
         v.setCalleOrigen(txtCalleOrigen.getText());
         v.setNumerOrigen(txtNumeroOrigen.getText());
         v.setCalleDestino(txtCalleDestino.getText());
