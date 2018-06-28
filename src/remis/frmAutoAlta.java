@@ -13,10 +13,13 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Calendar;
+import javax.swing.JComboBox;
 
 /**
  *
- * @author ex1fernajo
+ * @author Cristian Ancutza
  */
 public class frmAutoAlta extends javax.swing.JFrame {
 
@@ -25,6 +28,11 @@ public class frmAutoAlta extends javax.swing.JFrame {
      */
     public frmAutoAlta() {
         initComponents();
+        
+        //lleno el combobox de año
+        for(int año = 1980; año<=Calendar.getInstance().get(Calendar.YEAR); año++) {
+            cboAño.addItem(año);            
+        }       
     }
 
     /**
@@ -56,7 +64,11 @@ public class frmAutoAlta extends javax.swing.JFrame {
 
         jLabel2.setText("Año :");
 
-        cboAño.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002", "2001", "2000" }));
+        cboAño.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboAñoActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Color :");
 
@@ -143,61 +155,20 @@ public class frmAutoAlta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-    
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;    
-
-        try {
-             String dbURL = "jdbc:sqlserver://localhost:1433;databaseName=RemisJava";
-             String user = "sa";
-             String pass = "Sqlserver";
-             conn = DriverManager.getConnection(dbURL,user,pass);
-
-            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_AUTO_ALTA] ?, ?, ?, ?, ?");
-            statement.setString(1, cboAño.getSelectedItem().toString());
-            statement.setString(2, txtColor.getText());
-            statement.setString(3, txtMarca.getText());
-            statement.setString(4, txtModelo.getText());
-            statement.setString(5, txtPatente.getText());
-
-
-            boolean hadResults = statement.execute();
-
-            while(hadResults){
-                    ResultSet resultSet = statement.getResultSet();
-
-            while(resultSet.next()){
-                    String title = resultSet.getString("MARCA");
-                    String description = resultSet.getString("MODELO");
-
-                    lblMensaje.setText("| "+ title + " |"+ description + " | ");
-            }
-                    hadResults = statement.getMoreResults();
-            }
-
-
-
-             if (conn != null) {
-                    DatabaseMetaData dm = (DatabaseMetaData) conn.getMetaData();
-                    System.out.println("Driver name: " + dm.getDriverName());
-                    System.out.println("Driver version: " + dm.getDriverVersion());
-                    System.out.println("Product name: " + dm.getDatabaseProductName());
-                    System.out.println("Product version: " + dm.getDatabaseProductVersion());
-             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (conn != null && !conn.isClosed()) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
-        }
+       
+        auto a = new auto();
+        a.setaño((int)cboAño.getSelectedItem());
+        a.setcolor(txtColor.getText());
+        a.setmarca(txtMarca.getText());
+        a.setmodelo(txtModelo.getText());
+        a.setpatente(txtPatente.getText());
+        a.altaAuto();
         
     }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void cboAñoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboAñoActionPerformed
+        
+    }//GEN-LAST:event_cboAñoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -236,7 +207,7 @@ public class frmAutoAlta extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
-    private javax.swing.JComboBox<String> cboAño;
+    private javax.swing.JComboBox<Integer> cboAño;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

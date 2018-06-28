@@ -5,9 +5,18 @@
  */
 package remis;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import net.proteanit.sql.DbUtils;
+
 /**
  *
- * @author ex1fernajo
+ * @author Cristian Ancutza
  */
 public class frmAutoBaja extends javax.swing.JFrame {
 
@@ -16,6 +25,7 @@ public class frmAutoBaja extends javax.swing.JFrame {
      */
     public frmAutoBaja() {
         initComponents();
+        lista_autos();
     }
 
     /**
@@ -50,13 +60,23 @@ public class frmAutoBaja extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblAuto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblAutoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblAuto);
 
         btnBaja.setText("Baja");
+        btnBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBajaActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("ID Auto :");
 
-        lblMensaje.setText("aca va un mensaje");
+        lblMensaje.setText(" ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,6 +124,53 @@ public class frmAutoBaja extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBajaActionPerformed
+        //obtengo el id de la row seleccionada.
+        int selectedRowIndex = tblAuto.getSelectedRow();                       
+        int id_auto = (int) tblAuto.getModel().getValueAt(selectedRowIndex, 0);
+        
+        auto a = new auto();                
+        if(a.bajaAuto(id_auto) == 0){
+                lblMensaje.setText("Se eliminó correctamente el auto");            
+        }
+        else{
+            lblMensaje.setText("Error: no se pudo eliminar el auto");
+        }              
+    }//GEN-LAST:event_btnBajaActionPerformed
+    
+    private void tblAutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAutoMouseClicked
+           //completo los campos del formulario en base a la seleccion de row en la lista.
+           DefaultTableModel model =(DefaultTableModel)tblAuto.getModel();
+           int selectedRowIndex = tblAuto.getSelectedRow();                      
+           txtId.setText(model.getValueAt(selectedRowIndex, 0).toString());
+    }//GEN-LAST:event_tblAutoMouseClicked
+
+    /**
+     *Este metodo se usa para listar los autos.
+     */
+    public void lista_autos(){ 
+            
+         Connection conn = null;
+         Conectar cn = new Conectar();
+            
+        try{
+            conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
+            auto autos;
+            String query = "SELECT * FROM auto";
+
+            Statement st = conn.createStatement();
+            @SuppressWarnings("LocalVariableHidesMemberVariable")
+            ResultSet rs = st.executeQuery(query);
+            
+            tblAuto.setModel(DbUtils.resultSetToTableModel(rs));
+            
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }            
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
