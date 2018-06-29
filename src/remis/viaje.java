@@ -181,7 +181,48 @@ public class viaje {
     }
     
     public void actualizarEstadoViaje(){
-    
+         Connection conn = null;
+        Conectar cn = new Conectar();
+        
+        try {
+            Class.forName(cn.getDriver()).newInstance();
+            conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
+            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_VIAJE_MODIFICACION] ?,?,?,?,?,?,?");
+              statement.setInt(1, idViaje);    //@ID_VIAJE INT,
+               statement.setInt(2,kms);  //@KMS int,
+                  statement.setString(3, null); //@FECHA_SALIDA datetime,
+                 statement.setString(4, null);  //@FECHA_LLEGADA datetime,
+              statement.setFloat(5, valor);  //@VALOR float,
+               statement.setInt(6, Chofer.getIdPersona()); //@ID_CHOFER int,
+               switch(estado)
+               {
+                   case CANCELADO:
+                       statement.setInt(7,3);//@ID_ESTADO int
+                       break;
+                   case FINALIZADO:
+                       statement.setInt(7,4);//@ID_ESTADO int
+                       break;
+                   case PENDIENTE:
+                       statement.setInt(7,1);//@ID_ESTADO int
+                      break;
+                   case TOMADO:
+                       statement.setInt(7,2);//@ID_ESTADO int
+                       break;
+                       
+                     
+               }
+              boolean hadResults = statement.execute();
+        
+            statement.close();
+            conn.close();
+            
+           
+            
+        } catch (Exception e) {
+             
+            e.getMessage();
+              
+        }
     }
 
     public String getCalleOrigen() {

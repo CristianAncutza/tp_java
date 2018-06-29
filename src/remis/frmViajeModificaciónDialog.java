@@ -174,8 +174,6 @@ public class frmViajeModificaciónDialog extends java.awt.Dialog {
 
         txtFechaSalida.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
 
-        lblMensaje.setText("aca va algun mensaje");
-
         txtHoraSalida.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
 
         jLabel1.setText("Edición de Viajes");
@@ -215,6 +213,12 @@ public class frmViajeModificaciónDialog extends java.awt.Dialog {
 
         cboChofer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        txtKMS.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtKMSKeyTyped(evt);
+            }
+        });
+
         jLabel8.setText("Estado :");
 
         jLabel4.setText("Fecha Salida :");
@@ -224,6 +228,11 @@ public class frmViajeModificaciónDialog extends java.awt.Dialog {
         jLabel5.setText("Fecha Llegada :");
 
         jToggleButton1.setText("Guardar");
+        jToggleButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jToggleButton1MousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -342,7 +351,7 @@ public class frmViajeModificaciónDialog extends java.awt.Dialog {
            int selectedRowIndex = tbViajes.getSelectedRow();
            lblId.setText(model.getValueAt(selectedRowIndex, 0).toString());
            txtKMS.setText(model.getValueAt(selectedRowIndex, 3).toString());
-            txtValor.setText(model.getValueAt(selectedRowIndex, 3).toString());
+            txtValor.setText(model.getValueAt(selectedRowIndex, 6).toString());
             //cboChofer.setSelectedItem((chofer)model.getValueAt(selectedRowIndex, 9 ));
             
 //           cboAño.setSelectedItem(model.getValueAt(selectedRowIndex, 1));
@@ -352,6 +361,54 @@ public class frmViajeModificaciónDialog extends java.awt.Dialog {
 //           txtPatente.setText(model.getValueAt(selectedRowIndex, 5).toString());
            
     }//GEN-LAST:event_tbViajesMousePressed
+
+    /**
+     * Modifico el viaje
+     * @param evt 
+     */
+    private void jToggleButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jToggleButton1MousePressed
+        // TODO add your handling code here:
+        
+        if(lblId.getText()== "----")
+        {
+            lblMensaje.setText("Elija un registro");
+        }
+        else
+        {
+            try
+            {
+           viaje v = new viaje();
+           v.setIdViaje(Integer.parseInt(lblId.getText()));
+           v.setKms(Integer.parseInt(txtKMS.getText()));
+           v.setValor(Float.parseFloat(txtValor.getText()));
+           v.setChofer((chofer)cboChofer.getSelectedItem());
+           v.setEstado((EnumEstados)cboEstado.getSelectedItem());
+           v.actualizarEstadoViaje();
+            
+           lista_viajes();
+            lblMensaje.setText("se actualizo el viaje");
+            
+            
+            }
+            catch(Exception e)
+            {
+                lista_viajes();
+                lblMensaje.setText("Ocurrio un ERROR , intente nuevamente");
+            }
+        }
+    }//GEN-LAST:event_jToggleButton1MousePressed
+
+    private void txtKMSKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKMSKeyTyped
+        // TODO add your handling code here:
+        char c=evt.getKeyChar(); 
+            if(Character.isLetter(c)) { 
+              getToolkit().beep(); 
+              
+             evt.consume(); 
+              
+               
+          } 
+    }//GEN-LAST:event_txtKMSKeyTyped
 
     /**
      * @param args the command line arguments

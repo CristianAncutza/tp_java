@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.2" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.DialogFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.DialogFormInfo">
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
@@ -156,9 +156,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblMensaje">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="aca va algun mensaje"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="txtHoraSalida">
       <Properties>
@@ -254,6 +251,9 @@
       </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="txtKMS">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtKMSKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel8">
       <Properties>
@@ -289,6 +289,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Guardar"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jToggleButton1MousePressed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
