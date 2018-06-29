@@ -176,6 +176,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtNumeroOrigen">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNumeroOrigenKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
@@ -183,6 +186,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtCalleDestino">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCalleDestinoKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
@@ -195,6 +201,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtNumeroDestino">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNumeroDestinoKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="cboClientes">
       <Properties>
@@ -293,6 +302,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtCalleOrigen">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCalleOrigenKeyTyped"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

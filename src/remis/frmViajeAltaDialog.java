@@ -76,11 +76,29 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
 
         jLabel3.setText("Dirección Destino");
 
+        txtNumeroOrigen.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNumeroOrigenKeyTyped(evt);
+            }
+        });
+
         jLabel4.setText("Cliente :");
+
+        txtCalleDestino.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCalleDestinoKeyTyped(evt);
+            }
+        });
 
         jLabel5.setText("Creado por :");
 
         jLabel6.setText("Calle :");
+
+        txtNumeroDestino.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNumeroDestinoKeyTyped(evt);
+            }
+        });
 
         cboClientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -115,6 +133,12 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
         jLabel1.setText("Generación de Viajes");
 
         jLabel2.setText("Dirección Origen");
+
+        txtCalleOrigen.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCalleOrigenKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -242,23 +266,80 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
 
     private void btnGuardarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMousePressed
         // TODO add your handling code here:
-        
-        viaje v = new viaje();
-        v.setCliente((cliente)cboClientes.getSelectedItem());
-        v.setCalleOrigen(txtCalleOrigen.getText());
-        v.setNumerOrigen(txtNumeroOrigen.getText());
-        v.setCalleDestino(txtCalleDestino.getText());
-        v.setNumeroDestino(txtNumeroDestino.getText());
-        v.setLocalidadOrigen((localidad)cboLocalidadOrigen.getSelectedItem());
-        v.setLocalidadDestino((localidad)cboLocalidadDestino.getSelectedItem());
-        v.setRecepcionista((recepcionista)person);
-        v.altaViaje();
+        try {
+            viaje v = new viaje();
+            v.setCliente((cliente)cboClientes.getSelectedItem());
+            v.setCalleOrigen(txtCalleOrigen.getText());
+            v.setNumerOrigen(txtNumeroOrigen.getText());
+            v.setCalleDestino(txtCalleDestino.getText());
+            v.setNumeroDestino(txtNumeroDestino.getText());
+            v.setLocalidadOrigen((localidad)cboLocalidadOrigen.getSelectedItem());
+            v.setLocalidadDestino((localidad)cboLocalidadDestino.getSelectedItem());
+            v.setRecepcionista((recepcionista)person);
+            v.altaViaje();
+         
+            lblMensaje.setText("Viaje Guardado!!");
+         }
+         catch (Exception e)
+         {
+             lblMensaje.setText("Ocurrio un ERROR intente nuevamente!!");
+         }
                
     }//GEN-LAST:event_btnGuardarMousePressed
-
+    
+    private boolean Validar()
+    {
+        
+        return true;
+    }
+    
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void txtCalleOrigenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCalleOrigenKeyTyped
+        // TODO add your handling code here:
+          char c=evt.getKeyChar(); 
+          if(Character.isDigit(c)) { 
+              getToolkit().beep(); 
+              evt.consume(); 
+                        
+          } 
+    }//GEN-LAST:event_txtCalleOrigenKeyTyped
+
+    private void txtCalleDestinoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCalleDestinoKeyTyped
+        // TODO add your handling code here:
+        char c=evt.getKeyChar(); 
+        if(Character.isDigit(c)) { 
+              getToolkit().beep(); 
+              evt.consume(); 
+        }
+    }//GEN-LAST:event_txtCalleDestinoKeyTyped
+
+    private void txtNumeroOrigenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroOrigenKeyTyped
+        // TODO add your handling code here:
+            char c=evt.getKeyChar(); 
+            if(Character.isLetter(c)) { 
+              getToolkit().beep(); 
+              
+             evt.consume(); 
+              
+               
+          } 
+    }//GEN-LAST:event_txtNumeroOrigenKeyTyped
+
+    private void txtNumeroDestinoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroDestinoKeyTyped
+        // TODO add your handling code here:
+           char c=evt.getKeyChar(); 
+                 
+          if(Character.isLetter(c)) { 
+              getToolkit().beep(); 
+            
+              evt.consume(); 
+              
+               
+          } 
+    }//GEN-LAST:event_txtNumeroDestinoKeyTyped
 
     /**
      * @param args the command line arguments
@@ -283,15 +364,12 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
      */
     public void CargarLocalidadOrigen()
     {
-       Connection conn = null;
-        String url = "jdbc:sqlserver://localhost:1433;databaseName=RemisJava";
-        String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-        String databaseUserName = "sa";
-        String databasePassword = "Sqlserver";
+        Connection conn = null;
+        Conectar cn = new Conectar();
         
         try {
-            Class.forName(driver).newInstance();
-            conn = DriverManager.getConnection(url, databaseUserName, databasePassword);
+            Class.forName(cn.getDriver()).newInstance();
+            conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
             CallableStatement statement = conn.prepareCall("SELECT [ID_LOCALIDAD]\n" +
                                                             "      ,[DESCRIPCION]\n" +
                                                             "  FROM [RemisJava].[dbo].[LOCALIDAD]");
@@ -343,14 +421,11 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
     public void CargarLocalidadDestino()
     {
         Connection conn = null;
-        String url = "jdbc:sqlserver://localhost:1433;databaseName=RemisJava";
-        String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-        String databaseUserName = "sa";
-        String databasePassword = "Sqlserver";
+        Conectar cn = new Conectar();
         
         try {
-            Class.forName(driver).newInstance();
-            conn = DriverManager.getConnection(url, databaseUserName, databasePassword);
+            Class.forName(cn.getDriver()).newInstance();
+            conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
             CallableStatement statement = conn.prepareCall("SELECT [ID_LOCALIDAD]\n" +
                                                             "      ,[DESCRIPCION]\n" +
                                                             "  FROM [RemisJava].[dbo].[LOCALIDAD]");

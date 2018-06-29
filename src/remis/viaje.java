@@ -150,26 +150,23 @@ public class viaje {
             conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
             CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_VIAJE_ALTA] ?,?,?,?,?,?,?,?,?,?,?,?,?,?");
             
-	statement.setString(1, this.calleOrigen);//@CALLE_ORIGEN nvarchar(50),
-        statement.setString(2, this.numerOrigen);//@NUMERO_ORIGEN nvarchar(50),
-        statement.setInt(3, this.localidadOrigen.getId_localidad());//@ID_LOCALIDAD_ORIGEN int,
-	statement.setString(4, this.calleDestino);//@CALLE_DESTINO nvarchar(50),
-        statement.setString(5, this.numeroDestino);//@NUMERO_DESTINO nvarchar(50),
-        statement.setInt(6, this.localidadDestino.getId_localidad());//@ID_LOCALIDAD_DESTINO int,
-        statement.setDouble(7, 0);//@KMS float,
-        statement.setString(8, null);//@FECHA_SALIDA datetime,
-        statement.setString(9, null);//@FECHA_LLEGADA datetime,
-        statement.setString(10, null);//@VALOR float,
-        statement.setString(11, null);//@ID_CHOFER int,
-        statement.setInt(12, this.Cliente.getcodCliente());//@ID_CLIENTE int,
-        statement.setInt(13, 1);//@ID_ESTADO int,
-        statement.setInt(14, this.Recepcionista.getIdPersona());//@ID_RECEPCIONISTA_CREADO int
-            
-            
+            statement.setString(1, this.calleOrigen);//@CALLE_ORIGEN nvarchar(50),
+            statement.setString(2, this.numerOrigen);//@NUMERO_ORIGEN nvarchar(50),
+            statement.setInt(3, this.localidadOrigen.getId_localidad());//@ID_LOCALIDAD_ORIGEN int,
+            statement.setString(4, this.calleDestino);//@CALLE_DESTINO nvarchar(50),
+            statement.setString(5, this.numeroDestino);//@NUMERO_DESTINO nvarchar(50),
+            statement.setInt(6, this.localidadDestino.getId_localidad());//@ID_LOCALIDAD_DESTINO int,
+            statement.setDouble(7, 0);//@KMS float,
+            statement.setString(8, null);//@FECHA_SALIDA datetime,
+            statement.setString(9, null);//@FECHA_LLEGADA datetime,
+            statement.setString(10, null);//@VALOR float,
+            statement.setString(11, null);//@ID_CHOFER int,
+            statement.setInt(12, this.Cliente.getcodCliente());//@ID_CLIENTE int,
+            statement.setInt(13, 1);//@ID_ESTADO int,
+            statement.setInt(14, this.Recepcionista.getIdPersona());//@ID_RECEPCIONISTA_CREADO int
+           
             boolean hadResults = statement.execute();
         
-            
- 
             statement.close();
             conn.close();
             
