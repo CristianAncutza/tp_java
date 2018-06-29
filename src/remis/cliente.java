@@ -58,7 +58,7 @@ public class cliente extends persona{
                
         cli.getcodCliente();
         cli.getfechaAlta();
-        cli.getNombre();
+        String nombre = cli.getNombre();
         cli.getApellido();
                 
         return cli;
