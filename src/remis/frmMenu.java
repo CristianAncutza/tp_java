@@ -132,6 +132,11 @@ public class frmMenu extends javax.swing.JFrame {
         jMenuViaje.add(jMenuViajeAlta);
 
         jMenuViajeModificacion.setText("Modificación");
+        jMenuViajeModificacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jMenuViajeModificacionMousePressed(evt);
+            }
+        });
         jMenuViaje.add(jMenuViajeModificacion);
 
         jMenuBarRemis.add(jMenuViaje);
@@ -182,6 +187,13 @@ public class frmMenu extends javax.swing.JFrame {
         frmViajeAltaDialog viajeAlta = new frmViajeAltaDialog(this, true, person);
         viajeAlta.setVisible(true);// TODO add your handling code here:
     }//GEN-LAST:event_jMenuViajeAltaMousePressed
+
+    private void jMenuViajeModificacionMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuViajeModificacionMousePressed
+        // TODO add your handling code here:
+        frmViajeModificaciónDialog viajeModifucacion = new frmViajeModificaciónDialog(this, true);
+        viajeModifucacion.setVisible(true);
+        
+    }//GEN-LAST:event_jMenuViajeModificacionMousePressed
 
     /**
      * @param args the command line arguments

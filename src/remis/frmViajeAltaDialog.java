@@ -496,15 +496,15 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
                 
                 //List<String> ls = new ArrayList<String>(); 
                 List<cliente> cliList = new ArrayList<cliente>();
-                cliente cliente;
+                cliente cli;
                 // process result set
                 while (resultSet.next()) {
                     rowCount++;
                     
-                    cliente = new cliente();
-                    cliente.setApellido(resultSet.getString("APELLIDO"));
-                    cliente.setNombre(resultSet.getString("NOMBRE"));
-                    cliente.setCodCli(Integer.parseInt(resultSet.getString("ID_CLIENTE")));
+                    cli = new cliente();
+                    cli.setApellido(resultSet.getString("APELLIDO"));
+                    cli.setNombre(resultSet.getString("NOMBRE"));
+                    cli.setCodCli(Integer.parseInt(resultSet.getString("ID_CLIENTE")));
                     
                     
 //                    String id = resultSet.getString("ID_CLIENTE");
@@ -512,7 +512,7 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
 //                    String apellido = resultSet.getString("APELLIDO");
                   
                     //lblMensaje.setText("| " + nombre + " | " + apellido + " | ");
-                    cliList.add(cliente);
+                    cliList.add(cli);
                     //ls.add(id + " " + nombre + " " + apellido);
                    
                 }
