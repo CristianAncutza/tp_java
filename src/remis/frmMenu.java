@@ -144,6 +144,11 @@ public class frmMenu extends javax.swing.JFrame {
         jMenuTickets.setText("Tickets");
 
         jMenuTicketsListado.setText("Listado");
+        jMenuTicketsListado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jMenuTicketsListadoMousePressed(evt);
+            }
+        });
         jMenuTickets.add(jMenuTicketsListado);
 
         jMenuBarRemis.add(jMenuTickets);
@@ -194,6 +199,12 @@ public class frmMenu extends javax.swing.JFrame {
         viajeModifucacion.setVisible(true);
         
     }//GEN-LAST:event_jMenuViajeModificacionMousePressed
+
+    private void jMenuTicketsListadoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuTicketsListadoMousePressed
+        // TODO add your handling code here:
+           frmTicketListadoDialog ticketlist = new frmTicketListadoDialog(this,true);
+        ticketlist.setVisible(true);
+    }//GEN-LAST:event_jMenuTicketsListadoMousePressed
 
     /**
      * @param args the command line arguments

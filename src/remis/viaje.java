@@ -9,8 +9,11 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -178,6 +181,63 @@ public class viaje {
               
         }
       
+    }
+    public viaje getUltimoViaje()
+    {
+        viaje v = new viaje();
+         Connection conn = null;
+        Conectar cn = new Conectar();
+        
+        try {
+            Class.forName(cn.getDriver()).newInstance();
+            conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
+            CallableStatement statement = conn.prepareCall("SELECT TOP 1 [ID_VIAJE]\n" +
+                                                            "      ,[ID_DIRECCION_ORIGEN]\n" +
+                                                            "      ,[ID_DIRECCION_DESTINO]\n" +
+                                                            "      ,[KMS]\n" +
+                                                            "      ,[FECHA_SALIDA]\n" +
+                                                            "      ,[FECHA_LLEGADA]\n" +
+                                                            "      ,[VALOR]\n" +
+                                                            "      ,[ID_CHOFER]\n" +
+                                                            "      ,[ID_CLIENTE]\n" +
+                                                            "      ,[ID_ESTADO]\n" +
+                                                            "      ,[ID_RECEPCIONISTA_CREADO]\n" +
+                                                            "  FROM [REMISJAVA].[DBO].[VIAJE]\n" +
+                                                            "  ORDER BY ID_VIAJE DESC");
+            //statement.setString(1, txtUsuario.getText());
+            
+            boolean hadResults = statement.execute();
+        
+            int rowCount = 0;    
+            while (hadResults) 
+            {
+                ResultSet resultSet = statement.getResultSet();
+                // process result set
+                while (resultSet.next()) {
+                
+                    rowCount++;
+                    
+                    v.setIdViaje(Integer.parseInt(resultSet.getString("ID_VIAJE")));
+                
+                   
+                }
+               
+                hadResults = statement.getMoreResults();
+                
+            }
+ 
+            statement.close();
+            conn.close();
+            
+          
+            
+        } catch (Exception e) {
+            
+            
+          
+        }
+        
+        return v;
     }
     
     public void actualizarEstadoViaje(){

@@ -277,7 +277,16 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
             v.setLocalidadDestino((localidad)cboLocalidadDestino.getSelectedItem());
             v.setRecepcionista((recepcionista)person);
             v.altaViaje();
-         
+            
+            
+            v = v.getUltimoViaje();
+            
+            
+            ticket t = new ticket();
+            t.setIdViaje(v.getIdViaje());
+            t.generarTicket();
+            
+            
             lblMensaje.setText("Viaje Guardado!!");
          }
          catch (Exception e)
