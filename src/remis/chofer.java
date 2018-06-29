@@ -5,6 +5,8 @@
  */
 package remis;
 
+import java.util.Objects;
+
 /**
  *
  * @author 272623
@@ -12,7 +14,73 @@ package remis;
 public class chofer extends persona{
  
     private int legajo;
-    private int licencia;
+    private String licencia;
+    private auto suAuto;
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 47 * hash + this.legajo;
+        hash = 47 * hash + Objects.hashCode(this.licencia);
+        hash = 47 * hash + Objects.hashCode(this.suAuto);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final chofer other = (chofer) obj;
+        if (this.legajo != other.legajo) {
+            return false;
+        }
+        if (this.licencia != other.licencia) {
+            return false;
+        }
+        if (!Objects.equals(this.suAuto, other.suAuto)) {
+            return false;
+        }
+        return true;
+    }
+
+    public auto getSuAuto() {
+        return suAuto;
+    }
+
+    public void setSuAuto(auto suAuto) {
+        this.suAuto = suAuto;
+    }
+
+    public int getIdPersona() {
+        return idPersona;
+    }
+
+    public void setIdPersona(int idPersona) {
+        this.idPersona = idPersona;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
     /**
      * @return the legajo
      */
@@ -30,14 +98,14 @@ public class chofer extends persona{
     /**
      * @return the licencia
      */
-    public int getLicencia() {
+    public String getLicencia() {
         return licencia;
     }
 
     /**
      * @param licencia the licencia to set
      */
-    public void setLicencia(int licencia) {
+    public void setLicencia(String licencia) {
         this.licencia = licencia;
     }
        
@@ -55,7 +123,7 @@ public class chofer extends persona{
     
     public chofer(){};
             
-    public chofer(int legajo, int licencia, String nombre, String apellido){
+    public chofer(int legajo, String licencia, String nombre, String apellido){
         
         this.legajo = legajo;
         this.licencia = licencia;
