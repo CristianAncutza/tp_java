@@ -51,5 +51,16 @@ public class cliente extends persona{
         this.nombre = nombre;
         this.apellido = apellido;
         
+     }
+     public cliente getCliente ( int id)
+    { 
+        cliente cli = new cliente();
+               
+        cli.getcodCliente();
+        cli.getfechaAlta();
+        cli.getNombre();
+        cli.getApellido();
+                
+        return cli;
     }
 }

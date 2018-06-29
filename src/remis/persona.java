@@ -13,9 +13,9 @@ import java.util.Objects;
  */
 public class persona {
 
-    public int idPersona;
-    public String nombre;
-    public String apellido;
+    private int idPersona;
+    private String nombre;
+    private String apellido;
     
      /**
      * @return the idPersona
@@ -26,15 +26,15 @@ public class persona {
 
     @Override
     public String toString() {
-        return  nombre + ", " + apellido ;
+        return  getNombre() + ", " + getApellido() ;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 71 * hash + this.idPersona;
-        hash = 71 * hash + Objects.hashCode(this.nombre);
-        hash = 71 * hash + Objects.hashCode(this.apellido);
+        hash = 71 * hash + this.getIdPersona();
+        hash = 71 * hash + Objects.hashCode(this.getNombre());
+        hash = 71 * hash + Objects.hashCode(this.getApellido());
         return hash;
     }
 
@@ -50,7 +50,7 @@ public class persona {
             return false;
         }
         final persona other = (persona) obj;
-        if (this.idPersona != other.idPersona) {
+        if (this.getIdPersona() != other.getIdPersona()) {
             return false;
         }
         if (!Objects.equals(this.nombre, other.nombre)) {
@@ -88,6 +88,13 @@ public class persona {
      */
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    /**
+     * @param idPersona the idPersona to set
+     */
+    public void setIdPersona(int idPersona) {
+        this.idPersona = idPersona;
     }
     
     

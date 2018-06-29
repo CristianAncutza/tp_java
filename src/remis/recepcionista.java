@@ -93,6 +93,13 @@ public class recepcionista extends persona{
     { 
         recepcionista rep = new recepcionista();
         
+        rep.getRecepcionista(id);
+        rep.getNombre();
+        rep.getApellido();
+        rep.getLegajo();
+        rep.getUsuario();
+        rep.getPassword();
+        
         return rep;
     }
 }

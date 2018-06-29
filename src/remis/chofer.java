@@ -135,7 +135,12 @@ public class chofer extends persona{
     public chofer getChofer ( int id)
     { 
         chofer ch = new chofer();
-        
+               
+        ch.getLegajo();
+        ch.getLicencia();
+        ch.getNombre();
+        ch.getApellido();
+                
         return ch;
     }
 }
