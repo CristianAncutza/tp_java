@@ -160,8 +160,8 @@ public class viaje {
             statement.setString(5, this.numeroDestino);//@NUMERO_DESTINO nvarchar(50),
             statement.setInt(6, this.localidadDestino.getId_localidad());//@ID_LOCALIDAD_DESTINO int,
             statement.setDouble(7, 0);//@KMS float,
-            statement.setString(8, null);//@FECHA_SALIDA datetime,
-            statement.setString(9, null);//@FECHA_LLEGADA datetime,
+            statement.setDate(8, (java.sql.Date) this.fechaSalida);//@FECHA_SALIDA datetime,
+            statement.setDate(9, (java.sql.Date) this.fechaLlegada);//@FECHA_LLEGADA datetime,
             statement.setString(10, null);//@VALOR float,
             statement.setString(11, null);//@ID_CHOFER int,
             statement.setInt(12, this.Cliente.getcodCliente());//@ID_CLIENTE int,
@@ -250,8 +250,8 @@ public class viaje {
             CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_VIAJE_MODIFICACION] ?,?,?,?,?,?,?");
               statement.setInt(1, idViaje);    //@ID_VIAJE INT,
                statement.setInt(2,kms);  //@KMS int,
-                  statement.setString(3, null); //@FECHA_SALIDA datetime,
-                 statement.setString(4, null);  //@FECHA_LLEGADA datetime,
+                  statement.setDate(3, (java.sql.Date) fechaSalida); //@FECHA_SALIDA datetime,
+                 statement.setDate(4, (java.sql.Date) fechaLlegada);  //@FECHA_LLEGADA datetime,
               statement.setFloat(5, valor);  //@VALOR float,
                statement.setInt(6, Chofer.getIdPersona()); //@ID_CHOFER int,
                switch(estado)
