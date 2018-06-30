@@ -177,7 +177,7 @@ public class frmMenu extends javax.swing.JFrame {
 
     private void jMenuAutoAltaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuAutoAltaMouseReleased
         // TODO add your handling code here:
-        frmAutoAltaDial frmAuto = new  frmAutoAltaDial(this,true);
+        frmAutoAltaDialog frmAuto = new  frmAutoAltaDialog(this,true);
         frmAuto.setVisible(true);
     }//GEN-LAST:event_jMenuAutoAltaMouseReleased
 

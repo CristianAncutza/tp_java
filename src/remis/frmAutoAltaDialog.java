@@ -5,19 +5,27 @@
  */
 package remis;
 
+import java.util.Calendar;
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
 /**
  *
- * @author ex1fernajo
+ * @author Cristian Ancutza
  */
-public class frmAutoAltaDial extends java.awt.Dialog {
+public class frmAutoAltaDialog extends java.awt.Dialog {
 
     /**
      * Creates new form frmAutoAltaDial
      */
-    public frmAutoAltaDial(java.awt.Frame parent, boolean modal) {
+    public frmAutoAltaDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        
+        //lleno el combobox de año
+        for(int año = 1980; año<=Calendar.getInstance().get(Calendar.YEAR); año++) {
+            cboAño.addItem(año);            
+        }  
     }
 
     /**
@@ -28,19 +36,19 @@ public class frmAutoAltaDial extends java.awt.Dialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtModelo = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        txtPatente = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        btnAceptar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        lblMensaje = new javax.swing.JLabel();
         cboAño = new javax.swing.JComboBox<>();
-        jLabel3 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         txtColor = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtMarca = new javax.swing.JTextField();
+        txtModelo = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        txtPatente = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        btnAceptar = new javax.swing.JButton();
+        lblMensaje = new javax.swing.JLabel();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -48,17 +56,15 @@ public class frmAutoAltaDial extends java.awt.Dialog {
             }
         });
 
-        jLabel6.setText("Patente :");
-
         jLabel1.setText("Alta de Auto");
 
-        btnAceptar.setText("Aceptar");
+        cboAño.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboAñoActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Año :");
-
-        lblMensaje.setText("aca va un mensaje");
-
-        cboAño.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel3.setText("Color :");
 
@@ -66,42 +72,58 @@ public class frmAutoAltaDial extends java.awt.Dialog {
 
         jLabel5.setText("Modelo :");
 
+        jLabel6.setText("Patente :");
+
+        btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
+
+        lblMensaje.setText(" ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(314, 314, 314)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btnAceptar)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel6)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(txtPatente, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addComponent(jLabel1))
+                        .addGap(320, 320, 320)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtPatente, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(52, 52, 52)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel2))
+                                    .addComponent(jLabel5))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(cboAño, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtColor)
+                                    .addComponent(txtMarca)
+                                    .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(53, 53, 53)
+                                .addComponent(btnAceptar))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel2))
-                            .addComponent(jLabel5))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cboAño, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtColor)
-                            .addComponent(txtMarca)
-                            .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(lblMensaje))
-                .addContainerGap(438, Short.MAX_VALUE))
+                        .addGap(359, 359, 359)
+                        .addComponent(lblMensaje)))
+                .addContainerGap(432, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -125,9 +147,9 @@ public class frmAutoAltaDial extends java.awt.Dialog {
                     .addComponent(txtPatente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnAceptar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(28, 28, 28)
                 .addComponent(lblMensaje)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         pack();
@@ -141,13 +163,90 @@ public class frmAutoAltaDial extends java.awt.Dialog {
         dispose();
     }//GEN-LAST:event_closeDialog
 
+    private void cboAñoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboAñoActionPerformed
+
+    }//GEN-LAST:event_cboAñoActionPerformed
+
+    private boolean Validar(){
+        return true;
+    }
+    
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        int minLength = 3;
+        int maxLength = 20;
+        Border highlightBorder = BorderFactory.createLineBorder(java.awt.Color.RED);
+        Border noBorder = BorderFactory.createLineBorder(java.awt.Color.gray);
+        
+        //verifico que los campos no esten vacios
+        if(!lengthCheck(txtColor.getText(),minLength, maxLength) ){
+            lblMensaje.setText("por favor complete todos los campos");
+            txtColor.setBorder(highlightBorder);   
+        }else{    txtColor.setBorder(noBorder);   }                                        
+        
+        if(!lengthCheck(txtMarca.getText(),minLength, maxLength)){
+            lblMensaje.setText("por favor complete todos los campos");
+            txtMarca.setBorder(highlightBorder);   
+        }else{    txtMarca.setBorder(noBorder);   }
+        
+        if(!lengthCheck(txtModelo.getText(),minLength, maxLength)){
+            lblMensaje.setText("por favor complete todos los campos");
+            txtModelo.setBorder(highlightBorder);   
+        }else{    txtModelo.setBorder(noBorder);   }
+        
+        if(!lengthCheck(txtPatente.getText(),minLength, maxLength)){
+            lblMensaje.setText("por favor complete todos los campos");
+            txtPatente.setBorder(highlightBorder);   
+        
+        }else{    txtPatente.setBorder(noBorder);   }
+        
+        if(lengthCheck(txtColor.getText(),minLength, maxLength) && lengthCheck(txtMarca.getText(),minLength, maxLength) && lengthCheck(txtModelo.getText(),minLength, maxLength) && lengthCheck(txtPatente.getText(),minLength, maxLength))
+        {
+            auto a = new auto();
+            a.setaño((int)cboAño.getSelectedItem());
+            a.setcolor(txtColor.getText());
+            a.setmarca(txtMarca.getText());
+            a.setmodelo(txtModelo.getText());
+            a.setpatente(txtPatente.getText());
+            
+            if( a.altaAuto() == 0){
+                lblMensaje.setText("Se creó correctamente el auto.");            
+            }
+            else{
+                lblMensaje.setText("Error! Ya existe otro auto con esa patente.");
+            }  
+        }
+
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private boolean lengthCheck(String text, int minLength, int maxLength) {
+        return maxLength > text.length() && text.length() > minLength;
+    }
+    
+     //*************VALIDACIONES****************************        
+    
+    //  VALIDA QUE LO QUE SE INGRESE SEA SOLO TEXTO
+    private void txtColorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtColorKeyTyped
+          char c=evt.getKeyChar(); 
+          if(Character.isDigit(c)) { 
+              getToolkit().beep(); 
+              evt.consume();                         
+          } 
+    }//GEN-LAST:event_txtColorKeyTyped
+
+    private void txtMarcaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMarcaKeyTyped
+          char c=evt.getKeyChar(); 
+          if(Character.isDigit(c)) { 
+              getToolkit().beep(); 
+              evt.consume();                         
+          } 
+    }//GEN-LAST:event_txtMarcaKeyTyped
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                frmAutoAltaDial dialog = new frmAutoAltaDial(new java.awt.Frame(), true);
+                frmAutoAltaDialog dialog = new frmAutoAltaDialog(new java.awt.Frame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
@@ -161,7 +260,7 @@ public class frmAutoAltaDial extends java.awt.Dialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
-    private javax.swing.JComboBox<String> cboAño;
+    private javax.swing.JComboBox<Integer> cboAño;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

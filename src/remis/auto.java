@@ -81,7 +81,7 @@ public class auto {
     /**
      *Este metodo se usa para dar de alta un auto.
      */
-    public void altaAuto(){
+    public int altaAuto(){
     
         Connection conn = null;
         Conectar cn = new Conectar();
@@ -95,12 +95,24 @@ public class auto {
             statement.setString(3, this.marca);
             statement.setString(4, this.modelo);
             statement.setString(5, this.patente);
-
-            boolean hadResults = statement.execute();            
+   
+            if (conn != null) {
+                System.out.println("La conexión fue realizada correctamente");
+             }
             
+             //verifico que no exista el auto
+            String query = "SELECT * FROM AUTO WHERE PATENTE ='" + this.patente + "'";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);                            
+           
+            if(!rs.next()){
+                boolean hadResults = statement.execute();
+                return 0;
+            }
             if (conn != null) {
                 System.out.println("La operacion fue realizada correctamente");
              }
+            
             
             statement.close();
             conn.close();
@@ -116,28 +128,33 @@ public class auto {
                         ex.printStackTrace();
                     }
         }
-       
+       return 1;
     }
 
     /**
-     * TODAVIA NO ESTA TERMINADO!!
+     * Metodo para actualizar datos del auto.
+     * @param id_auto
      */
-    public void modifAuto(){
+    public int modifAuto(int id_auto){
          Connection conn = null;
          Conectar cn = new Conectar();
         
         try {             
              conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
-
+                     
             CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_AUTO_MODIFICACION] ?, ?, ?, ?, ?");                                   
-            statement.setInt(1, this.año);
-            statement.setString(2, this.color);
-            statement.setString(3, this.marca);
-            statement.setString(4, this.modelo);
-            statement.setString(5, this.patente);
-
+            statement.setInt(1, id_auto);
+            statement.setInt(2, this.año);
+            statement.setString(3, this.color);
+            statement.setString(4, this.marca);
+            statement.setString(5, this.modelo);
+                                     
             boolean hadResults = statement.execute();
-
+           
+            if(hadResults){
+                return 0;
+            }
+           
             if (conn != null) {                    
                     System.out.println("La conexión fue realizada correctamente");                    
              }
@@ -154,8 +171,8 @@ public class auto {
             } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
-        }
-        
+        }  
+        return 1;
     }
     
     /**
@@ -186,7 +203,7 @@ public class auto {
             }
             
             if (conn != null) {                    
-                    System.out.println("La operación fue realizada correctamente");                    
+                    System.out.println("La conexión fue realizada correctamente");                    
              }
             
             statement.close();
