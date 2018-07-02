@@ -34,7 +34,8 @@ public class frmLogin extends javax.swing.JFrame {
      */
     public frmLogin() {
         initComponents();
-        
+        rdbChofer.setVisible(false);
+        rdbRecepcionista.setVisible(false);
         Centrado();
     }
     
@@ -163,6 +164,15 @@ public class frmLogin extends javax.swing.JFrame {
     private void btnAceptarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMousePressed
         // TODO add your handling code here:
         frmMenu menu;
+        if (LoginRecepcionista())
+            {
+                recepcionista rep = new recepcionista(id_recepcionista);
+                menu = new frmMenu(rep);
+                menu.setVisible(true);
+                menu.setLocationRelativeTo(this);
+                this.dispose();
+            }
+        /*
         if(rdbRecepcionista.isSelected())
         {                
             if (LoginRecepcionista())
@@ -187,7 +197,7 @@ public class frmLogin extends javax.swing.JFrame {
                 this.dispose();
            }
         }
-        
+        */
         
         
         
