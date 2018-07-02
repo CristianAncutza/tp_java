@@ -117,6 +117,11 @@ public class frmMenu extends javax.swing.JFrame {
         jMenuAuto.add(jMenuAutoBaja);
 
         jMenuAutoModificacion.setText("Modificación");
+        jMenuAutoModificacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuAutoModificacionActionPerformed(evt);
+            }
+        });
         jMenuAuto.add(jMenuAutoModificacion);
 
         jMenuBarRemis.add(jMenuAuto);
@@ -205,6 +210,12 @@ public class frmMenu extends javax.swing.JFrame {
            frmTicketListadoDialog ticketlist = new frmTicketListadoDialog(this,true);
         ticketlist.setVisible(true);
     }//GEN-LAST:event_jMenuTicketsListadoMousePressed
+
+    private void jMenuAutoModificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAutoModificacionActionPerformed
+                // TODO add your handling code here:
+           frmAutoModificacionDialog autoModificacion = new frmAutoModificacionDialog(this,true);
+        autoModificacion.setVisible(true);
+    }//GEN-LAST:event_jMenuAutoModificacionActionPerformed
 
     /**
      * @param args the command line arguments
