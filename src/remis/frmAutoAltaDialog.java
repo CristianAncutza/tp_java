@@ -172,7 +172,7 @@ public class frmAutoAltaDialog extends java.awt.Dialog {
     }
     
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        int minLength = 3;
+        int minLength = 2;
         int maxLength = 20;
         Border highlightBorder = BorderFactory.createLineBorder(java.awt.Color.RED);
         Border noBorder = BorderFactory.createLineBorder(java.awt.Color.gray);
@@ -181,7 +181,12 @@ public class frmAutoAltaDialog extends java.awt.Dialog {
         if(!lengthCheck(txtColor.getText(),minLength, maxLength) ){
             lblMensaje.setText("por favor complete todos los campos");
             txtColor.setBorder(highlightBorder);   
-        }else{    txtColor.setBorder(noBorder);   }                                        
+        }else if( !txtColor.getText().matches("^[a-zA-Z]+$")){
+            lblMensaje.setText("Ingrese solo letras para el campo color.");
+            txtColor.setBorder(highlightBorder);
+        }          
+        else {    txtColor.setBorder(noBorder);   }                                      
+             
         
         if(!lengthCheck(txtMarca.getText(),minLength, maxLength)){
             lblMensaje.setText("por favor complete todos los campos");
@@ -199,7 +204,7 @@ public class frmAutoAltaDialog extends java.awt.Dialog {
         
         }else{    txtPatente.setBorder(noBorder);   }
         
-        if(lengthCheck(txtColor.getText(),minLength, maxLength) && lengthCheck(txtMarca.getText(),minLength, maxLength) && lengthCheck(txtModelo.getText(),minLength, maxLength) && lengthCheck(txtPatente.getText(),minLength, maxLength))
+        if(lengthCheck(txtColor.getText(),minLength, maxLength) && txtColor.getText().matches("^[a-zA-Z]+$") && lengthCheck(txtMarca.getText(),minLength, maxLength) && lengthCheck(txtModelo.getText(),minLength, maxLength) && lengthCheck(txtPatente.getText(),minLength, maxLength))
         {
             auto a = new auto();
             a.setaño((int)cboAño.getSelectedItem());

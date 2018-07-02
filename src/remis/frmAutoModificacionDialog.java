@@ -13,7 +13,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
 import net.proteanit.sql.DbUtils;
 
 
@@ -188,7 +190,7 @@ public class frmAutoModificacionDialog extends javax.swing.JDialog {
                         .addGap(99, 99, 99)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(262, 262, 262)
+                        .addGap(219, 219, 219)
                         .addComponent(lblMensaje)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -245,21 +247,81 @@ public class frmAutoModificacionDialog extends javax.swing.JDialog {
         int selectedRowIndex = tblAuto.getSelectedRow();                       
         int id_auto = (int) tblAuto.getModel().getValueAt(selectedRowIndex, 0);
         
-        auto a = new auto();         
-        a.setaño((int)cboAño.getSelectedItem());
-        a.setcolor(txtColor.getText());
-        a.setmarca(txtMarca.getText());
-        a.setmodelo(txtModelo.getText());
+         int minLength = 2;
+        int maxLength = 20;
+        Border highlightBorder = BorderFactory.createLineBorder(java.awt.Color.RED);
+        Border noBorder = BorderFactory.createLineBorder(java.awt.Color.gray);
         
-        if(a.modifAuto(id_auto) == 1){
-            lblMensaje.setText("Se actualizó correctamente el auto.");
-            refresh_tabla();    
+        //verifico que los campos no esten vacios
+        if(!lengthCheck(txtColor.getText(),minLength, maxLength) ){
+            lblMensaje.setText("Debe ingresar minimo 3 caracteres, maximo 20 caracteres.");
+            txtColor.setBorder(highlightBorder);   
+        }else if( !txtColor.getText().matches("^[a-zA-Z]+$")){
+            lblMensaje.setText("Ingrese solo letras para el campo color.");
+            txtColor.setBorder(highlightBorder);
+        }          
+        else {    txtColor.setBorder(noBorder);   }  
+        
+        if(!(txtColor.getText().matches("^[a-zA-Z]+$")))
+        {
+            lblMensaje.setText("Ingrese solo letras para el campo color.");
+            txtColor.setBorder(highlightBorder);   
+        }else{    txtColor.setBorder(noBorder);   }
+        
+        
+        if(!lengthCheck(txtMarca.getText(),minLength, maxLength)){
+            lblMensaje.setText("Debe ingresar minimo 3 caracteres, maximo 20 caracteres.");
+            txtMarca.setBorder(highlightBorder);   
+        }else{    txtMarca.setBorder(noBorder);   }
+        
+        if(!lengthCheck(txtModelo.getText(),minLength, maxLength)){
+            lblMensaje.setText("Debe ingresar minimo 3 caracteres, maximo 20 caracteres.");
+            txtModelo.setBorder(highlightBorder);   
+        }else{    txtModelo.setBorder(noBorder);   }
+        
+        
+        if(lengthCheck(txtColor.getText(),minLength, maxLength) && txtColor.getText().matches("^[a-zA-Z]+$") && lengthCheck(txtMarca.getText(),minLength, maxLength) && lengthCheck(txtModelo.getText(),minLength, maxLength))
+        {
+        
+            auto a = new auto();         
+            a.setaño((int)cboAño.getSelectedItem());
+            a.setcolor(txtColor.getText());
+            a.setmarca(txtMarca.getText());
+            a.setmodelo(txtModelo.getText());
+
+            if(a.modifAuto(id_auto) == 1){
+                lblMensaje.setText("Se actualizó correctamente el auto.");
+                refresh_tabla();    
+            }
+            else{
+                lblMensaje.setText("Error! no se pudo actualizar el auto.");
+            } ;
         }
-        else{
-            lblMensaje.setText("Error! no se pudo actualizar el auto.");
-        } ;
     }//GEN-LAST:event_btnAceptarActionPerformed
 
+        private boolean lengthCheck(String text, int minLength, int maxLength) {
+        return maxLength > text.length() && text.length() > minLength;
+    }
+    
+     //*************VALIDACIONES****************************        
+    
+    //  VALIDA QUE LO QUE SE INGRESE SEA SOLO TEXTO
+    private void txtColorKeyTyped(java.awt.event.KeyEvent evt) {                                  
+          char c=evt.getKeyChar(); 
+          if(Character.isDigit(c)) { 
+              getToolkit().beep(); 
+              evt.consume();                         
+          } 
+    }                                 
+
+    private void txtMarcaKeyTyped(java.awt.event.KeyEvent evt) {                                  
+          char c=evt.getKeyChar(); 
+          if(Character.isDigit(c)) { 
+              getToolkit().beep(); 
+              evt.consume();                         
+          } 
+    }   
+    
     /**
      * @param args the command line arguments
      */
@@ -319,4 +381,6 @@ public class frmAutoModificacionDialog extends javax.swing.JDialog {
     private javax.swing.JTextField txtMarca;
     private javax.swing.JTextField txtModelo;
     // End of variables declaration//GEN-END:variables
+
+
 }
