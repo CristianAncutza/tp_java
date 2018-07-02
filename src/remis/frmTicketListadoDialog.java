@@ -10,11 +10,13 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
+
 /**
  *
  * @author ex1fernajo
@@ -77,7 +79,7 @@ public class frmTicketListadoDialog extends java.awt.Dialog {
                    
                 }
                 //cboClientes.setModel(new DefaultComboBoxModel(ls.toArray()));
-                 cboClientes.setModel(new DefaultComboBoxModel(cliList.toArray()));
+                // cboClientes.setModel(new DefaultComboBoxModel(cliList.toArray()));
                 hadResults = statement.getMoreResults();
                 
             }
@@ -172,19 +174,18 @@ public class frmTicketListadoDialog extends java.awt.Dialog {
     private void initComponents() {
 
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         cboChofer = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbTickets = new javax.swing.JTable();
-        cboClientes = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         btnAplicar = new javax.swing.JToggleButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         lblMensaje = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jDesde = new com.toedter.calendar.JDateChooser();
+        jHasta = new com.toedter.calendar.JDateChooser();
+        lblValor = new javax.swing.JLabel();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -193,8 +194,6 @@ public class frmTicketListadoDialog extends java.awt.Dialog {
         });
 
         jLabel5.setText("Chofer :");
-
-        jLabel6.setText("Cliente :");
 
         jLabel1.setText("Listado de Tickets");
 
@@ -212,8 +211,6 @@ public class frmTicketListadoDialog extends java.awt.Dialog {
             }
         ));
         jScrollPane1.setViewportView(tbTickets);
-
-        cboClientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel2.setText("Filtros");
 
@@ -246,18 +243,12 @@ public class frmTicketListadoDialog extends java.awt.Dialog {
                                     .addComponent(jLabel4))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(28, 28, 28)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cboClientes, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cboChofer, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cboChofer, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(260, 260, 260)
                                 .addComponent(jLabel1)))
@@ -267,8 +258,10 @@ public class frmTicketListadoDialog extends java.awt.Dialog {
                         .addGap(24, 24, 24)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 931, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(222, 222, 222)
-                        .addComponent(lblMensaje)))
+                        .addGap(188, 188, 188)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblValor)
+                            .addComponent(lblMensaje))))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -282,7 +275,7 @@ public class frmTicketListadoDialog extends java.awt.Dialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel3)
                                 .addComponent(jLabel5)
@@ -290,15 +283,15 @@ public class frmTicketListadoDialog extends java.awt.Dialog {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel6)
-                            .addComponent(cboClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAplicar)))
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lblMensaje)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblValor)
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         pack();
@@ -330,25 +323,40 @@ public class frmTicketListadoDialog extends java.awt.Dialog {
             conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
             
            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_TICKETS_LISTADO] ?,?,?,?");
+          Date desde = new Date();
            
-           statement.setString(1, null);
-           statement.setString(2, null);
+//           Date desde  = new Date();
+           desde = jDesde.getDate();
+//           
+           Date hasta  = new Date();
+           
+           hasta = jHasta.getDate();
            chofer c = new chofer();
            c = (chofer)cboChofer.getSelectedItem();
-           cliente cl = new cliente();
-           cl = (cliente)cboClientes.getSelectedItem();
+//           cliente cl = new cliente();
+//           cl = (cliente)cboClientes.getSelectedItem(); 
+           
+           //statement.setDate(1, (java.sql.Date) desde);
+           statement.setDate(1, new java.sql.Date(desde.getTime()));
+           
+           statement.setDate(2, new java.sql.Date(desde.getTime()));
+      
            statement.setInt(3, c.getIdPersona());
-           statement.setInt(4, cl.getcodCliente());
-
+           statement.setString(4, null);
+          
             
            @SuppressWarnings("LocalVariableHidesMemberVariable")
                     
            boolean hadResults = statement.execute();
+            
+           float valor = 0;  
+        
           while (hadResults) 
             {
                 ResultSet resultSet = statement.getResultSet();
                 // process result set
                 while (resultSet.next()) {
+                   valor = valor +   (Float.parseFloat(resultSet.getString("VALOR")));
                   tbTickets.setModel(DbUtils.resultSetToTableModel(resultSet));   
                   
                 }
@@ -357,7 +365,7 @@ public class frmTicketListadoDialog extends java.awt.Dialog {
                
                 
             }
-           // process result set
+          
            
             statement.close();
             conn.close();
@@ -392,17 +400,16 @@ public class frmTicketListadoDialog extends java.awt.Dialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnAplicar;
     private javax.swing.JComboBox<String> cboChofer;
-    private javax.swing.JComboBox<String> cboClientes;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private com.toedter.calendar.JDateChooser jDesde;
+    private com.toedter.calendar.JDateChooser jHasta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblMensaje;
+    private javax.swing.JLabel lblValor;
     private javax.swing.JTable tbTickets;
     // End of variables declaration//GEN-END:variables
 }

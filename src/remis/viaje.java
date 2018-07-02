@@ -270,7 +270,7 @@ public class viaje {
                        break;
                    case FINALIZADO:
 //                       statement.setDate(3, (java.sql.Date)this.fechaSalida);
-//                       statement.setInt(7,4);//@ID_ESTADO int
+                       statement.setInt(7,4);//@ID_ESTADO int
                        break;
                    case PENDIENTE:
 //                       statement.setString(3, null); //@FECHA_SALIDA datetime,
