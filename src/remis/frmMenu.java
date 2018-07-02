@@ -80,12 +80,27 @@ public class frmMenu extends javax.swing.JFrame {
         jMenuCliente.setText("Cliente");
 
         jMenuClienteAlta.setText("Alta");
+        jMenuClienteAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuClienteAltaActionPerformed(evt);
+            }
+        });
         jMenuCliente.add(jMenuClienteAlta);
 
         jMenuClienteBaja.setText("Baja");
+        jMenuClienteBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuClienteBajaActionPerformed(evt);
+            }
+        });
         jMenuCliente.add(jMenuClienteBaja);
 
         jMenuClienteModificacion.setText("Modificación");
+        jMenuClienteModificacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuClienteModificacionActionPerformed(evt);
+            }
+        });
         jMenuCliente.add(jMenuClienteModificacion);
 
         jMenuBarRemis.add(jMenuCliente);
@@ -237,6 +252,22 @@ public class frmMenu extends javax.swing.JFrame {
             frmChoferBajaDialog choferModificacion = new frmChoferBajaDialog(this,true);
         choferModificacion.setVisible(true);
     }//GEN-LAST:event_jMenuChoferBajaMousePressed
+
+    private void jMenuClienteAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuClienteAltaActionPerformed
+            frmClienteAltaDialog clienteAlta = new frmClienteAltaDialog(this,true);
+        clienteAlta.setVisible(true);
+
+    }//GEN-LAST:event_jMenuClienteAltaActionPerformed
+
+    private void jMenuClienteBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuClienteBajaActionPerformed
+                    frmClienteBajaDialog clienteBaja = new frmClienteBajaDialog(this,true);
+        clienteBaja.setVisible(true);
+    }//GEN-LAST:event_jMenuClienteBajaActionPerformed
+
+    private void jMenuClienteModificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuClienteModificacionActionPerformed
+                    frmClienteModificacionDialog clienteModificacion = new frmClienteModificacionDialog(this,true);
+        clienteModificacion.setVisible(true);
+    }//GEN-LAST:event_jMenuClienteModificacionActionPerformed
 
     /**
      * @param args the command line arguments

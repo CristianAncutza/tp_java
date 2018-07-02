@@ -144,20 +144,20 @@ public class cliente extends persona{
      * @param id_auto
      * @return 
      */
-    /*public int bajaAuto(int id_auto){
+    public int bajaCliente(int id_cliente){
          Connection conn = null;
          Conectar cn = new Conectar();
         
         try {             
              conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
 
-            //borro el auto
-            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_AUTO_DELETE] ?");
-            statement.setInt(1, id_auto);            
+            //borro el cliente
+            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_CLIENTE_DELETE] ?");
+            statement.setInt(1, id_cliente);            
             boolean hadResults = statement.execute();             
             
-            //verifico que se haya borrado correctamente el auto
-            CallableStatement statement_test = conn.prepareCall("SELECT * FROM AUTO WHERE ID_AUTO = "+ id_auto);
+            //verifico que se haya borrado correctamente el cliente
+            CallableStatement statement_test = conn.prepareCall("SELECT * FROM AUTO WHERE ID_CLIENTE = "+ id_cliente);
             boolean hadResults_test = statement_test.execute();                                  
             
             if(hadResults_test == false){
@@ -183,7 +183,7 @@ public class cliente extends persona{
                     }
         }
         return 0;
-    }*/
+    }
 
     public cliente () 
     {}
