@@ -46,10 +46,6 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="cboAuto" min="-2" pref="152" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="lblMensaje" min="-2" pref="169" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
-                          </Group>
                           <Group type="103" alignment="0" groupAlignment="1" attributes="0">
                               <Group type="102" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
@@ -76,6 +72,7 @@
                       <EmptySpace min="-2" pref="140" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="lblMensaje" alignment="0" min="-2" pref="420" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="77" max="32767" attributes="0"/>
           </Group>
@@ -90,10 +87,8 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblNombre" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtNombre" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" alignment="3" groupAlignment="3" attributes="0">
-                      <Component id="lblApellido3" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtLicencia" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="lblApellido3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtLicencia" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -109,9 +104,9 @@
               </Group>
               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
               <Component id="btnAceptar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="lblMensaje" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="106" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="lblMensaje" min="-2" pref="14" max="-2" attributes="0"/>
+              <EmptySpace pref="109" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
