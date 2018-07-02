@@ -50,6 +50,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Alta"/>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenuChoferAltaMousePressed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuChoferBaja">
               <Properties>

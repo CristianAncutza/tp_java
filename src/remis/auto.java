@@ -222,6 +222,11 @@ public class auto {
         }
         return 0;
     }
+
+    @Override
+    public String toString() {
+        return   marca + ", " + modelo ;
+    }
     
 }
 

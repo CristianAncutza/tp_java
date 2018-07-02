@@ -493,7 +493,8 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
                                                             "      ,[NOMBRE]\n" +
                                                             "      ,[APELLIDO]\n" +
                                                             "      ,[FECHA_ALTA]\n" +
-                                                            "  FROM [RemisJava].[dbo].[CLIENTE] ");
+                                                            "  FROM [RemisJava].[dbo].[CLIENTE] " +
+                                                            "where BAJA = 1" );
             //statement.setString(1, txtUsuario.getText());
             
             boolean hadResults = statement.execute();

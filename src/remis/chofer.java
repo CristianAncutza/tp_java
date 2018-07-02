@@ -5,12 +5,20 @@
  */
 package remis;
 
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -92,10 +100,36 @@ public class chofer extends persona{
         this.licencia = licencia;
     }
        
-    public void altaChofer(){
+      public void altaChofer(){
+     Connection conn = null;
+        Conectar cn = new Conectar();
+        
+        try {      
+               Class.forName(cn.getDriver()).newInstance();
+             conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
+             
+
+            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_CHOFER_ALTA] ?, ?, ?, ?, ?");
+            statement.setString(1, this.getNombre());
+            statement.setString(2, this.getApellido());
+            statement.setInt(3, this.legajo);
+            statement.setString(4, this.licencia);
+            statement.setInt(5, this.suAuto.getid_auto());
+   
+           boolean hadResults = statement.execute();
+        
+            statement.close();
+            conn.close();
+            
+           
+            
+        } catch (Exception e) {
+             
+            e.getMessage();
+              
+        }
     
     }
-    
     public void modifCchofer(){
     
     }
@@ -111,7 +145,8 @@ public class chofer extends persona{
          Connection conn = null;
          Conectar cn = new Conectar();
         
-        try {             
+        try {    
+           
              conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
 
             //borro el auto
@@ -166,7 +201,7 @@ public class chofer extends persona{
         Conectar cn = new Conectar();
         
          try {             
-         
+        
             conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
               CallableStatement statement = conn.prepareCall("SELECT * FROM CHOFER WHERE LEGAJO = "+ id);
               
