@@ -307,10 +307,33 @@ public class frmTicketListadoDialog extends java.awt.Dialog {
 
     private void btnAplicarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAplicarMousePressed
         // TODO add your handling code here:
-        
-        llenarListaTickets();
+        if(Validar())
+        {
+            llenarListaTickets();
+        }
     }//GEN-LAST:event_btnAplicarMousePressed
     
+    private boolean Validar()
+    {
+        if(jDesde.getDate() == null)
+        {
+            lblMensaje.setText("Campo desde es obligatorio!!");
+            return false;
+        }
+        if(jHasta.getDate() == null)
+        {
+            lblMensaje.setText("Campo hasta es obligatorio!!");
+            return false;
+        }
+        int result = jHasta.getDate().compareTo(jDesde.getDate());
+        if(result < 0)
+        {
+             lblMensaje.setText("Campo hasta debe ser mayor al desde!!");
+            return false;
+        }
+        return true;
+        
+    }
     /**
      * llena la table con el query del listado 
      */
