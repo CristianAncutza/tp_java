@@ -100,9 +100,54 @@ public class chofer extends persona{
     
     }
     
-    public void bajaChofer(){
-    
+   /**
+     * Este metodo se utiliza para borrar un chofer.
+     * retorna 0 si el auto se elimino correctamente o 1 si hubo un error.
+     * 
+     * @param id_chofer
+     * @return 
+     */
+    public int bajaChofer(int id_chofer){
+         Connection conn = null;
+         Conectar cn = new Conectar();
+        
+        try {             
+             conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
+
+            //borro el auto
+            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_CHOFER_BAJA] ?");
+            statement.setInt(1, id_chofer);            
+            boolean hadResults = statement.execute();             
+            
+            //verifico que se haya borrado correctamente el auto
+            CallableStatement statement_test = conn.prepareCall("SELECT * FROM CHOFER WHERE baja = 1 and ID_CHOFER = "+ id_chofer);
+            boolean hadResults_test = statement_test.execute();                                  
+            
+            if(hadResults_test == false){
+                return 1;
+            }
+            
+            if (conn != null) {                    
+                    System.out.println("La conexión fue realizada correctamente");                    
+             }
+            
+            statement.close();
+            conn.close();
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (conn != null && !conn.isClosed()) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+        }
+        return 0;
     }
+    
     
     public chofer(){};
             

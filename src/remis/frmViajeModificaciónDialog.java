@@ -84,7 +84,8 @@ public class frmViajeModificaciónDialog extends java.awt.Dialog {
                                                             "      ,[LEGAJO]\n" +
                                                             "      ,[LICENCIA]\n" +
                                                             "      ,[ID_AUTO]\n" +
-                                                            "  FROM [RemisJava].[dbo].[CHOFER] ");
+                                                            "  FROM [RemisJava].[dbo].[CHOFER] \n " +
+                                                            "WHERE BAJA = 1 ");
             //statement.setString(1, txtUsuario.getText());
             
             boolean hadResults = statement.execute();
