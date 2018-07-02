@@ -5,40 +5,60 @@
  */
 package remis;
 
+import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
+
 
 /**
  *
  * @author Cristian Ancutza
  */
-public class frmAutoModificacion extends javax.swing.JFrame {
+public class frmAutoModificacionDialog extends javax.swing.JDialog {
 
     /**
-     * Creates new form frmAutoModificacion
-     */        
-    @SuppressWarnings("OverridableMethodCallInConstructor")
-    public frmAutoModificacion() {        
+     * Creates new form frmAutoModificacionDialog
+     */
+    public frmAutoModificacionDialog(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
         lista_autos();
         
         //lleno el combo de año
         for(int año = 1980; año<=Calendar.getInstance().get(Calendar.YEAR); año++) {
             cboAño.addItem(año);            
-        }   
+        } 
     }
 
-    Connection conn = null;
-    Statement stmt = null;
-    ResultSet rs = null;    
-    
     /**
+     *Metodo para refrescar el listado de autos.
+     */
+    public void refresh_tabla(){
+    
+        String sql = null;        
+        Connection conn = null;
+        Conectar cn = new Conectar();
+        try{
+            conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());   
+            String query = "SELECT * FROM auto";
+            Statement st = conn.createStatement();
+            @SuppressWarnings("LocalVariableHidesMemberVariable")
+            ResultSet rs = st.executeQuery(query);            
+            tblAuto.setModel(DbUtils.resultSetToTableModel(rs));
+        }catch(SQLException ex){
+            System.out.println(ex);
+        }
+    }
+    
+     /**
      *Metodo para cargar el listado de autos.
      */
     public void lista_autos(){ 
@@ -48,7 +68,6 @@ public class frmAutoModificacion extends javax.swing.JFrame {
             
         try{
             conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
-            auto autos;
             String query = "SELECT * FROM auto";
 
             Statement st = conn.createStatement();
@@ -61,7 +80,7 @@ public class frmAutoModificacion extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }            
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -71,25 +90,23 @@ public class frmAutoModificacion extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAuto = new javax.swing.JTable();
-        jLabel6 = new javax.swing.JLabel();
-        txtPatente = new javax.swing.JTextField();
-        btnAceptar = new javax.swing.JButton();
-        lblMensaje = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         cboAño = new javax.swing.JComboBox<>();
-        jLabel4 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         txtColor = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtMarca = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
         txtModelo = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        btnAceptar = new javax.swing.JButton();
+        lblMensaje = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setText("Modificación de Auto");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tblAuto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -109,6 +126,14 @@ public class frmAutoModificacion extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblAuto);
 
+        jLabel3.setText("Año :");
+
+        jLabel4.setText("Color :");
+
+        jLabel5.setText("Marca :");
+
+        jLabel7.setText("Modelo :");
+
         jLabel6.setText("Patente :");
 
         btnAceptar.setText("Aceptar");
@@ -118,34 +143,25 @@ public class frmAutoModificacion extends javax.swing.JFrame {
             }
         });
 
-        lblMensaje.setText("aca va un mensaje");
+        lblMensaje.setText(" ");
 
-        jLabel3.setText("Año :");
+        jLabel1.setText("Modificación de Auto");
 
-        jLabel4.setText("Color :");
-
-        jLabel5.setText("Marca :");
-
-        jLabel7.setText("Modelo :");
+        jLabel2.setText(" ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(287, 287, 287)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(259, 259, 259)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(btnAceptar)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel6)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(txtPatente, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel2))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel5)
@@ -158,21 +174,32 @@ public class frmAutoModificacion extends javax.swing.JFrame {
                                     .addComponent(cboAño, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(txtColor)
                                     .addComponent(txtMarca)
-                                    .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(lblMensaje)))
+                                    .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(208, 208, 208))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnAceptar)
+                        .addGap(259, 259, 259))))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(287, 287, 287)
+                        .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(99, 99, 99)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(333, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(262, 262, 262)
+                        .addComponent(lblMensaje)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(cboAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -191,37 +218,46 @@ public class frmAutoModificacion extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(txtPatente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel2))
+                .addGap(26, 26, 26)
                 .addComponent(btnAceptar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(lblMensaje)
-                .addContainerGap())
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblAutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAutoMouseClicked
-           DefaultTableModel model =(DefaultTableModel)tblAuto.getModel();
-           int selectedRowIndex = tblAuto.getSelectedRow();
-           
-           cboAño.setSelectedItem(model.getValueAt(selectedRowIndex, 1));
-           txtColor.setText(model.getValueAt(selectedRowIndex, 2).toString());
-           txtMarca.setText(model.getValueAt(selectedRowIndex, 3).toString());
-           txtModelo.setText(model.getValueAt(selectedRowIndex, 4).toString());
-           txtPatente.setText(model.getValueAt(selectedRowIndex, 5).toString());
-           
+        DefaultTableModel model =(DefaultTableModel)tblAuto.getModel();
+        int selectedRowIndex = tblAuto.getSelectedRow();
+
+        cboAño.setSelectedItem(model.getValueAt(selectedRowIndex, 1));
+        txtColor.setText(model.getValueAt(selectedRowIndex, 2).toString());
+        txtMarca.setText(model.getValueAt(selectedRowIndex, 3).toString());
+        txtModelo.setText(model.getValueAt(selectedRowIndex, 4).toString());
+        jLabel2.setText(model.getValueAt(selectedRowIndex, 5).toString());
+
     }//GEN-LAST:event_tblAutoMouseClicked
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        /*auto a = new auto();        
+        int selectedRowIndex = tblAuto.getSelectedRow();                       
+        int id_auto = (int) tblAuto.getModel().getValueAt(selectedRowIndex, 0);
+        
+        auto a = new auto();         
         a.setaño((int)cboAño.getSelectedItem());
         a.setcolor(txtColor.getText());
         a.setmarca(txtMarca.getText());
         a.setmodelo(txtModelo.getText());
-        a.setpatente(txtPatente.getText());
-        a.modifAuto();*/
+        
+        if(a.modifAuto(id_auto) == 1){
+            lblMensaje.setText("Se actualizó correctamente el auto.");
+            refresh_tabla();    
+        }
+        else{
+            lblMensaje.setText("Error! no se pudo actualizar el auto.");
+        } ;
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     /**
@@ -241,30 +277,36 @@ public class frmAutoModificacion extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frmAutoModificacion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmAutoModificacionDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frmAutoModificacion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmAutoModificacionDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frmAutoModificacion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmAutoModificacionDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frmAutoModificacion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmAutoModificacionDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {            
-
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frmAutoModificacion().setVisible(true);                
+                frmAutoModificacionDialog dialog = new frmAutoModificacionDialog(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
-                
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JComboBox<Integer> cboAño;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -276,6 +318,5 @@ public class frmAutoModificacion extends javax.swing.JFrame {
     private javax.swing.JTextField txtColor;
     private javax.swing.JTextField txtMarca;
     private javax.swing.JTextField txtModelo;
-    private javax.swing.JTextField txtPatente;
     // End of variables declaration//GEN-END:variables
 }

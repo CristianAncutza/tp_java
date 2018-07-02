@@ -132,6 +132,11 @@ public class frmMenu extends javax.swing.JFrame {
         jMenuViaje.add(jMenuViajeAlta);
 
         jMenuViajeModificacion.setText("Modificación");
+        jMenuViajeModificacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jMenuViajeModificacionMousePressed(evt);
+            }
+        });
         jMenuViaje.add(jMenuViajeModificacion);
 
         jMenuBarRemis.add(jMenuViaje);
@@ -139,6 +144,11 @@ public class frmMenu extends javax.swing.JFrame {
         jMenuTickets.setText("Tickets");
 
         jMenuTicketsListado.setText("Listado");
+        jMenuTicketsListado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jMenuTicketsListadoMousePressed(evt);
+            }
+        });
         jMenuTickets.add(jMenuTicketsListado);
 
         jMenuBarRemis.add(jMenuTickets);
@@ -167,7 +177,7 @@ public class frmMenu extends javax.swing.JFrame {
 
     private void jMenuAutoAltaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuAutoAltaMouseReleased
         // TODO add your handling code here:
-        frmAutoAltaDial frmAuto = new  frmAutoAltaDial(this,true);
+        frmAutoAltaDialog frmAuto = new  frmAutoAltaDialog(this,true);
         frmAuto.setVisible(true);
     }//GEN-LAST:event_jMenuAutoAltaMouseReleased
 
@@ -182,6 +192,19 @@ public class frmMenu extends javax.swing.JFrame {
         frmViajeAltaDialog viajeAlta = new frmViajeAltaDialog(this, true, person);
         viajeAlta.setVisible(true);// TODO add your handling code here:
     }//GEN-LAST:event_jMenuViajeAltaMousePressed
+
+    private void jMenuViajeModificacionMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuViajeModificacionMousePressed
+        // TODO add your handling code here:
+        frmViajeModificaciónDialog viajeModifucacion = new frmViajeModificaciónDialog(this, true);
+        viajeModifucacion.setVisible(true);
+        
+    }//GEN-LAST:event_jMenuViajeModificacionMousePressed
+
+    private void jMenuTicketsListadoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuTicketsListadoMousePressed
+        // TODO add your handling code here:
+           frmTicketListadoDialog ticketlist = new frmTicketListadoDialog(this,true);
+        ticketlist.setVisible(true);
+    }//GEN-LAST:event_jMenuTicketsListadoMousePressed
 
     /**
      * @param args the command line arguments

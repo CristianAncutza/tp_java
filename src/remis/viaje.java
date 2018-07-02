@@ -9,8 +9,11 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -157,8 +160,8 @@ public class viaje {
             statement.setString(5, this.numeroDestino);//@NUMERO_DESTINO nvarchar(50),
             statement.setInt(6, this.localidadDestino.getId_localidad());//@ID_LOCALIDAD_DESTINO int,
             statement.setDouble(7, 0);//@KMS float,
-            statement.setString(8, null);//@FECHA_SALIDA datetime,
-            statement.setString(9, null);//@FECHA_LLEGADA datetime,
+            statement.setDate(8, (java.sql.Date) this.fechaSalida);//@FECHA_SALIDA datetime,
+            statement.setDate(9, (java.sql.Date) this.fechaLlegada);//@FECHA_LLEGADA datetime,
             statement.setString(10, null);//@VALOR float,
             statement.setString(11, null);//@ID_CHOFER int,
             statement.setInt(12, this.Cliente.getcodCliente());//@ID_CLIENTE int,
@@ -179,9 +182,107 @@ public class viaje {
         }
       
     }
+    public viaje getUltimoViaje()
+    {
+        viaje v = new viaje();
+         Connection conn = null;
+        Conectar cn = new Conectar();
+        
+        try {
+            Class.forName(cn.getDriver()).newInstance();
+            conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
+            CallableStatement statement = conn.prepareCall("SELECT TOP 1 [ID_VIAJE]\n" +
+                                                            "      ,[ID_DIRECCION_ORIGEN]\n" +
+                                                            "      ,[ID_DIRECCION_DESTINO]\n" +
+                                                            "      ,[KMS]\n" +
+                                                            "      ,[FECHA_SALIDA]\n" +
+                                                            "      ,[FECHA_LLEGADA]\n" +
+                                                            "      ,[VALOR]\n" +
+                                                            "      ,[ID_CHOFER]\n" +
+                                                            "      ,[ID_CLIENTE]\n" +
+                                                            "      ,[ID_ESTADO]\n" +
+                                                            "      ,[ID_RECEPCIONISTA_CREADO]\n" +
+                                                            "  FROM [REMISJAVA].[DBO].[VIAJE]\n" +
+                                                            "  ORDER BY ID_VIAJE DESC");
+            //statement.setString(1, txtUsuario.getText());
+            
+            boolean hadResults = statement.execute();
+        
+            int rowCount = 0;    
+            while (hadResults) 
+            {
+                ResultSet resultSet = statement.getResultSet();
+                // process result set
+                while (resultSet.next()) {
+                
+                    rowCount++;
+                    
+                    v.setIdViaje(Integer.parseInt(resultSet.getString("ID_VIAJE")));
+                
+                   
+                }
+               
+                hadResults = statement.getMoreResults();
+                
+            }
+ 
+            statement.close();
+            conn.close();
+            
+          
+            
+        } catch (Exception e) {
+            
+            
+          
+        }
+        
+        return v;
+    }
     
     public void actualizarEstadoViaje(){
-    
+         Connection conn = null;
+        Conectar cn = new Conectar();
+        
+        try {
+            Class.forName(cn.getDriver()).newInstance();
+            conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
+            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_VIAJE_MODIFICACION] ?,?,?,?,?,?,?");
+              statement.setInt(1, idViaje);    //@ID_VIAJE INT,
+               statement.setInt(2,kms);  //@KMS int,
+                  statement.setDate(3, (java.sql.Date) fechaSalida); //@FECHA_SALIDA datetime,
+                 statement.setDate(4, (java.sql.Date) fechaLlegada);  //@FECHA_LLEGADA datetime,
+              statement.setFloat(5, valor);  //@VALOR float,
+               statement.setInt(6, Chofer.getIdPersona()); //@ID_CHOFER int,
+               switch(estado)
+               {
+                   case CANCELADO:
+                       statement.setInt(7,3);//@ID_ESTADO int
+                       break;
+                   case FINALIZADO:
+                       statement.setInt(7,4);//@ID_ESTADO int
+                       break;
+                   case PENDIENTE:
+                       statement.setInt(7,1);//@ID_ESTADO int
+                      break;
+                   case TOMADO:
+                       statement.setInt(7,2);//@ID_ESTADO int
+                       break;
+                       
+                     
+               }
+              boolean hadResults = statement.execute();
+        
+            statement.close();
+            conn.close();
+            
+           
+            
+        } catch (Exception e) {
+             
+            e.getMessage();
+              
+        }
     }
 
     public String getCalleOrigen() {
