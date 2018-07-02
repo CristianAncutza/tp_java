@@ -5,6 +5,12 @@
  */
 package remis;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * @author u583313
@@ -13,21 +19,21 @@ public class recepcionista extends persona{
 
     
 
-    private int usuario;
+    private String usuario;
     private int legajo;
     private int password;
     
     /**
      * @return the usuario
      */
-    public int getUsuario() {
+    public String getUsuario() {
         return usuario;
     }
 
     /**
      * @param usuario the usuario to set
      */
-    public void setUsuario(int usuario) {
+    public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
     /**
@@ -63,7 +69,66 @@ public class recepcionista extends persona{
     
         
     }
+    public recepcionista(){}
+    
+    public recepcionista(int id)
+    {
+     recepcionista rep = new recepcionista();
+        
+         
+        Connection conn = null;
+        Conectar cn = new Conectar();
+        
+         try {             
+            conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
+         
+            CallableStatement statement = conn.prepareCall("SELECT * FROM RECEPCIONISTA WHERE LEGAJO = "+ id);
+           
+            boolean hadResults = statement.execute();
+            int rowCount = 0;    
+            while (hadResults) 
+            {
+                ResultSet resultSet = statement.getResultSet();
+                // process result set
+                while (resultSet.next()) {
+                
+                    rowCount++;
+                    
+                   this.setIdPersona(Integer.parseInt(resultSet.getString("ID_RECEPCIONISTA")));
+                   this.legajo = (Integer.parseInt(resultSet.getString("LEGAJO")));
+                   this.setNombre(resultSet.getString("NOMBRE"));
+                   this.setApellido(resultSet.getString("APELLIDO"));
+                   this.usuario = (resultSet.getString("USUARIO"));
+                    
+                
+                   
+                }
+               
+                hadResults = statement.getMoreResults();
+                
+            }
+               
+            statement.close();
+            conn.close();
+                
+            
+           
+            
 
+           } catch (SQLException ex) {
+                 ex.printStackTrace();
+           } finally {
+            try {
+                if (conn != null && !conn.isClosed()) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+        }
+        
+  
+    }
     public recepcionista getRecepcionista ( int id)
     { 
         recepcionista rep = new recepcionista();

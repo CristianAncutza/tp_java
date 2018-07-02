@@ -68,6 +68,11 @@ public class frmMenu extends javax.swing.JFrame {
         jMenuRemis.setText("File");
 
         jMenuItemSalir.setText("Salir");
+        jMenuItemSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jMenuItemSalirMousePressed(evt);
+            }
+        });
         jMenuRemis.add(jMenuItemSalir);
 
         jMenuBarRemis.add(jMenuRemis);
@@ -216,6 +221,11 @@ public class frmMenu extends javax.swing.JFrame {
            frmAutoModificacionDialog autoModificacion = new frmAutoModificacionDialog(this,true);
         autoModificacion.setVisible(true);
     }//GEN-LAST:event_jMenuAutoModificacionActionPerformed
+
+    private void jMenuItemSalirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItemSalirMousePressed
+        // TODO add your handling code here:
+         dispose();
+    }//GEN-LAST:event_jMenuItemSalirMousePressed
 
     /**
      * @param args the command line arguments

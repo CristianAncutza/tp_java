@@ -8,6 +8,7 @@ package remis;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
@@ -114,41 +115,47 @@ public class chofer extends persona{
         
     }
     
-    public chofer getChofer ( int id)
-    { 
-        chofer ch = new chofer();
+    public chofer(int id){
         
-     /*   Connection conn = null;
+        Connection conn = null;
         Conectar cn = new Conectar();
         
          try {             
-             conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
-
-            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_AUTO_ALTA] ?, ?, ?, ?, ?");
-            statement.setInt(1, this.año);
-            statement.setString(2, this.color);
-            statement.setString(3, this.marca);
-            statement.setString(4, this.modelo);
-            statement.setString(5, this.patente);
-            
-            ch.setApellido(licencia);
-        ch.getLegajo();
-        ch.getLicencia();
-        ch.getNombre();
-        ch.getApellido();
-        
-            boolean hadResults = statement.execute();            
-            
-            if (conn != null) {
-                System.out.println("La operacion fue realizada correctamente");
-             }
-            
+         
+            conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
+              CallableStatement statement = conn.prepareCall("SELECT * FROM CHOFER WHERE LEGAJO = "+ id);
+              
+          
+             boolean hadResults = statement.execute();
+            int rowCount = 0;    
+            while (hadResults) 
+            {
+                ResultSet resultSet = statement.getResultSet();
+                // process result set
+                while (resultSet.next()) {
+                
+                    rowCount++;
+                   this.legajo = (Integer.parseInt(resultSet.getString("LEGAJO")));
+                   this.setNombre(resultSet.getString("NOMBRE"));
+                   this.setApellido(resultSet.getString("APELLIDO"));
+                   this.licencia = (resultSet.getString("LICENCIA"));
+                    
+                
+                   
+                }
+               
+                hadResults = statement.getMoreResults();
+                
+            }
+               
             statement.close();
             conn.close();
+                
             
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
+
+           } catch (SQLException ex) {
+                 ex.printStackTrace();
+           } finally {
             try {
                 if (conn != null && !conn.isClosed()) {
                     conn.close();
@@ -157,8 +164,63 @@ public class chofer extends persona{
                         ex.printStackTrace();
                     }
         }
-        */
+    };
+    
+    public chofer getChofer ( int id)
+    { 
+       chofer ch = new chofer();
+        
+        Connection conn = null;
+        Conectar cn = new Conectar();
+        
+         try {             
+         
+            conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
+              CallableStatement statement = conn.prepareCall("SELECT * FROM CHOFER WHERE LEGAJO = "+ id);
+              
+          
+             boolean hadResults = statement.execute();
+            int rowCount = 0;    
+            while (hadResults) 
+            {
+                ResultSet resultSet = statement.getResultSet();
+                // process result set
+                while (resultSet.next()) {
+                
+                    rowCount++;
+                    ch.setLegajo(Integer.parseInt(resultSet.getString("LEGAJO")));
+                    ch.setNombre(resultSet.getString("NOMBRE"));
+                        ch.setApellido(resultSet.getString("APELLIDO"));
+                        ch.setLicencia(resultSet.getString("LICENCIA"));
+                    
+                
+                   
+                }
+               
+                hadResults = statement.getMoreResults();
+                
+            }
+               
+            statement.close();
+            conn.close();
+                
+            
+
+           } catch (SQLException ex) {
+                 ex.printStackTrace();
+           } finally {
+            try {
+                if (conn != null && !conn.isClosed()) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+        }
+        
                 
         return ch;
+                
+   
     }
 }

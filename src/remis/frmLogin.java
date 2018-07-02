@@ -157,6 +157,9 @@ public class frmLogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private int id_chofer;
+    private int id_recepcionista;
+    
     private void btnAceptarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMousePressed
         // TODO add your handling code here:
         frmMenu menu;
@@ -164,9 +167,7 @@ public class frmLogin extends javax.swing.JFrame {
         {                
             if (LoginRecepcionista())
             {
-                recepcionista rep = new recepcionista();
-                rep.setNombre("jose");
-                rep.setIdPersona(1);
+                recepcionista rep = new recepcionista(id_recepcionista);
                 menu = new frmMenu(rep);
                 menu.setVisible(true);
                 menu.setLocationRelativeTo(this);
@@ -177,8 +178,9 @@ public class frmLogin extends javax.swing.JFrame {
         {
            if (LoginChofer())
            {
-                chofer ch = new chofer();
-                ch.setNombre("Juan");
+                chofer ch = new chofer(id_chofer);
+                //ch.getChofer(id_chofer);
+                //ch.setNombre("Juan");
                 menu = new frmMenu(ch);
                 menu.setVisible(true);
                 menu.setLocationRelativeTo(this);
@@ -230,6 +232,7 @@ public class frmLogin extends javax.swing.JFrame {
                 // process result set
                 while (resultSet.next()) {
                     rowCount++;
+                    id_chofer = Integer.parseInt(resultSet.getString("LEGAJO"));
                     String title = resultSet.getString("NOMBRE");
                     String description = resultSet.getString("APELLIDO");
                   
@@ -283,6 +286,7 @@ public class frmLogin extends javax.swing.JFrame {
                 // process result set
                 while (resultSet.next()) {
                     rowCount++;
+                     id_recepcionista = Integer.parseInt(resultSet.getString("LEGAJO"));
                     String title = resultSet.getString("NOMBRE");
                     String description = resultSet.getString("APELLIDO");
                   
