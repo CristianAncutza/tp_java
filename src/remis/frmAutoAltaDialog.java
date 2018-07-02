@@ -171,6 +171,9 @@ public class frmAutoAltaDialog extends java.awt.Dialog {
         return true;
     }
     
+    /**
+    *   valido y luego guardo el alta de auto.
+     */
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         int minLength = 2;
         int maxLength = 20;

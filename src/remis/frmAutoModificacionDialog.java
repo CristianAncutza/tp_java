@@ -231,6 +231,9 @@ public class frmAutoModificacionDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+    * Lleno el formulario con el item que selecciono que hago en la lista.
+    * */
     private void tblAutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAutoMouseClicked
         DefaultTableModel model =(DefaultTableModel)tblAuto.getModel();
         int selectedRowIndex = tblAuto.getSelectedRow();
@@ -243,6 +246,10 @@ public class frmAutoModificacionDialog extends javax.swing.JDialog {
 
     }//GEN-LAST:event_tblAutoMouseClicked
 
+    /**
+     * Valido y luego guardo las modificaciones de auto.
+     * @param evt 
+     */
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         int selectedRowIndex = tblAuto.getSelectedRow();                       
         int id_auto = (int) tblAuto.getModel().getValueAt(selectedRowIndex, 0);

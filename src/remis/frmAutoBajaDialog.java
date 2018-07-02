@@ -152,6 +152,9 @@ public class frmAutoBajaDialog extends java.awt.Dialog {
         }
     }
     
+    /**
+    *Meotodo para listar los autos.
+    */
     public void lista_autos(){ 
             
          Connection conn = null;

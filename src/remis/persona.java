@@ -14,8 +14,8 @@ import java.util.Objects;
 public class persona {
 
     private int idPersona;
-    private String nombre;
-    private String apellido;
+    String nombre;
+    String apellido;
     
      /**
      * @return the idPersona

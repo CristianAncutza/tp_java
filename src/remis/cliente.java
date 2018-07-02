@@ -5,7 +5,17 @@
  */
 package remis;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
+import java.util.Objects;
+import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -32,15 +42,148 @@ public class cliente extends persona{
     this.fechaAlta = fechaAlta;
   }   
     
-    public void altaCli(){
+   /**
+     *Este metodo se usa para dar de alta un auto.
+     */
+    public int altaCliente()  {
     
+        Connection conn = null;
+        Conectar cn = new Conectar();
+        
+        try {             
+             conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
+
+            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_CLIENTE_ALTA] ?, ?");
+            statement.setString(1,this.nombre);
+            statement.setString(2, this.apellido);
+            
+   
+            if (conn != null) {
+                System.out.println("La conexión fue realizada correctamente");
+             }
+            
+             //verifico que no exista el auto
+            String query = "SELECT * FROM CLIENTE WHERE NOMBRE ='" + this.nombre + "'"+"AND APELLIDO ="+"'"+ this.apellido+ "'";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);                            
+           
+            if(!rs.next()){
+                boolean hadResults = statement.execute();
+                return 0;
+            }
+            if (conn != null) {
+                System.out.println("La operacion fue realizada correctamente");
+             }
+            
+            
+            statement.close();
+            conn.close();
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (conn != null && !conn.isClosed()) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+        }
+       return 1;
     }
-    public void bajaCli(){
+
+    /**
+     * Metodo para actualizar datos del auto.
+     * @param id_auto
+     */
+    /*public int modifAuto(int id_auto){
+         Connection conn = null;
+         Conectar cn = new Conectar();
+        
+        try {             
+             conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
+                     
+            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_AUTO_MODIFICACION] ?, ?, ?, ?, ?");                                   
+            statement.setInt(1, id_auto);
+            statement.setInt(2, this.año);
+            statement.setString(3, this.color);
+            statement.setString(4, this.marca);
+            statement.setString(5, this.modelo);
+                                     
+            boolean hadResults = statement.execute();
+           
+            if(hadResults){
+                return 0;
+            }
+           
+            if (conn != null) {                    
+                    System.out.println("La conexión fue realizada correctamente");                    
+             }
+            statement.close();
+            conn.close();
+        
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (conn != null && !conn.isClosed()) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+        }  
+        return 1;
+    }*/
     
-    }
-    public void modifCli(){
-    
-    }
+    /**
+     * Este metodo se utiliza para borrar un auto.
+     * retorna 0 si el auto se elimino correctamente o 1 si hubo un error.
+     * 
+     * @param id_auto
+     * @return 
+     */
+    /*public int bajaAuto(int id_auto){
+         Connection conn = null;
+         Conectar cn = new Conectar();
+        
+        try {             
+             conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
+
+            //borro el auto
+            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_AUTO_DELETE] ?");
+            statement.setInt(1, id_auto);            
+            boolean hadResults = statement.execute();             
+            
+            //verifico que se haya borrado correctamente el auto
+            CallableStatement statement_test = conn.prepareCall("SELECT * FROM AUTO WHERE ID_AUTO = "+ id_auto);
+            boolean hadResults_test = statement_test.execute();                                  
+            
+            if(hadResults_test == false){
+                return 1;
+            }
+            
+            if (conn != null) {                    
+                    System.out.println("La conexión fue realizada correctamente");                    
+             }
+            
+            statement.close();
+            conn.close();
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (conn != null && !conn.isClosed()) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+        }
+        return 0;
+    }*/
 
     public cliente () 
     {}
@@ -63,4 +206,5 @@ public class cliente extends persona{
                 
         return cli;
     }
+
 }
