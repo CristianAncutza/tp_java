@@ -97,19 +97,17 @@ public class cliente extends persona{
      * Metodo para actualizar datos del auto.
      * @param id_auto
      */
-    /*public int modifAuto(int id_auto){
+    public int modifCliente(int id_cliente){
          Connection conn = null;
          Conectar cn = new Conectar();
         
         try {             
              conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
                      
-            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_AUTO_MODIFICACION] ?, ?, ?, ?, ?");                                   
-            statement.setInt(1, id_auto);
-            statement.setInt(2, this.año);
-            statement.setString(3, this.color);
-            statement.setString(4, this.marca);
-            statement.setString(5, this.modelo);
+            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_CLIENTE_MODIFICACION] ?, ?, ?");                                   
+            statement.setInt(1, id_cliente);
+            statement.setString(2, this.nombre);
+            statement.setString(3, this.apellido);
                                      
             boolean hadResults = statement.execute();
            
@@ -135,7 +133,7 @@ public class cliente extends persona{
                     }
         }  
         return 1;
-    }*/
+    }
     
     /**
      * Este metodo se utiliza para borrar un auto.

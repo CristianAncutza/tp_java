@@ -5,6 +5,17 @@
  */
 package remis;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.border.Border;
+import javax.swing.table.DefaultTableModel;
+import net.proteanit.sql.DbUtils;
+
 /**
  *
  * @author Cristian Ancutza
@@ -17,8 +28,54 @@ public class frmClienteModificacionDialog extends java.awt.Dialog {
     public frmClienteModificacionDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
+        lista_clientes();
     }
 
+       /**
+     *Metodo para refrescar el listado de autos.
+     */
+    public void refresh_tabla(){
+    
+        String sql = null;        
+        Connection conn = null;
+        Conectar cn = new Conectar();
+        try{
+            conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());   
+            String query = "SELECT id_cliente, nombre, apellido FROM cliente where baja = 1";
+            Statement st = conn.createStatement();
+            @SuppressWarnings("LocalVariableHidesMemberVariable")
+            ResultSet rs = st.executeQuery(query);            
+            jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+        }catch(SQLException ex){
+            System.out.println(ex);
+        }
+    }
+    
+     /**
+     *Metodo para cargar el listado de clientes.
+     */
+    public void lista_clientes(){ 
+            
+         Connection conn = null;
+         Conectar cn = new Conectar();
+            
+        try{
+            conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
+            String query = "SELECT id_cliente, nombre, apellido FROM cliente where baja = 1";
+
+            Statement st = conn.createStatement();
+            @SuppressWarnings("LocalVariableHidesMemberVariable")
+            ResultSet rs = st.executeQuery(query);
+            
+            jTable1.setModel(DbUtils.resultSetToTableModel(rs));               
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }            
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,8 +88,6 @@ public class frmClienteModificacionDialog extends java.awt.Dialog {
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
-        lblID = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         lblNombre = new javax.swing.JLabel();
         txtApellido = new javax.swing.JTextField();
         lblApellido = new javax.swing.JLabel();
@@ -56,21 +111,27 @@ public class frmClienteModificacionDialog extends java.awt.Dialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jLabel1.setText("Modificacion de Cliente");
-
-        lblID.setText("9999");
-
-        jLabel2.setText("ID de Cliente:");
 
         lblNombre.setText("Nombre :");
 
         lblApellido.setText("Apellido :");
 
         btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
-        lblMensaje.setText("aca va el mensaje");
+        lblMensaje.setText(" ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -88,18 +149,17 @@ public class frmClienteModificacionDialog extends java.awt.Dialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblApellido)
-                                    .addComponent(lblNombre)
-                                    .addComponent(jLabel2))
-                                .addGap(36, 36, 36)
+                                    .addComponent(lblNombre))
+                                .addGap(58, 58, 58)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(btnAceptar)
-                                        .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(lblID)))))
+                                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(226, 226, 226)
-                        .addComponent(jLabel1)))
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(217, 217, 217)
+                        .addComponent(btnAceptar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -109,11 +169,7 @@ public class frmClienteModificacionDialog extends java.awt.Dialog {
                 .addComponent(jLabel1)
                 .addGap(26, 26, 26)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(lblID))
-                .addGap(11, 11, 11)
+                .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblNombre)
@@ -122,9 +178,9 @@ public class frmClienteModificacionDialog extends java.awt.Dialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAceptar)))
+                        .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(btnAceptar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblMensaje)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -133,6 +189,7 @@ public class frmClienteModificacionDialog extends java.awt.Dialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+   
     /**
      * Closes the dialog
      */
@@ -140,6 +197,69 @@ public class frmClienteModificacionDialog extends java.awt.Dialog {
         setVisible(false);
         dispose();
     }//GEN-LAST:event_closeDialog
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+         int selectedRowIndex = jTable1.getSelectedRow();                       
+        int id_cliente = (int) jTable1.getModel().getValueAt(selectedRowIndex, 0);
+        
+         int minLength = 2;
+        int maxLength = 20;
+        Border highlightBorder = BorderFactory.createLineBorder(java.awt.Color.RED);
+        Border noBorder = BorderFactory.createLineBorder(java.awt.Color.gray);
+        
+        //verifico que los campos no esten vacios
+        if(!lengthCheck(txtNombre.getText(),minLength, maxLength) ){
+            lblMensaje.setText("Debe ingresar minimo 3 caracteres, maximo 20 caracteres.");
+            txtNombre.setBorder(highlightBorder);   
+        }else if( !txtNombre.getText().matches("^[a-zA-Z]+$")){
+            lblMensaje.setText("Ingrese solo letras para el campo nombre.");
+            txtNombre.setBorder(highlightBorder);
+        }          
+        else {    txtNombre.setBorder(noBorder);   }  
+                    
+       
+        if(!lengthCheck(txtApellido.getText(),minLength, maxLength)){
+            lblMensaje.setText("Debe ingresar minimo 3 caracteres, maximo 20 caracteres.");
+            txtApellido.setBorder(highlightBorder);   
+        }else if( !txtApellido.getText().matches("^[a-zA-Z]+$")){
+            lblMensaje.setText("Ingrese solo letras para el campo apellido.");
+            txtApellido.setBorder(highlightBorder);
+        }          
+        else {    txtApellido.setBorder(noBorder);   }  
+
+        
+        
+        if(lengthCheck(txtNombre.getText(),minLength, maxLength) && txtNombre.getText().matches("^[a-zA-Z]+$") && lengthCheck(txtApellido.getText(),minLength, maxLength) && txtApellido.getText().matches("^[a-zA-Z]+$"))
+        {
+        
+            cliente a = new cliente();                     
+            a.setNombre(txtNombre.getText());
+            a.setApellido(txtApellido.getText());
+            
+
+            if(a.modifCliente(id_cliente) == 1){
+                lblMensaje.setText("Se actualizó correctamente el cliente.");
+                refresh_tabla();    
+            }
+            else{
+                lblMensaje.setText("Error! no se pudo actualizar el cliente.");
+            } ;
+        }
+                                              
+    }
+        private boolean lengthCheck(String text, int minLength, int maxLength) {
+        return maxLength > text.length() && text.length() > minLength;
+    
+    
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+          DefaultTableModel model =(DefaultTableModel)jTable1.getModel();
+        int selectedRowIndex = jTable1.getSelectedRow();
+
+        txtNombre.setText(model.getValueAt(selectedRowIndex, 1).toString());
+        txtApellido.setText(model.getValueAt(selectedRowIndex, 2).toString());
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -162,11 +282,9 @@ public class frmClienteModificacionDialog extends java.awt.Dialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblApellido;
-    private javax.swing.JLabel lblID;
     private javax.swing.JLabel lblMensaje;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JTextField txtApellido;
