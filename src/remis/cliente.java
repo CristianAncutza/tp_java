@@ -48,8 +48,8 @@ public class cliente extends persona{
       
         this.codCliente = codCliente;
         this.fechaAlta = fechaAlta;
-        this.nombre = nombre;
-        this.apellido = apellido;
+        this.setNombre(nombre);
+        this.setApellido(apellido);
         
      }
      public cliente getCliente ( int id)

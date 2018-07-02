@@ -5,6 +5,10 @@
  */
 package remis;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Objects;
 
 /**
@@ -58,29 +62,7 @@ public class chofer extends persona{
         this.suAuto = suAuto;
     }
 
-    public int getIdPersona() {
-        return idPersona;
-    }
-
-    public void setIdPersona(int idPersona) {
-        this.idPersona = idPersona;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
+    
     /**
      * @return the legajo
      */
@@ -127,19 +109,55 @@ public class chofer extends persona{
         
         this.legajo = legajo;
         this.licencia = licencia;
-        setNombre(nombre);
-        setApellido(apellido);    
+        this.setNombre(nombre);
+        this.setApellido(apellido);  
         
     }
     
     public chofer getChofer ( int id)
     { 
         chofer ch = new chofer();
-               
+        
+     /*   Connection conn = null;
+        Conectar cn = new Conectar();
+        
+         try {             
+             conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
+
+            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_AUTO_ALTA] ?, ?, ?, ?, ?");
+            statement.setInt(1, this.año);
+            statement.setString(2, this.color);
+            statement.setString(3, this.marca);
+            statement.setString(4, this.modelo);
+            statement.setString(5, this.patente);
+            
+            ch.setApellido(licencia);
         ch.getLegajo();
         ch.getLicencia();
         ch.getNombre();
         ch.getApellido();
+        
+            boolean hadResults = statement.execute();            
+            
+            if (conn != null) {
+                System.out.println("La operacion fue realizada correctamente");
+             }
+            
+            statement.close();
+            conn.close();
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (conn != null && !conn.isClosed()) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+        }
+        */
                 
         return ch;
     }
