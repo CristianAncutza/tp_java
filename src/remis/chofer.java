@@ -131,7 +131,35 @@ public class chofer extends persona{
     
     }
     public void modifCchofer(){
-    
+     Connection conn = null;
+        Conectar cn = new Conectar();
+        
+        try {      
+               Class.forName(cn.getDriver()).newInstance();
+             conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
+             
+
+            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_CHOFER_MODIFICACION] ?, ?, ?, ?, ?, ?");
+            statement.setInt(1, this.getIdPersona());
+            statement.setString(2, this.getNombre());
+            statement.setString(3, this.getApellido());
+            statement.setInt(4, this.legajo);
+            statement.setString(5, this.licencia);
+            statement.setInt(6, this.suAuto.getid_auto());
+            
+   
+           boolean hadResults = statement.execute();
+        
+            statement.close();
+            conn.close();
+            
+           
+            
+        } catch (Exception e) {
+             
+            e.getMessage();
+              
+        }
     }
     
    /**

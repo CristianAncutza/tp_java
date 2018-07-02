@@ -109,6 +109,11 @@ public class frmMenu extends javax.swing.JFrame {
         jMenuChofer.add(jMenuChoferBaja);
 
         jMenuChoferModificacion.setText("Modificación");
+        jMenuChoferModificacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jMenuChoferModificacionMousePressed(evt);
+            }
+        });
         jMenuChofer.add(jMenuChoferModificacion);
 
         jMenuBarRemis.add(jMenuChofer);
@@ -248,6 +253,12 @@ public class frmMenu extends javax.swing.JFrame {
         frmChoferAltaDialog choferAlta = new frmChoferAltaDialog(this, true);
         choferAlta.setVisible(true);
     }//GEN-LAST:event_jMenuChoferAltaMousePressed
+
+    private void jMenuChoferModificacionMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuChoferModificacionMousePressed
+        // TODO add your handling code here:
+        frmChoferModificacionDialog choferModificacion = new frmChoferModificacionDialog(this, true);
+        choferModificacion.setVisible(true);
+    }//GEN-LAST:event_jMenuChoferModificacionMousePressed
 
     /**
      * @param args the command line arguments
