@@ -9,6 +9,9 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -247,25 +250,36 @@ public class viaje {
         try {
             Class.forName(cn.getDriver()).newInstance();
             conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
-            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_VIAJE_MODIFICACION] ?,?,?,?,?,?,?");
-              statement.setInt(1, idViaje);    //@ID_VIAJE INT,
-               statement.setInt(2,kms);  //@KMS int,
-                  statement.setDate(3, (java.sql.Date) fechaSalida); //@FECHA_SALIDA datetime,
-                 statement.setDate(4, (java.sql.Date) fechaLlegada);  //@FECHA_LLEGADA datetime,
-              statement.setFloat(5, valor);  //@VALOR float,
-               statement.setInt(6, Chofer.getIdPersona()); //@ID_CHOFER int,
+             CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_VIAJE_MODIFICACION] ?,?,?,?,?,?,?");
+             statement.setInt(1, idViaje);    //@ID_VIAJE INT,
+             statement.setInt(2,kms);  //@KMS int,
+             statement.setString(3, null); //@FECHA_SALIDA datetime,
+             statement.setString(4, null);  //@FECHA_LLEGADA datetime,
+             statement.setFloat(5, valor);  //@VALOR float,
+             statement.setInt(6, Chofer.getIdPersona()); //@ID_CHOFER int,
+             
+           
+             Date date = new Date();
+        
                switch(estado)
                {
                    case CANCELADO:
+//                       statement.setDate(3, (java.sql.Date)date); //@FECHA_SALIDA datetime,
+//                       statement.setDate(4, (java.sql.Date)date);  //@FECHA_LLEGADA datetime,
                        statement.setInt(7,3);//@ID_ESTADO int
                        break;
                    case FINALIZADO:
-                       statement.setInt(7,4);//@ID_ESTADO int
+//                       statement.setDate(3, (java.sql.Date)this.fechaSalida);
+//                       statement.setInt(7,4);//@ID_ESTADO int
                        break;
                    case PENDIENTE:
+//                       statement.setString(3, null); //@FECHA_SALIDA datetime,
+//                       statement.setString(4, null);  //@FECHA_LLEGADA datetime,
                        statement.setInt(7,1);//@ID_ESTADO int
                       break;
                    case TOMADO:
+//                       statement.setDate(3, (java.sql.Date)date); //@FECHA_SALIDA datetime,
+//                       statement.setString(4, null);  //@FECHA_LLEGADA datetime,
                        statement.setInt(7,2);//@ID_ESTADO int
                        break;
                        
