@@ -80,8 +80,6 @@ public class frmChoferBajaDialog extends java.awt.Dialog {
         });
         jScrollPane1.setViewportView(tblChofer);
 
-        lblMensaje.setText("aca va un mensaje");
-
         lblID.setText("---");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -124,7 +122,7 @@ public class frmChoferBajaDialog extends java.awt.Dialog {
                     .addComponent(lblID))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblMensaje)
-                .addGap(0, 53, Short.MAX_VALUE))
+                .addGap(0, 67, Short.MAX_VALUE))
         );
 
         pack();

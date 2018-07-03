@@ -317,6 +317,10 @@ public class frmViajeModificaciónDialog extends java.awt.Dialog {
         // TODO add your handling code here:
             DefaultTableModel model =(DefaultTableModel)tbViajes.getModel();
            int selectedRowIndex = tbViajes.getSelectedRow();
+//           chofer c = new chofer();
+//           c.setIdPersona(Integer.parseInt(model.getValueAt(selectedRowIndex, 0).toString()));
+//           cboChofer.setSelectedIndex(c.getIdPersona());
+//           
            lblId.setText(model.getValueAt(selectedRowIndex, 0).toString());
            txtKMS.setText(model.getValueAt(selectedRowIndex, 3).toString());
            txtValor.setText(model.getValueAt(selectedRowIndex, 6).toString());
