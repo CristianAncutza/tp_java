@@ -348,49 +348,45 @@ public class frmTicketListadoDialog extends java.awt.Dialog {
         try{
             conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
             
-           CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_TICKETS_LISTADO] ?,?,?,?");
-          Date desde = new Date();
+           CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_TICKETS_LISTADO] ?,?,?");
            
-//           Date desde  = new Date();
+           Date desde = new Date();           
            desde = jDesde.getDate();
-//           
-           Date hasta  = new Date();
-           
+  
+           Date hasta  = new Date();           
            hasta = jHasta.getDate();
+           
            chofer c = new chofer();
            c = (chofer)cboChofer.getSelectedItem();
-//           cliente cl = new cliente();
-//           cl = (cliente)cboClientes.getSelectedItem(); 
+//         cliente cl = new cliente();
+//         cl = (cliente)cboClientes.getSelectedItem(); 
            
-           //statement.setDate(1, (java.sql.Date) desde);
+//         statement.setDate(1, (java.sql.Date) desde);
            statement.setDate(1, new java.sql.Date(desde.getTime()));
            
-           statement.setDate(2, new java.sql.Date(desde.getTime()));
+           statement.setDate(2, new java.sql.Date(hasta.getTime()));
       
            statement.setInt(3, c.getIdPersona());
-           statement.setString(4, null);
-          
+//           statement.setString(4, null);
+                                
+                                  
             
            @SuppressWarnings("LocalVariableHidesMemberVariable")
                     
            boolean hadResults = statement.execute();
             
-           float valor = 0;  
-        
-          while (hadResults) 
-            {
+        /*float valor = 0;          
+        while (hadResults) 
+            {*/
                 ResultSet resultSet = statement.getResultSet();
-                // process result set
-                while (resultSet.next()) {
-                   valor = valor +   (Float.parseFloat(resultSet.getString("VALOR")));
+            
+             // while (resultSet.next()) {
+             //      valor = valor +   (Float.parseFloat(resultSet.getStresultSetToTableModel(resultSet)ring("VALOR")));
                   tbTickets.setModel(DbUtils.resultSetToTableModel(resultSet));   
-                  
-                }
-               
-                hadResults = statement.getMoreResults();
-               
-                
-            }
+             //}
+             // hadResults = statement.getMoreResults();
+            
+        //}
           
            
             statement.close();
