@@ -309,7 +309,7 @@ public class frmTicketListadoDialog extends java.awt.Dialog {
     }//GEN-LAST:event_closeDialog
 
     private void btnAplicarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAplicarMousePressed
-        // TODO add your handling code here:
+        
         if(Validar())
         {
             llenarListaTickets();

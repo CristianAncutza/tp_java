@@ -7,6 +7,8 @@ package Pantallas;
 
 import Clases.persona;
 import Clases.mainRemis;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 /**
  *
  * @author ex1fernajo
@@ -218,67 +220,68 @@ public class frmMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuAutoAltaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuAutoAltaMouseReleased
-        // TODO add your handling code here:
-        frmAutoAltaDialog frmAuto = mainRemis.getfrmAutoAltaDialog(this,true);
-        frmAuto.setVisible(true);
+        
+        frmAutoAltaDialog autoAlta = mainRemis.getfrmAutoAltaDialog(this,true);        
+        autoAlta.setVisible(true);
     }//GEN-LAST:event_jMenuAutoAltaMouseReleased
 
     private void jMenuAutoBajaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuAutoBajaMouseReleased
         frmAutoBajaDialog autoBaja = mainRemis.getfrmAutoBajaDialog(this, true);
-        autoBaja.setVisible(true);// TODO add your handling code here:
+        autoBaja.setVisible(true);
 
     }//GEN-LAST:event_jMenuAutoBajaMouseReleased
 
     private void jMenuViajeAltaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuViajeAltaMousePressed
-        // TODO add your handling code here:
+        
         frmViajeAltaDialog viajeAlta = mainRemis.getfrmViajeAltaDialog(this, true, person);
-        viajeAlta.setVisible(true);// TODO add your handling code here:
+        viajeAlta.setVisible(true);
     }//GEN-LAST:event_jMenuViajeAltaMousePressed
 
     private void jMenuViajeModificacionMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuViajeModificacionMousePressed
-        // TODO add your handling code here:
+        
         frmViajeModificacionDialog viajeModifucacion = mainRemis.getfrmViajeModificacionDialog(this, true);
         viajeModifucacion.setVisible(true);
         
     }//GEN-LAST:event_jMenuViajeModificacionMousePressed
 
     private void jMenuTicketsListadoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuTicketsListadoMousePressed
-        // TODO add your handling code here:
+        
            frmTicketListadoDialog ticketlist = mainRemis.getfrmTicketListadoDialog(this,true);
         ticketlist.setVisible(true);
     }//GEN-LAST:event_jMenuTicketsListadoMousePressed
 
     private void jMenuAutoModificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAutoModificacionActionPerformed
-                // TODO add your handling code here:
+        
            frmAutoModificacionDialog autoModificacion = mainRemis.getfrmAutoModificacionDialog(this,true);
         autoModificacion.setVisible(true);
     }//GEN-LAST:event_jMenuAutoModificacionActionPerformed
 
     private void jMenuItemSalirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItemSalirMousePressed
-        // TODO add your handling code here:
+        
          dispose();
     }//GEN-LAST:event_jMenuItemSalirMousePressed
 
     private void jMenuChoferBajaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuChoferBajaMousePressed
-        // TODO add your handling code here:
-            frmChoferBajaDialog choferModificacion = mainRemis.getfrmChoferBajaDialog(this,true);
-        choferModificacion.setVisible(true);
+        
+            frmChoferBajaDialog choferBaja = mainRemis.getfrmChoferBajaDialog(this,true);
+            choferBaja.setVisible(true);
+
     }//GEN-LAST:event_jMenuChoferBajaMousePressed
 
     private void jMenuChoferAltaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuChoferAltaMousePressed
-        // TODO add your handling code here:
+        
         frmChoferAltaDialog choferAlta = mainRemis.getfrmChoferAltaDialog(this, true);
         choferAlta.setVisible(true);
     }//GEN-LAST:event_jMenuChoferAltaMousePressed
 
     private void jMenuChoferModificacionMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuChoferModificacionMousePressed
-        // TODO add your handling code here:
+        
         frmChoferModificacionDialog choferModificacion = mainRemis.getfrmChoferModificacionDialog(this, true);
         choferModificacion.setVisible(true);
     }//GEN-LAST:event_jMenuChoferModificacionMousePressed
 
     private void jMenuClienteAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuClienteAltaActionPerformed
-        // TODO add your handling code here:
+        
         frmClienteAltaDialog clienteModelo = mainRemis.getfrmClienteAltaDialog(this, true);
         clienteModelo.setVisible(true);
         
@@ -286,13 +289,13 @@ public class frmMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuClienteAltaActionPerformed
 
     private void jMenuClienteBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuClienteBajaActionPerformed
-        // TODO add your handling code here:
+        
         frmClienteBajaDialog clienteBaja = mainRemis.getfrmClienteBajaDialog(this,true);
         clienteBaja.setVisible(true);
     }//GEN-LAST:event_jMenuClienteBajaActionPerformed
 
     private void jMenuClienteModificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuClienteModificacionActionPerformed
-        // TODO add your handling code here:
+        
         frmClienteModificacionDialog clienteModelo = mainRemis.getfrmClienteModificacionDialog(this, true);
         clienteModelo.setVisible(true);
     }//GEN-LAST:event_jMenuClienteModificacionActionPerformed
@@ -301,6 +304,8 @@ public class frmMenu extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public  void main(String args[]) {
+        
+            
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

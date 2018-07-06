@@ -7,6 +7,7 @@ package Pantallas;
 
 import Clases.cliente;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
 
@@ -27,6 +28,12 @@ public class frmClienteAltaDialog extends java.awt.Dialog {
         setLocationRelativeTo(null);
     }
 
+    public void resetForm(){    
+        txtNombre.setText("");
+        txtApellido.setText("");
+        lblMensaje.setText("");
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -65,6 +72,8 @@ public class frmClienteAltaDialog extends java.awt.Dialog {
 
         lblMensaje.setText(" ");
 
+        txtNombre.setToolTipText("");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -76,17 +85,17 @@ public class frmClienteAltaDialog extends java.awt.Dialog {
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(101, 101, 101)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(btnAceptar)
-                            .addComponent(lblMensaje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnAceptar, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblMensaje, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblNombre)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblApellido)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtApellido))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(lblNombre)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(txtApellido)))))
                 .addContainerGap(107, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -121,47 +130,82 @@ public class frmClienteAltaDialog extends java.awt.Dialog {
     }//GEN-LAST:event_closeDialog
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-      int minLength = 2;
-             int maxLength = 20;
-             Border highlightBorder = BorderFactory.createLineBorder(java.awt.Color.RED);
-             Border noBorder = BorderFactory.createLineBorder(java.awt.Color.gray);
+      
+        int minLength = 2;
+        int maxLength = 20;
+        int validacion = 0;
+        Border highlightBorder = BorderFactory.createLineBorder(java.awt.Color.RED);
+        Border noBorder = BorderFactory.createLineBorder(java.awt.Color.gray);
+        
+        /**********************VALIDACIONES****************************/        
+        
+        //Validacion de nombre
+        if(!lengthCheck(txtNombre.getText(),minLength, maxLength) || txtNombre.getText().equals("") ){                        
+            txtNombre.setBorder(highlightBorder);   
+            validacion = 1;
+        } else {    txtNombre.setBorder(noBorder);   }                                      
+        
+        if( !txtNombre.getText().matches("^[a-zA-Z]+$")){            
+            lblMensaje.setText("Aviso! debe ingresar unicamente letras en el campo nombre.");
+            txtNombre.setBorder(highlightBorder);
+            validacion = 2;
+        }          
+        else {    txtNombre.setBorder(noBorder);   }                                      
              
-             //verifico que los campos no esten vacios
-             if(!lengthCheck(txtNombre.getText(),minLength, maxLength) ){
-                 lblMensaje.setText("por favor complete todos los campos");
-                 txtNombre.setBorder(highlightBorder);   
-             }else if( !txtNombre.getText().matches("^[a-zA-Z]+$")){
-                 lblMensaje.setText("Ingrese solo letras para el campo nombre.");
-                 txtNombre.setBorder(highlightBorder);
-             }          
-             else {    txtNombre.setBorder(noBorder);   }                                      
-
-
-             if(!lengthCheck(txtApellido.getText(),minLength, maxLength)){
-                 lblMensaje.setText("por favor complete todos los campos");
-                 txtApellido.setBorder(highlightBorder);   
-             }else if( !txtApellido.getText().matches("^[a-zA-Z]+$")){
-                 lblMensaje.setText("Ingrese solo letras para el campo apellido.");
-                 txtApellido.setBorder(highlightBorder);
-             }          
-             else {    txtNombre.setBorder(noBorder);   }                                      
-
-            
-             if(lengthCheck(txtNombre.getText(),minLength, maxLength) && txtNombre.getText().matches("^[a-zA-Z]+$") && lengthCheck(txtApellido.getText(),minLength, maxLength) && txtApellido.getText().matches("^[a-zA-Z]+$"))
-             {
+        //Validacion de apellido
+        if(!lengthCheck(txtApellido.getText(),minLength, maxLength)){             
+            txtApellido.setBorder(highlightBorder);   
+            validacion = 1;
+        }else{    txtApellido.setBorder(noBorder);   }
+        
+        if( !txtApellido.getText().matches("^[a-zA-Z]+$")){            
+            lblMensaje.setText("Aviso! debe ingresar unicamente letras en el campo apellido.");
+            txtApellido.setBorder(highlightBorder);
+            validacion = 2;
+        }          
+    
+        
+        if(validacion == 0)        
+        {        
                  cliente a = new cliente();                 
                  a.setNombre(txtNombre.getText());
-                 a.setApellido(txtApellido.getText());
+                 a.setApellido(txtApellido.getText());        
+            
+         if( a.altaCliente() == 0){
+                JOptionPane.showMessageDialog(this, "Se creó correctamente el cliente.\n","",JOptionPane.INFORMATION_MESSAGE); 
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Error! no se pudo crear el cliente.\n","",JOptionPane.ERROR_MESSAGE); 
+            }  
+        } else if(validacion == 1){
+                JOptionPane.showMessageDialog(this, "Complete todos los campos, con longitud minima de 3 y maxima de 20 caracteres.\n","",JOptionPane.ERROR_MESSAGE); 
+            }  
+        
                  
-                 if( a.altaCliente() == 0){
-                     lblMensaje.setText("Se creó correctamente el cliente.");            
-                 }
-                 else{
-                     lblMensaje.setText("Error! no se pudo crear el cliente.");
-                 }  
-             }
+      
 
     }//GEN-LAST:event_btnAceptarActionPerformed
+    
+      private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {                                   
+        
+          char c=evt.getKeyChar(); 
+          if(Character.isDigit(c)) { 
+              getToolkit().beep(); 
+              evt.consume(); 
+                        
+          } 
+    }                                  
+
+    private void txtApellidoKeyTyped(java.awt.event.KeyEvent evt) {                                     
+
+          char c=evt.getKeyChar(); 
+          if(Character.isDigit(c)) { 
+              getToolkit().beep(); 
+              evt.consume(); 
+                        
+          } 
+    }          
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

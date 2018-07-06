@@ -32,9 +32,15 @@ public class frmAutoBajaDialog extends java.awt.Dialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
-        lista_autos();
+        listaAutos();
     }
 
+    
+    public void resetLabels(){
+        lblMensaje.setText("");
+        jLabel3.setText("");
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -133,31 +139,11 @@ public class frmAutoBajaDialog extends java.awt.Dialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    /**
-     *Metodo para refrescar el listado de autos.
-     */
-    public void refresh_tabla(){
-    
-        String sql = null;        
-        Connection conn = null;
-        Conectar cn = new Conectar();
-        try{
-            conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());   
-            String query = "SELECT * FROM auto";
-            Statement st = conn.createStatement();
-            @SuppressWarnings("LocalVariableHidesMemberVariable")
-            ResultSet rs = st.executeQuery(query);            
-            tblAuto.setModel(DbUtils.resultSetToTableModel(rs));
-        }catch(SQLException ex){
-            System.out.println(ex);
-        }
-    }
     
     /**
     *Meotodo para listar los autos.
     */
-    public void lista_autos(){ 
+    public void listaAutos(){ 
             
          Connection conn = null;
          Conectar cn = new Conectar();
@@ -201,11 +187,11 @@ public class frmAutoBajaDialog extends java.awt.Dialog {
         
         auto a = new auto();                
         if(a.bajaAuto(id_auto) == 0){
-                lblMensaje.setText("Se eliminó correctamente el auto");
-                refresh_tabla();
+                JOptionPane.showMessageDialog(this, "Se eliminó correctamente el auto.\n","",JOptionPane.INFORMATION_MESSAGE); 
+                listaAutos();
         }
         else{
-            lblMensaje.setText("Error: no se pudo eliminar el auto");
+            JOptionPane.showMessageDialog(this, "No se pudo eliminar el auto.\n","",JOptionPane.ERROR_MESSAGE);
         }              
     }//GEN-LAST:event_btnBajaActionPerformed
 

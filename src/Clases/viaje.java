@@ -87,7 +87,7 @@ public class viaje {
     private String numerOrigen;
     private localidad localidadOrigen;
     
-      private String calleDestino;
+    private String calleDestino;
     private String numeroDestino;
     private localidad localidadDestino;
             
@@ -105,7 +105,8 @@ public class viaje {
      * @return the idViaje
      */
     
-    public viaje(){};
+    public viaje(){            
+    };
      
     public int getIdViaje() {
         return idViaje;
@@ -252,16 +253,13 @@ public class viaje {
         try {
             Class.forName(cn.getDriver()).newInstance();
             conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
-             CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_VIAJE_MODIFICACION] ?,?,?,?,?,?,?");
-             statement.setInt(1, idViaje);    //@ID_VIAJE INT,
-             statement.setInt(2,kms);  //@KMS int,
-             statement.setString(3, null); //@FECHA_SALIDA datetime,
-             statement.setString(4, null);  //@FECHA_LLEGADA datetime,
-             statement.setFloat(5, valor);  //@VALOR float,
-             statement.setInt(6, Chofer.getIdPersona()); //@ID_CHOFER int,
-             
-           
-             Date date = new Date();
+                CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_VIAJE_MODIFICACION] ?,?,?,?,?,?,?");
+                statement.setInt(1, idViaje);    //@ID_VIAJE INT,
+                statement.setInt(2,kms);  //@KMS int,
+                statement.setDate(3, (java.sql.Date) fechaSalida); //@FECHA_SALIDA datetime,
+                statement.setDate(4, (java.sql.Date) fechaLlegada);  //@FECHA_LLEGADA datetime,
+                statement.setFloat(5, valor);  //@VALOR float,
+                statement.setInt(6, Chofer.getIdPersona()); //@ID_CHOFER int,                   
         
                switch(estado)
                {

@@ -22,6 +22,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.border.Border;
 /**
  *
  * @author ex1fernajo
@@ -43,8 +46,18 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
          CargarLocalidadOrigen();
          CargarLocalidadDestino();
          
-         lblRecpcionista.setText(person.getNombre());
+         lblRecepcionista.setText(person.getNombre());
     }
+    
+    public void resetForm(){    
+        txtCalleDestino.setText("");
+        txtNumeroDestino.setText("");
+        txtCalleOrigen.setText("");
+        txtNumeroOrigen.setText("");
+        lblMensaje.setText("");
+        lblRecepcionista.setText("");
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -66,7 +79,7 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
         jLabel8 = new javax.swing.JLabel();
         cboLocalidadDestino = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        lblRecpcionista = new javax.swing.JLabel();
+        lblRecepcionista = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         btnGuardar = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
@@ -119,7 +132,7 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
 
         jLabel9.setText("Calle :");
 
-        lblRecpcionista.setText("Recepcionista");
+        lblRecepcionista.setText("Recepcionista");
 
         jLabel10.setText("Numero :");
 
@@ -206,7 +219,7 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel5)
                                         .addGap(18, 18, 18)
-                                        .addComponent(lblRecpcionista, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(lblRecepcionista, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
@@ -252,7 +265,7 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(lblRecpcionista))
+                    .addComponent(lblRecepcionista))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
@@ -272,41 +285,77 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
     }//GEN-LAST:event_closeDialog
 
     private void btnGuardarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMousePressed
-        // TODO add your handling code here:
+        
+        int minLength = 2;
+        int maxLength = 20;
+        int validacion = 0;
+        Border highlightBorder = BorderFactory.createLineBorder(java.awt.Color.RED);
+        Border noBorder = BorderFactory.createLineBorder(java.awt.Color.gray);               
+        
+        /**********************VALIDACIONES****************************/        
+        
+        //Validacion de Calle Origen
+        if(!lengthCheck(txtCalleOrigen.getText(),minLength, maxLength) || txtCalleOrigen.getText().equals("") ){                        
+            txtCalleOrigen.setBorder(highlightBorder);   
+            validacion = 1;
+        } else {    txtCalleOrigen.setBorder(noBorder);   }                            
+        
+        //Validacion de Numero Origen
+        if(!lengthCheck(txtNumeroOrigen.getText(),minLength, maxLength) || txtNumeroOrigen.getText().equals("") ){                        
+            txtNumeroOrigen.setBorder(highlightBorder);   
+            validacion = 1;
+        } else {    txtNumeroOrigen.setBorder(noBorder);   }    
+
+        //Validacion de Calle Destino
+        if(!lengthCheck(txtCalleDestino.getText(),minLength, maxLength) || txtCalleDestino.getText().equals("") ){                        
+            txtCalleDestino.setBorder(highlightBorder);   
+            validacion = 1;
+        } else {    txtCalleDestino.setBorder(noBorder);   }    
+
+        //Validacion de Numero Destino
+        if(!lengthCheck(txtNumeroDestino.getText(),minLength, maxLength) || txtNumeroDestino.getText().equals("") ){                        
+            txtNumeroDestino.setBorder(highlightBorder);   
+            validacion = 1;
+        } else {    txtNumeroDestino.setBorder(noBorder);   }                   
+        
+        
         try {
-            viaje v = new viaje();
-            v.setCliente((cliente)cboClientes.getSelectedItem());
-            v.setCalleOrigen(txtCalleOrigen.getText());
-            v.setNumerOrigen(txtNumeroOrigen.getText());
-            v.setCalleDestino(txtCalleDestino.getText());
-            v.setNumeroDestino(txtNumeroDestino.getText());
-            v.setLocalidadOrigen((localidad)cboLocalidadOrigen.getSelectedItem());
-            v.setLocalidadDestino((localidad)cboLocalidadDestino.getSelectedItem());
-            v.setRecepcionista((recepcionista)person);
-            v.altaViaje();
             
-            
-            v = v.getUltimoViaje();
-            
-            
-            ticket t = new ticket();
-            t.setIdViaje(v.getIdViaje());
-            t.generarTicket();
-            
-            
-            lblMensaje.setText("Viaje Guardado!!");
+            if(validacion == 0)        
+             {        
+                viaje v = new viaje();
+                v.setCliente((cliente)cboClientes.getSelectedItem());
+                v.setCalleOrigen(txtCalleOrigen.getText());
+                v.setNumerOrigen(txtNumeroOrigen.getText());
+                v.setCalleDestino(txtCalleDestino.getText());
+                v.setNumeroDestino(txtNumeroDestino.getText());
+                v.setLocalidadOrigen((localidad)cboLocalidadOrigen.getSelectedItem());
+                v.setLocalidadDestino((localidad)cboLocalidadDestino.getSelectedItem());
+                v.setRecepcionista((recepcionista)person);
+
+                v.altaViaje();
+
+                v = v.getUltimoViaje();
+
+                ticket t = new ticket();
+                t.setIdViaje(v.getIdViaje());
+                t.generarTicket();            
+
+                JOptionPane.showMessageDialog(this, "Se creó correctamente el viaje.\n","",JOptionPane.INFORMATION_MESSAGE); 
+            }   
+        else{
+                JOptionPane.showMessageDialog(this, "Error! Verifique los datos ingresados.\n","",JOptionPane.ERROR_MESSAGE); 
+            }
          }
          catch (Exception e)
          {
-             lblMensaje.setText("Ocurrio un ERROR intente nuevamente!!");
+             System.out.println(e);
          }
                
     }//GEN-LAST:event_btnGuardarMousePressed
     
-    private boolean Validar()
-    {
-        
-        return true;
+    private boolean lengthCheck(String text, int minLength, int maxLength) {
+        return maxLength > text.length() && text.length() > minLength;
     }
     
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -314,7 +363,7 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void txtCalleOrigenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCalleOrigenKeyTyped
-        // TODO add your handling code here:
+        
           char c=evt.getKeyChar(); 
           if(Character.isDigit(c)) { 
               getToolkit().beep(); 
@@ -324,7 +373,7 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
     }//GEN-LAST:event_txtCalleOrigenKeyTyped
 
     private void txtCalleDestinoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCalleDestinoKeyTyped
-        // TODO add your handling code here:
+        
         char c=evt.getKeyChar(); 
         if(Character.isDigit(c)) { 
               getToolkit().beep(); 
@@ -333,7 +382,7 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
     }//GEN-LAST:event_txtCalleDestinoKeyTyped
 
     private void txtNumeroOrigenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroOrigenKeyTyped
-        // TODO add your handling code here:
+        
             char c=evt.getKeyChar(); 
             if(Character.isLetter(c)) { 
               getToolkit().beep(); 
@@ -345,7 +394,7 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
     }//GEN-LAST:event_txtNumeroOrigenKeyTyped
 
     private void txtNumeroDestinoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroDestinoKeyTyped
-        // TODO add your handling code here:
+        
            char c=evt.getKeyChar(); 
                  
           if(Character.isLetter(c)) { 
@@ -569,7 +618,7 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel lblMensaje;
-    private javax.swing.JLabel lblRecpcionista;
+    private javax.swing.JLabel lblRecepcionista;
     private javax.swing.JTextField txtCalleDestino;
     private javax.swing.JTextField txtCalleOrigen;
     private javax.swing.JTextField txtNumeroDestino;

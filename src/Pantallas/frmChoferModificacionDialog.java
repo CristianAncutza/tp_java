@@ -12,11 +12,14 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
@@ -34,14 +37,21 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
         initComponents();
         setLocationRelativeTo(null);
         CargarAUTOS();
-        listaChofer();
+        listaChoferes();
     }
     
-    
+    public void resetForm(){    
+        txtNombre.setText("");
+        txtApellido.setText("");
+        lblLegajo.setText("");
+        txtLicencia.setText("");
+        lblID.setText("");
+        lblMensaje.setText("");
+    }
      /**
      * llena la grilla con todos los choferes
      */
-    private void listaChofer()
+    public void listaChoferes()
     {
         Connection conn = null;
          Conectar cn = new Conectar();
@@ -49,7 +59,8 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
         try{
             conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
             auto autos;
-            String query = "SELECT * FROM CHOFER WHERE BAJA = 1";
+            String query = "SELECT C.ID_CHOFER, C.NOMBRE, C.APELLIDO, C.LEGAJO, C.LICENCIA,a.marca as MARCA  FROM CHOFER C "
+                    + "INNER JOIN AUTO A ON C.ID_AUTO = A.ID_AUTO WHERE C.BAJA = 1";
 
             Statement st = conn.createStatement();
             @SuppressWarnings("LocalVariableHidesMemberVariable")
@@ -59,7 +70,7 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
             
         }
         catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
+            System.out.println(e);
         }            
     }
 /**
@@ -70,6 +81,34 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
         Connection conn = null;
         Conectar cn = new Conectar();
         
+         /*cargado con query*/
+        try {
+             
+            Class.forName(cn.getDriver()).newInstance();
+            conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
+            CallableStatement statement = conn.prepareCall("SELECT MARCA FROM AUTO WHERE BAJA = 1");
+            boolean hadResults = statement.execute();
+                    
+            while (hadResults) 
+            {
+           
+                ResultSet rs = statement.getResultSet();
+
+                while (rs.next()) {                   
+                    
+                    cboAuto.addItem(rs.getString("MARCA"));
+                }
+                hadResults = statement.getMoreResults(); 
+            }
+            statement.close();
+            conn.close();
+        
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
+        /*
         try {
             Class.forName(cn.getDriver()).newInstance();
             conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
@@ -105,7 +144,7 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
                     au.setmodelo(resultSet.getString("MODELO"));
                     au.setpatente(resultSet.getString("PATENTE"));
                                        
-                    autoList.add(au);
+                    autoList.add(au);                                        
                    
                 }
                 cboAuto.setModel(new DefaultComboBoxModel(autoList.toArray()));
@@ -116,13 +155,14 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
             statement.close();
             conn.close();
             
+            
           
             
         } catch (Exception e) {
              lblMensaje.setText( e.getMessage());
             
           
-        }
+        }*/
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -135,7 +175,6 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
         jLabel2 = new javax.swing.JLabel();
         lblApellido2 = new javax.swing.JLabel();
         lblID = new javax.swing.JLabel();
-        txtLegajo = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         lblApellido3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -149,6 +188,8 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
         lblNombre = new javax.swing.JLabel();
         lblApellido = new javax.swing.JLabel();
         lblMensaje = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        lblLegajo = new javax.swing.JLabel();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -161,12 +202,6 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
         lblApellido2.setText("Legajo :");
 
         lblID.setText("---");
-
-        txtLegajo.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtLegajoKeyTyped(evt);
-            }
-        });
 
         txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -223,6 +258,8 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
 
         lblApellido.setText("Apellido :");
 
+        lblLegajo.setText(" ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -242,7 +279,9 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblApellido2)
                         .addGap(18, 18, 18)
-                        .addComponent(txtLegajo, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblLegajo)
+                        .addGap(37, 37, 37)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(240, 240, 240))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -280,11 +319,12 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(235, Short.MAX_VALUE)
+                .addContainerGap(238, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblApellido2)
-                    .addComponent(txtLegajo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                    .addComponent(jLabel3)
+                    .addComponent(lblLegajo))
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblApellido4)
                     .addComponent(cboAuto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -301,7 +341,6 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
                         .addComponent(lblID))
-                    .addGap(18, 18, 18)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -333,42 +372,118 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
     }//GEN-LAST:event_closeDialog
 
     private void tblChoferMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblChoferMousePressed
-        // TODO add your handling code here:
-          DefaultTableModel model =(DefaultTableModel)tblChofer.getModel();
+        
+        DefaultTableModel model =(DefaultTableModel)tblChofer.getModel();
         int selectedRowIndex = tblChofer.getSelectedRow();
         lblID.setText(model.getValueAt(selectedRowIndex, 0).toString());
         txtNombre.setText(model.getValueAt(selectedRowIndex, 1).toString());
         txtApellido.setText(model.getValueAt(selectedRowIndex, 2).toString());
-        txtLegajo.setText(model.getValueAt(selectedRowIndex, 3).toString());
+        lblLegajo.setText(model.getValueAt(selectedRowIndex, 3).toString());
         txtLicencia.setText(model.getValueAt(selectedRowIndex, 4).toString());
        
+        //LOGICA PARA LA SELECCION DE AUTO
+                 
+        Connection conn = null;
+        Conectar cn = new Conectar();
+        
+        try {
+            Class.forName(cn.getDriver()).newInstance();
+            conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
+            CallableStatement statement = conn.prepareCall("SELECT * FROM auto WHERE MARCA LIKE '%"+ model.getValueAt(selectedRowIndex,5)+"%'");
+                   //statement.setString(1, txtUsuario.getText());
+            
+            boolean hadResults = statement.execute();
+                    
+            while (hadResults) 
+            {
+                ResultSet resultado = statement.getResultSet();
+                         
+                while(resultado.next()){
+                     this.lblID.setText(resultado.getString(1));
+                     this.cboAuto.setSelectedItem(resultado.getString(1));
+                    
+                }                   
+               
+                
+                hadResults = statement.getMoreResults();
+                
+            }
+ 
+            statement.close();
+            conn.close();
+            
+        
+        }catch(Exception e){} 
+        
+        
     }//GEN-LAST:event_tblChoferMousePressed
 
     private void btnAceptarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMousePressed
-        // TODO add your handling code here:
+                
+        int minLength = 2;
+        int maxLength = 20;
+        int validacion = 0;
+        Border highlightBorder = BorderFactory.createLineBorder(java.awt.Color.RED);
+        Border noBorder = BorderFactory.createLineBorder(java.awt.Color.gray);
         
-         try
-        {
-        chofer ch = new chofer();
-        ch.setIdPersona(Integer.parseInt(lblID.getText()));
-        ch.setApellido(txtApellido.getText());
-        ch.setNombre(txtNombre.getText());
-        ch.setLicencia(txtLicencia.getText());
-        ch.setLegajo(Integer.parseInt(txtLegajo.getText()));
-        ch.setSuAuto((auto)(cboAuto.getSelectedItem()));
-        ch.modifCchofer();
-            listaChofer();
+        /**********************VALIDACIONES****************************/        
+        
+        //Validacion de nombre
+        if(!lengthCheck(txtNombre.getText(),minLength, maxLength) || txtNombre.getText().equals("") ){                        
+            txtNombre.setBorder(highlightBorder);   
+            validacion = 1;
+        } else {    txtNombre.setBorder(noBorder);   }                                      
+        
+        if( !txtNombre.getText().matches("^[a-zA-Z]+$")){            
+            lblMensaje.setText("Aviso! debe ingresar unicamente letras en el campo nombre.");
+            txtNombre.setBorder(highlightBorder);
+            validacion = 2;
+        }          
+        else {    txtNombre.setBorder(noBorder);   }                                      
+             
+        //Validacion de apellido
+        if(!lengthCheck(txtApellido.getText(),minLength, maxLength)){             
+            txtApellido.setBorder(highlightBorder);   
+            validacion = 1;
+        }else{    txtApellido.setBorder(noBorder);   }
+        
+        if( !txtApellido.getText().matches("^[a-zA-Z]+$")){            
+            lblMensaje.setText("Aviso! debe ingresar unicamente letras en el campo apellido.");
+            txtApellido.setBorder(highlightBorder);
+            validacion = 2;
+        }          
+        else {    txtApellido.setBorder(noBorder);   }  
+           
+        //Validacion de licencia
+        if(!lengthCheck(txtLicencia.getText(),minLength, maxLength)){            
+            txtLicencia.setBorder(highlightBorder);   
+            validacion = 1;
+        }else{    txtLicencia.setBorder(noBorder);   }
+               
+        if(validacion == 0)        
+        {            
+            chofer ch = new chofer();
+            ch.setIdPersona(Integer.parseInt(lblID.getText()));
+            ch.setApellido(txtApellido.getText());
+            ch.setNombre(txtNombre.getText());
+            ch.setLicencia(txtLicencia.getText());
+            ch.setLegajo(Integer.parseInt(lblLegajo.getText()));
+            //ch.setAuto(Integer.parseInt(cboAuto.getSelectedItem().toString()));
+            
+            ch.modifCchofer();
+        
+        listaChoferes();
         lblMensaje.setText("Se inserto correctamente el chofer");
         
         }
-        catch (Exception e)
-        {
-            lblMensaje.setText("Ocurrio un error, intente nuevamente");
-        }
     }//GEN-LAST:event_btnAceptarMousePressed
 
+    private boolean lengthCheck(String text, int minLength, int maxLength) {
+        return maxLength > text.length() && text.length() > minLength;
+    }
+    
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
-        // TODO add your handling code here:
+        
           char c=evt.getKeyChar(); 
           if(Character.isDigit(c)) { 
               getToolkit().beep(); 
@@ -378,7 +493,7 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
     }//GEN-LAST:event_txtNombreKeyTyped
 
     private void txtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidoKeyTyped
-        // TODO add your handling code here:
+        
           char c=evt.getKeyChar(); 
           if(Character.isDigit(c)) { 
               getToolkit().beep(); 
@@ -388,7 +503,7 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
     }//GEN-LAST:event_txtApellidoKeyTyped
 
     private void txtLicenciaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLicenciaKeyTyped
-        // TODO add your handling code here:
+        
           char c=evt.getKeyChar(); 
           if(Character.isDigit(c)) { 
               getToolkit().beep(); 
@@ -396,18 +511,6 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
                         
           } 
     }//GEN-LAST:event_txtLicenciaKeyTyped
-
-    private void txtLegajoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLegajoKeyTyped
-        // TODO add your handling code here:
-         char c=evt.getKeyChar(); 
-            if(Character.isLetter(c)) { 
-              getToolkit().beep(); 
-              
-             evt.consume(); 
-              
-               
-          } 
-    }//GEN-LAST:event_txtLegajoKeyTyped
 
     /**
      * @param args the command line arguments
@@ -432,17 +535,18 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
     private javax.swing.JComboBox<String> cboAuto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblApellido;
     private javax.swing.JLabel lblApellido2;
     private javax.swing.JLabel lblApellido3;
     private javax.swing.JLabel lblApellido4;
     private javax.swing.JLabel lblID;
+    private javax.swing.JLabel lblLegajo;
     private javax.swing.JLabel lblMensaje;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JTable tblChofer;
     private javax.swing.JTextField txtApellido;
-    private javax.swing.JTextField txtLegajo;
     private javax.swing.JTextField txtLicencia;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables

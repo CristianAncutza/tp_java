@@ -106,8 +106,7 @@ public class auto {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);                            
            
-            if(!rs.next()){
-                boolean hadResults = statement.execute();
+            if(!rs.next()){                
                 return 0;
             }
             if (conn != null) {
@@ -191,7 +190,7 @@ public class auto {
              conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
 
             //borro el auto
-            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_AUTO_DELETE] ?");
+            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_AUTO_BAJA] ?");
             statement.setInt(1, id_auto);            
             boolean hadResults = statement.execute();             
             

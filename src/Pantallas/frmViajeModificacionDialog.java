@@ -15,9 +15,12 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -36,13 +39,22 @@ public class frmViajeModificacionDialog extends java.awt.Dialog {
         
         CargarChoferes();
         CargarEstados();
-        lista_viajes();
+        listaViajes();
     }
+    
+        public void resetForm(){    
+        lblId.setText("");
+        txtKMS.setText("");
+        txtValor.setText("");        
+        lblMensaje.setText("");
+      
+    }
+    
 
     /**
      *Metodo para cargar el listado de viajes.
      */
-    public void lista_viajes(){ 
+    public void listaViajes(){ 
             
          Connection conn = null;
          Conectar cn = new Conectar();
@@ -71,13 +83,50 @@ public class frmViajeModificacionDialog extends java.awt.Dialog {
     }
     
     /**
-     * cargo los choferes en el combo box
+     * Cargo los choferes en el combo box
      */
     public void CargarChoferes()
     {
         Connection conn = null;
-        Conectar cn = new Conectar();
+        Conectar cn = new Conectar();                
         
+        
+        /*cargado con query*/
+        /*try {
+             
+            Class.forName(cn.getDriver()).newInstance();
+            conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
+            CallableStatement statement = conn.prepareCall("SELECT [ID_CHOFER]\n" +
+                                                            "      ,[NOMBRE]\n" +
+                                                            "      ,[APELLIDO]\n" +
+                                                            "      ,[LEGAJO]\n" +
+                                                            "      ,[LICENCIA]\n" +
+                                                            "      ,[ID_AUTO]\n" +
+                                                            "  FROM [RemisJava].[dbo].[CHOFER] \n " +
+                                                            "WHERE BAJA = 1 ");         
+            boolean hadResults = statement.execute();
+                    
+            while (hadResults) 
+            {
+           
+                ResultSet rs = statement.getResultSet();
+
+                while (rs.next()) {                   
+                    cboChofer.addItem(rs.getString("NOMBRE") + "," + rs.getString("APELLIDO"));
+                }
+                hadResults = statement.getMoreResults(); 
+            }
+            statement.close();
+            conn.close();
+        
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        */
+            
+        
+        /*COMBO CARGADO CON ARRAYLIST*/
         try {
             Class.forName(cn.getDriver()).newInstance();
             conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
@@ -88,23 +137,19 @@ public class frmViajeModificacionDialog extends java.awt.Dialog {
                                                             "      ,[LICENCIA]\n" +
                                                             "      ,[ID_AUTO]\n" +
                                                             "  FROM [RemisJava].[dbo].[CHOFER] \n " +
-                                                            "WHERE BAJA = 1 ");
-            //statement.setString(1, txtUsuario.getText());
+                                                            "WHERE BAJA = 1 ");         
             
             boolean hadResults = statement.execute();
-        
-            int rowCount = 0;    
+                    
             while (hadResults) 
             {
                 ResultSet resultSet = statement.getResultSet();
-                
-                //List<String> ls = new ArrayList<String>(); 
-                List<chofer> cliList = new ArrayList<chofer>();
+                                
+                List<chofer> cliList = new ArrayList<>();
                 chofer ch;
-                // process result set
+                
                 while (resultSet.next()) {
-                    rowCount++;
-                    
+                                        
                     ch = new chofer();
                     ch.setApellido(resultSet.getString("APELLIDO"));
                     ch.setIdPersona(Integer.parseInt(resultSet.getString("ID_CHOFER")));
@@ -112,24 +157,16 @@ public class frmViajeModificacionDialog extends java.awt.Dialog {
                     ch.setLicencia(resultSet.getString("LICENCIA"));
                     ch.setNombre(resultSet.getString("NOMBRE"));
                    
-                    
-//                    String id = resultSet.getString("ID_CLIENTE");
-//                    String nombre = resultSet.getString("NOMBRE");
-//                    String apellido = resultSet.getString("APELLIDO");
-                  
-                    //lblMensaje.setText("| " + nombre + " | " + apellido + " | ");
-                    cliList.add(ch);
-                    //ls.add(id + " " + nombre + " " + apellido);
+                    cliList.add(ch);       
                    
-                }
-                //cboClientes.setModel(new DefaultComboBoxModel(ls.toArray()));
-                 cboChofer.setModel(new DefaultComboBoxModel(cliList.toArray()));
-                hadResults = statement.getMoreResults();
-                
+                }       
+                cboChofer.setModel(new DefaultComboBoxModel(cliList.toArray()));
+                hadResults = statement.getMoreResults();                
             }
  
             statement.close();
             conn.close();
+        
             
           
             
@@ -158,11 +195,11 @@ public class frmViajeModificacionDialog extends java.awt.Dialog {
         lblId = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        cboChofer = new javax.swing.JComboBox<>();
         txtKMS = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         cboEstado = new javax.swing.JComboBox<>();
         jToggleButton1 = new javax.swing.JToggleButton();
+        cboChofer = new javax.swing.JComboBox<>();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -201,8 +238,6 @@ public class frmViajeModificacionDialog extends java.awt.Dialog {
 
         jLabel3.setText("KMS :");
 
-        cboChofer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         txtKMS.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtKMSKeyTyped(evt);
@@ -219,6 +254,8 @@ public class frmViajeModificacionDialog extends java.awt.Dialog {
                 jToggleButton1MousePressed(evt);
             }
         });
+
+        cboChofer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -253,8 +290,8 @@ public class frmViajeModificacionDialog extends java.awt.Dialog {
                                             .addComponent(jLabel7))
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(cboChofer, 0, 194, Short.MAX_VALUE)
-                                            .addComponent(cboEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                            .addComponent(cboEstado, 0, 194, Short.MAX_VALUE)
+                                            .addComponent(cboChofer, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(100, 100, 100)
                                         .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -317,26 +354,17 @@ public class frmViajeModificacionDialog extends java.awt.Dialog {
     }//GEN-LAST:event_closeDialog
 
     private void tbViajesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbViajesMousePressed
-        // TODO add your handling code here:
-            DefaultTableModel model =(DefaultTableModel)tbViajes.getModel();
+            
+           DefaultTableModel model =(DefaultTableModel)tbViajes.getModel();
            int selectedRowIndex = tbViajes.getSelectedRow();
-//           chofer c = new chofer();
-//           c.setIdPersona(Integer.parseInt(model.getValueAt(selectedRowIndex, 0).toString()));
-//           cboChofer.setSelectedIndex(c.getIdPersona());
-//           
+   
            lblId.setText(model.getValueAt(selectedRowIndex, 0).toString());
            txtKMS.setText(model.getValueAt(selectedRowIndex, 3).toString());
-           txtValor.setText(model.getValueAt(selectedRowIndex, 6).toString());
-           
-            
-            //cboChofer.setSelectedItem((chofer)model.getValueAt(selectedRowIndex, 9 ));
-            
-//           cboAño.setSelectedItem(model.getValueAt(selectedRowIndex, 1));
-//           txtColor.setText(model.getValueAt(selectedRowIndex, 2).toString());
-//           txtMarca.setText(model.getValueAt(selectedRowIndex, 3).toString());
-//           txtModelo.setText(model.getValueAt(selectedRowIndex, 4).toString());
-//           txtPatente.setText(model.getValueAt(selectedRowIndex, 5).toString());
-           
+           txtValor.setText(model.getValueAt(selectedRowIndex, 6).toString());           
+           //cboChofer.setSelectedItem(model.getValueAt(selectedRowIndex, 8));
+           //cboEstado.setSelectedItem(model.getValueAt(selectedRowIndex, 10));
+           //cboChofer.addItem(model.getValueAt(selectedRowIndex, 8).toString());
+            //cboEstado.addItem(model.getValueAt(selectedRowIndex, 10).toString());       
     }//GEN-LAST:event_tbViajesMousePressed
 
     /**
@@ -344,39 +372,68 @@ public class frmViajeModificacionDialog extends java.awt.Dialog {
      * @param evt 
      */
     private void jToggleButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jToggleButton1MousePressed
-        // TODO add your handling code here:
         
-        if(lblId.getText()== "----")
+        int minLength = 0;
+        int maxLength = 20;
+        int validacion = 0;
+        Border highlightBorder = BorderFactory.createLineBorder(java.awt.Color.RED);
+        Border noBorder = BorderFactory.createLineBorder(java.awt.Color.gray);               
+        
+        /**********************VALIDACIONES****************************/        
+        
+        //Validacion de KMS
+        if(!lengthCheck(txtKMS.getText(),minLength, maxLength) || txtKMS.getText().equals("") ){                        
+            txtKMS.setBorder(highlightBorder);   
+            validacion = 1;
+        } else {    txtKMS.setBorder(noBorder);   }    
+        
+        //Validacion de Valor
+        if(!lengthCheck(txtValor.getText(),minLength, maxLength) || txtValor.getText().equals("") ){                        
+            txtValor.setBorder(highlightBorder);   
+            validacion = 1;
+        } else {    txtValor.setBorder(noBorder);   }    
+        
+        
+        if(lblId.getText().equals( "----"))
         {
-            lblMensaje.setText("Elija un registro");
+            JOptionPane.showMessageDialog(this, "Por favor, elija un registro de la tabla.\n","",JOptionPane.ERROR_MESSAGE); 
         }
         else
         {
             try
             {
-           viaje v = new viaje();
-           v.setIdViaje(Integer.parseInt(lblId.getText()));
-           v.setKms(Integer.parseInt(txtKMS.getText()));
-           v.setValor(Float.parseFloat(txtValor.getText()));
-           v.setChofer((chofer)cboChofer.getSelectedItem());
-           v.setEstado((EnumEstados)cboEstado.getSelectedItem());
-           v.actualizarEstadoViaje();
-            
-           lista_viajes();
-            lblMensaje.setText("se actualizo el viaje");
-            
-            
+                if(validacion == 0)        
+                {  
+                    viaje v = new viaje();
+                    v.setIdViaje(Integer.parseInt(lblId.getText()));
+                    v.setKms(Integer.parseInt(txtKMS.getText()));
+                    v.setValor(Float.parseFloat(txtValor.getText()));
+                    v.setChofer((chofer)cboChofer.getSelectedItem());
+                    v.setEstado((EnumEstados)cboEstado.getSelectedItem());
+                    v.actualizarEstadoViaje();
+
+                    listaViajes();
+                    JOptionPane.showMessageDialog(this, "Se actualizó correctamente el viaje.\n","",JOptionPane.INFORMATION_MESSAGE); 
+ 
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "Complete todos los campos, con longitud minima de 1 y maxima de 20 caracteres.\n","",JOptionPane.ERROR_MESSAGE); 
+                }
             }
             catch(Exception e)
             {
-                lista_viajes();
-                lblMensaje.setText("Ocurrio un ERROR , intente nuevamente");
+                listaViajes();
+                JOptionPane.showMessageDialog(this, "Error! no se pudó actualizar el viaje.\n","",JOptionPane.ERROR_MESSAGE); 
             }
         }
     }//GEN-LAST:event_jToggleButton1MousePressed
 
+    private boolean lengthCheck(String text, int minLength, int maxLength) {
+        return maxLength > text.length() && text.length() > minLength;
+    }
+    
     private void txtKMSKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKMSKeyTyped
-        // TODO add your handling code here:
+        
         char c=evt.getKeyChar(); 
             if(Character.isLetter(c)) { 
               getToolkit().beep(); 

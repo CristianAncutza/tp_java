@@ -28,7 +28,12 @@ public class frmClienteBajaDialog extends java.awt.Dialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
-        lista_clientes();
+        listaClientes();
+    }
+    
+   public void resetForm(){    
+        lblID.setText("");
+        lblMensaje.setText("");
     }
 
     /** This method is called from within the constructor to
@@ -44,6 +49,8 @@ public class frmClienteBajaDialog extends java.awt.Dialog {
         jLabel2 = new javax.swing.JLabel();
         btnBaja = new javax.swing.JButton();
         lblMensaje = new javax.swing.JLabel();
+        lblID = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -62,6 +69,11 @@ public class frmClienteBajaDialog extends java.awt.Dialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblClienteMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblCliente);
 
         jLabel2.setText("Baja de Cliente");
@@ -75,6 +87,10 @@ public class frmClienteBajaDialog extends java.awt.Dialog {
 
         lblMensaje.setText(" ");
 
+        lblID.setText(" ");
+
+        jLabel3.setText("ID Cliente:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -87,13 +103,20 @@ public class frmClienteBajaDialog extends java.awt.Dialog {
                         .addGap(163, 163, 163))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnBaja)
-                        .addGap(170, 170, 170))))
+                        .addContainerGap())))
             .addGroup(layout.createSequentialGroup()
-                .addGap(102, 102, 102)
-                .addComponent(lblMensaje)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblID))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(157, 157, 157)
+                            .addComponent(lblMensaje))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(169, 169, 169)
+                            .addComponent(btnBaja))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -103,37 +126,24 @@ public class frmClienteBajaDialog extends java.awt.Dialog {
                 .addComponent(jLabel2)
                 .addGap(30, 30, 30)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblID)
+                    .addComponent(jLabel3))
+                .addGap(13, 13, 13)
                 .addComponent(btnBaja)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblMensaje)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-     public void refresh_tabla(){
-    
-        String sql = null;        
-        Connection conn = null;
-        Conectar cn = new Conectar();
-        try{
-            conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());   
-            String query = "SELECT id_cliente, nombre, apellido FROM cliente where baja = 1";
-            Statement st = conn.createStatement();
-            @SuppressWarnings("LocalVariableHidesMemberVariable")
-            ResultSet rs = st.executeQuery(query);            
-            tblCliente.setModel(DbUtils.resultSetToTableModel(rs));
-        }catch(SQLException ex){
-            System.out.println(ex);
-        }
-    }
-    
     /**
     *Meotodo para listar los cliente.
     */
-    public void lista_clientes(){ 
+    public void listaClientes(){ 
             
          Connection conn = null;
          Conectar cn = new Conectar();
@@ -141,7 +151,7 @@ public class frmClienteBajaDialog extends java.awt.Dialog {
         try{
             conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
             cliente clientes;
-            String query = "SELECT id_cliente, nombre, apellido FROM cliente where baja = 1";
+            String query = "SELECT id_cliente, nombre, apellido FROM cliente WHERE baja = 1";
 
             Statement st = conn.createStatement();
             @SuppressWarnings("LocalVariableHidesMemberVariable")
@@ -171,14 +181,22 @@ public class frmClienteBajaDialog extends java.awt.Dialog {
         
         cliente a = new cliente();                
         if(a.bajaCliente(id_cliente) == 0){
-                lblMensaje.setText("Se eliminó correctamente el cliente");
-                refresh_tabla();
+               JOptionPane.showMessageDialog(this, "Se eliminó correctamente el cliente.\n","",JOptionPane.INFORMATION_MESSAGE); 
+                listaClientes();
         }
         else{
-            lblMensaje.setText("Error: no se pudo eliminar el cliente");
+              JOptionPane.showMessageDialog(this, "Error! no se pudó eliminar el cliente.\n","",JOptionPane.ERROR_MESSAGE); 
         } 
+              
     }//GEN-LAST:event_btnBajaActionPerformed
 
+    private void tblClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClienteMouseClicked
+          //completo los campos del formulario en base a la seleccion de row en la lista.
+        DefaultTableModel model =(DefaultTableModel)tblCliente.getModel();
+        int selectedRowIndex = tblCliente.getSelectedRow();
+        lblID.setText(model.getValueAt(selectedRowIndex, 0).toString());      
+    }//GEN-LAST:event_tblClienteMouseClicked
+ 
     /**
     * @param args the command line arguments
     */
@@ -200,7 +218,9 @@ public class frmClienteBajaDialog extends java.awt.Dialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBaja;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblID;
     private javax.swing.JLabel lblMensaje;
     private javax.swing.JTable tblCliente;
     // End of variables declaration//GEN-END:variables

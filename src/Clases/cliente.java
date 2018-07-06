@@ -26,6 +26,16 @@ public class cliente extends persona{
     
     private int codCliente;
     private Date fechaAlta;
+    private int id_cliente;
+        
+    public int getid_cliente(){
+    return id_cliente;
+    }
+        
+    public void setid_cliente(int id_cliente){
+    this.id_cliente = id_cliente;
+    }
+    
     
     public int getcodCliente( ){
     return this.codCliente;
@@ -44,7 +54,7 @@ public class cliente extends persona{
   }   
     
    /**
-     *Este metodo se usa para dar de alta un auto.
+     *Este metodo se usa para dar de alta un cliente.
      */
     public int altaCliente()  {
     
@@ -63,7 +73,7 @@ public class cliente extends persona{
                 System.out.println("La conexión fue realizada correctamente");
              }
             
-             //verifico que no exista el auto
+             //verifico que no exista el cliente
             String query = "SELECT * FROM CLIENTE WHERE NOMBRE ='" + this.nombre + "'"+"AND APELLIDO ="+"'"+ this.apellido+ "'";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);                            
@@ -95,8 +105,8 @@ public class cliente extends persona{
     }
 
     /**
-     * Metodo para actualizar datos del auto.
-     * @param id_auto
+     * Metodo para actualizar datos del cliente
+     * @param id_cliente
      */
     public int modifCliente(int id_cliente){
          Connection conn = null;
@@ -137,10 +147,10 @@ public class cliente extends persona{
     }
     
     /**
-     * Este metodo se utiliza para borrar un auto.
-     * retorna 0 si el auto se elimino correctamente o 1 si hubo un error.
+     * Este metodo se utiliza para borrar un cliente.
+     * retorna 0 si el cliente se elimino correctamente o 1 si hubo un error.
      * 
-     * @param id_auto
+     * @param id_cliente
      * @return 
      */
     public int bajaCliente(int id_cliente){
@@ -151,7 +161,7 @@ public class cliente extends persona{
              conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
 
             //borro el cliente
-            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_CLIENTE_DELETE] ?");
+            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_CLIENTE_BAJA] ?");
             statement.setInt(1, id_cliente);            
             boolean hadResults = statement.execute();             
             
@@ -184,8 +194,8 @@ public class cliente extends persona{
         return 0;
     }
 
-    public cliente () 
-    {}
+    public cliente(){}
+    
     public cliente(int codCliente,Date fechaAlta, String nombre, String apellido){
       
         this.codCliente = codCliente;

@@ -8,6 +8,8 @@ package Pantallas;
 import Clases.auto;
 import java.util.Calendar;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 /**
  *
@@ -15,10 +17,15 @@ import javax.swing.border.Border;
  */
 public class frmAutoAltaDialog extends java.awt.Dialog {
 
+   
+    
     /**
      * Creates new form frmAutoAltaDial
      */
     public frmAutoAltaDialog(java.awt.Frame parent, boolean modal) {
+              
+        
+        
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
@@ -29,6 +36,13 @@ public class frmAutoAltaDialog extends java.awt.Dialog {
         }  
     }
 
+    public void resetForm(){    
+        txtColor.setText("");
+        txtMarca.setText("");
+        txtModelo.setText("");
+        txtPatente.setText("");
+        lblMensaje.setText("");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -167,48 +181,52 @@ public class frmAutoAltaDialog extends java.awt.Dialog {
     private void cboAñoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboAñoActionPerformed
 
     }//GEN-LAST:event_cboAñoActionPerformed
-
-    private boolean Validar(){
-        return true;
-    }
-    
+   
     /**
-    *   valido y luego guardo el alta de auto.
+    *   Valido los campos y luego doy de alta el auto.
      */
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         int minLength = 2;
         int maxLength = 20;
+        int validacion = 0;
         Border highlightBorder = BorderFactory.createLineBorder(java.awt.Color.RED);
         Border noBorder = BorderFactory.createLineBorder(java.awt.Color.gray);
         
-        //verifico que los campos no esten vacios
-        if(!lengthCheck(txtColor.getText(),minLength, maxLength) ){
-            lblMensaje.setText("por favor complete todos los campos");
+        /**********************VALIDACIONES****************************/        
+        
+        //Validacion de color
+        if(!lengthCheck(txtColor.getText(),minLength, maxLength) || txtColor.getText().equals("") ){                        
             txtColor.setBorder(highlightBorder);   
-        }else if( !txtColor.getText().matches("^[a-zA-Z]+$")){
-            lblMensaje.setText("Ingrese solo letras para el campo color.");
+            validacion = 1;
+        } else {    txtColor.setBorder(noBorder);   }                                      
+        
+        if( !txtColor.getText().matches("^[a-zA-Z]+$")){            
+            lblMensaje.setText("Aviso! debe ingresar unicamente letras en el campo color.");
             txtColor.setBorder(highlightBorder);
+            validacion = 2;
         }          
         else {    txtColor.setBorder(noBorder);   }                                      
              
-        
-        if(!lengthCheck(txtMarca.getText(),minLength, maxLength)){
-            lblMensaje.setText("por favor complete todos los campos");
+        //Validacion de marca
+        if(!lengthCheck(txtMarca.getText(),minLength, maxLength)){             
             txtMarca.setBorder(highlightBorder);   
+            validacion = 1;
         }else{    txtMarca.setBorder(noBorder);   }
         
-        if(!lengthCheck(txtModelo.getText(),minLength, maxLength)){
-            lblMensaje.setText("por favor complete todos los campos");
+        //Validacion de modelo
+        if(!lengthCheck(txtModelo.getText(),minLength, maxLength)){            
             txtModelo.setBorder(highlightBorder);   
+            validacion = 1;
         }else{    txtModelo.setBorder(noBorder);   }
         
-        if(!lengthCheck(txtPatente.getText(),minLength, maxLength)){
-            lblMensaje.setText("por favor complete todos los campos");
+        //Validacion de patente
+        if(!lengthCheck(txtPatente.getText(),minLength, maxLength)){            
             txtPatente.setBorder(highlightBorder);   
+            validacion = 1;
         
         }else{    txtPatente.setBorder(noBorder);   }
         
-        if(lengthCheck(txtColor.getText(),minLength, maxLength) && txtColor.getText().matches("^[a-zA-Z]+$") && lengthCheck(txtMarca.getText(),minLength, maxLength) && lengthCheck(txtModelo.getText(),minLength, maxLength) && lengthCheck(txtPatente.getText(),minLength, maxLength))
+        if(validacion == 0)        
         {
             auto a = new auto();
             a.setaño((int)cboAño.getSelectedItem());
@@ -218,30 +236,31 @@ public class frmAutoAltaDialog extends java.awt.Dialog {
             a.setpatente(txtPatente.getText());
             
             if( a.altaAuto() == 0){
-                lblMensaje.setText("Se creó correctamente el auto.");            
+                JOptionPane.showMessageDialog(this, "Se creó correctamente el auto.\n","",JOptionPane.INFORMATION_MESSAGE); 
             }
             else{
-                lblMensaje.setText("Error! Ya existe otro auto con esa patente.");
+                JOptionPane.showMessageDialog(this, "Error! ya existe otro auto con esa patente.\n","",JOptionPane.ERROR_MESSAGE); 
             }  
-        }
+        } else if(validacion == 1){
+                JOptionPane.showMessageDialog(this, "Complete todos los campos, con longitud minima de 3 y maxima de 20 caracteres.\n","",JOptionPane.ERROR_MESSAGE); 
+            }  
 
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private boolean lengthCheck(String text, int minLength, int maxLength) {
         return maxLength > text.length() && text.length() > minLength;
     }
-    
-     //*************VALIDACIONES****************************        
-    
-    //  VALIDA QUE LO QUE SE INGRESE SEA SOLO TEXTO
+            
+    //  Valida que lo que ingrese sea texto unicamente.
     private void txtColorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtColorKeyTyped
-          char c=evt.getKeyChar(); 
+         char c=evt.getKeyChar(); 
           if(Character.isDigit(c)) { 
               getToolkit().beep(); 
               evt.consume();                         
           } 
     }//GEN-LAST:event_txtColorKeyTyped
 
+    //  Valida que lo que ingrese sea texto unicamente.
     private void txtMarcaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMarcaKeyTyped
           char c=evt.getKeyChar(); 
           if(Character.isDigit(c)) { 
@@ -255,6 +274,7 @@ public class frmAutoAltaDialog extends java.awt.Dialog {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                                
                 frmAutoAltaDialog dialog = new frmAutoAltaDialog(new java.awt.Frame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     public void windowClosing(java.awt.event.WindowEvent e) {

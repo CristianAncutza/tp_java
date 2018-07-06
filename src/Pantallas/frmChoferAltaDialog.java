@@ -14,7 +14,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.border.Border;
 
 /**
  *
@@ -179,6 +182,14 @@ public class frmChoferAltaDialog extends java.awt.Dialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void resetForm(){    
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtLegajo.setText("");
+        txtLicencia.setText("");
+        lblMensaje.setText("");
+    }
+    
     /**
      * Closes the dialog
      */
@@ -192,7 +203,7 @@ public class frmChoferAltaDialog extends java.awt.Dialog {
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
-        // TODO add your handling code here:
+        
           char c=evt.getKeyChar(); 
           if(Character.isDigit(c)) { 
               getToolkit().beep(); 
@@ -202,7 +213,7 @@ public class frmChoferAltaDialog extends java.awt.Dialog {
     }//GEN-LAST:event_txtNombreKeyTyped
 
     private void txtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidoKeyTyped
-        // TODO add your handling code here:
+
           char c=evt.getKeyChar(); 
           if(Character.isDigit(c)) { 
               getToolkit().beep(); 
@@ -223,33 +234,111 @@ public class frmChoferAltaDialog extends java.awt.Dialog {
     }//GEN-LAST:event_txtLegajoKeyTyped
 
     private void btnAceptarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMousePressed
-        // TODO add your handling code here:
+        int minLength = 2;
+        int maxLength = 20;
+        int validacion = 0;
+        Border highlightBorder = BorderFactory.createLineBorder(java.awt.Color.RED);
+        Border noBorder = BorderFactory.createLineBorder(java.awt.Color.gray);
         
-        try
-        {
-        chofer ch = new chofer();
-        ch.setApellido(txtApellido.getText());
-        ch.setNombre(txtNombre.getText());
-        ch.setLicencia(txtLicencia.getText());
-        ch.setLegajo(Integer.parseInt(txtLegajo.getText()));
-        ch.setSuAuto((auto)(cboAuto.getSelectedItem()));
-        ch.altaChofer();
+        /**********************VALIDACIONES****************************/        
         
-        lblMensaje.setText("Se inserto correctamente el chofer");
+        //Validacion de nombre
+        if(!lengthCheck(txtNombre.getText(),minLength, maxLength) || txtNombre.getText().equals("") ){                        
+            txtNombre.setBorder(highlightBorder);   
+            validacion = 1;
+        } else {    txtNombre.setBorder(noBorder);   }                                      
         
-        }
-        catch (Exception e)
-        {
-            lblMensaje.setText("Ocurrio un error, intente nuevamente");
-        }
+        if( !txtNombre.getText().matches("^[a-zA-Z]+$")){            
+            lblMensaje.setText("Aviso! debe ingresar unicamente letras en el campo nombre.");
+            txtNombre.setBorder(highlightBorder);
+            validacion = 2;
+        }          
+        else {    txtNombre.setBorder(noBorder);   }                                      
+             
+        //Validacion de apellido
+        if(!lengthCheck(txtApellido.getText(),minLength, maxLength)){             
+            txtApellido.setBorder(highlightBorder);   
+            validacion = 1;
+        }else{    txtApellido.setBorder(noBorder);   }
+        
+        if( !txtApellido.getText().matches("^[a-zA-Z]+$")){            
+            lblMensaje.setText("Aviso! debe ingresar unicamente letras en el campo apellido.");
+            txtApellido.setBorder(highlightBorder);
+            validacion = 2;
+        }          
+        else {    txtApellido.setBorder(noBorder);   }  
+           
+        //Validacion de licencia
+        if(!lengthCheck(txtLicencia.getText(),minLength, maxLength)){            
+            txtLicencia.setBorder(highlightBorder);   
+            validacion = 1;
+        }else{    txtLicencia.setBorder(noBorder);   }
+        
+        //Validacion de legajo
+        if(!lengthCheck(txtLegajo.getText(),minLength, maxLength)){            
+            txtLegajo.setBorder(highlightBorder);   
+            validacion = 1;
+        
+        }else{    txtLegajo.setBorder(noBorder);   }
+        
+        if(validacion == 0)        
+        {        
+            chofer ch = new chofer();
+            ch.setApellido(txtApellido.getText());
+            ch.setNombre(txtNombre.getText());
+            ch.setLicencia(txtLicencia.getText());
+            ch.setLegajo(Integer.parseInt(txtLegajo.getText()));
+            ch.setSuAuto((auto)cboAuto.getSelectedItem());
+            
+         if( ch.altaChofer() == 0){
+                JOptionPane.showMessageDialog(this, "Se creó correctamente el chofer.\n","",JOptionPane.INFORMATION_MESSAGE); 
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Error! ya existe otro chofer con ese legajo.\n","",JOptionPane.ERROR_MESSAGE); 
+            }  
+        } else if(validacion == 1){
+                JOptionPane.showMessageDialog(this, "Complete todos los campos, con longitud minima de 3 y maxima de 20 caracteres.\n","",JOptionPane.ERROR_MESSAGE); 
+            }  
     }//GEN-LAST:event_btnAceptarMousePressed
  /**
      * Cargo las autos para el combo
      */
     public void CargarAUTOS()
     {
-        Connection conn = null;
+         Connection conn = null;
         Conectar cn = new Conectar();
+        
+         /*cargado con query*/
+        try {
+             
+            Class.forName(cn.getDriver()).newInstance();
+            conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
+            CallableStatement statement = conn.prepareCall("SELECT [ID_AUTO]\n" +
+                                                            "      ,[MARCA]\n" +
+                                                            "      ,[MODELO]\n" +
+                                                            
+                                                            "  FROM [RemisJava].[dbo].[AUTO] \n " +
+                                                            "WHERE BAJA = 1 ");         
+            boolean hadResults = statement.execute();
+                    
+            while (hadResults) 
+            {
+           
+                ResultSet rs = statement.getResultSet();
+
+                while (rs.next()) {                   
+                    cboAuto.addItem(rs.getString("MARCA") + "," + rs.getString("MODELO"));
+                }
+                hadResults = statement.getMoreResults(); 
+            }
+            statement.close();
+            conn.close();
+        
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        /*
         
         try {
             Class.forName(cn.getDriver()).newInstance();
@@ -270,7 +359,7 @@ public class frmChoferAltaDialog extends java.awt.Dialog {
             {
                 ResultSet resultSet = statement.getResultSet();
                 
-                List<auto> autoList = new ArrayList<auto>();
+               /* List<auto> autoList = new ArrayList<auto>();
                  
                  auto au;
                 // process result set
@@ -303,8 +392,13 @@ public class frmChoferAltaDialog extends java.awt.Dialog {
              lblMensaje.setText( e.getMessage());
             
           
-        }
+        }*/
     }
+    
+    private boolean lengthCheck(String text, int minLength, int maxLength) {
+        return maxLength > text.length() && text.length() > minLength;
+    }
+       
     /**
      * @param args the command line arguments
      */

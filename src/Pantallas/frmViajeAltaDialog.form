@@ -92,7 +92,7 @@
                                   <Group type="102" attributes="0">
                                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="lblRecpcionista" min="-2" pref="114" max="-2" attributes="0"/>
+                                      <Component id="lblRecepcionista" min="-2" pref="114" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -157,7 +157,7 @@
               <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblRecpcionista" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblRecepcionista" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -265,7 +265,7 @@
         <Property name="text" type="java.lang.String" value="Calle :"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblRecpcionista">
+    <Component class="javax.swing.JLabel" name="lblRecepcionista">
       <Properties>
         <Property name="text" type="java.lang.String" value="Recepcionista"/>
       </Properties>

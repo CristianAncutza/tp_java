@@ -77,6 +77,7 @@ public class mainRemis {
     public static synchronized frmClienteAltaDialog getfrmClienteAltaDialog(java.awt.Frame parent, boolean modal){
         if(frmClienteAltaDialog == null)
             frmClienteAltaDialog = new frmClienteAltaDialog(parent, modal);
+        frmClienteAltaDialog.resetForm();                       
         
         return frmClienteAltaDialog;
     }
@@ -94,6 +95,8 @@ public class mainRemis {
         if(frmClienteModificacionDialog == null)
             frmClienteModificacionDialog = new frmClienteModificacionDialog(parent, modal);
         
+        frmClienteModificacionDialog.listaClientes();
+        frmClienteModificacionDialog.resetForm();
         return frmClienteModificacionDialog;
     }
     
@@ -110,6 +113,8 @@ public class mainRemis {
         if(frmClienteBajaDialog == null)
             frmClienteBajaDialog = new frmClienteBajaDialog(parent, modal);
         
+        frmClienteBajaDialog.listaClientes();
+        frmClienteBajaDialog.resetForm();
         return frmClienteBajaDialog;
     }
     
@@ -126,6 +131,7 @@ public class mainRemis {
         if(frmChoferAltaDialog == null)
             frmChoferAltaDialog = new frmChoferAltaDialog(parent, modal);
         
+        frmChoferAltaDialog.resetForm();
         return frmChoferAltaDialog;
     }
     
@@ -142,6 +148,8 @@ public class mainRemis {
         if(frmChoferModificacionDialog == null)
             frmChoferModificacionDialog = new frmChoferModificacionDialog(parent, modal);
         
+        frmChoferModificacionDialog.listaChoferes();
+        frmChoferModificacionDialog.resetForm();
         return frmChoferModificacionDialog;
     }
     
@@ -158,6 +166,8 @@ public class mainRemis {
         if(frmChoferBajaDialog == null)
             frmChoferBajaDialog = new frmChoferBajaDialog(parent, modal);
         
+            frmChoferBajaDialog.listaChoferes();
+            frmChoferBajaDialog.resetForm();
         return frmChoferBajaDialog;
     }
     
@@ -174,6 +184,7 @@ public class mainRemis {
         if(frmAutoAltaDialog == null)
             frmAutoAltaDialog = new frmAutoAltaDialog(parent, modal);
         
+        frmAutoAltaDialog.resetForm();
         return frmAutoAltaDialog;
     }
     
@@ -190,6 +201,8 @@ public class mainRemis {
         if(frmAutoModificacionDialog == null)
             frmAutoModificacionDialog = new frmAutoModificacionDialog(parent, modal);
         
+            frmAutoModificacionDialog.listaAutos();        
+            frmAutoModificacionDialog.resetForm();
         return frmAutoModificacionDialog;
     }
     
@@ -206,6 +219,8 @@ public class mainRemis {
         if(frmAutoBajaDialog == null)
             frmAutoBajaDialog = new frmAutoBajaDialog(parent, modal);
         
+        frmAutoBajaDialog.listaAutos();
+        frmAutoBajaDialog.resetLabels();
         return frmAutoBajaDialog;
     }
     
@@ -222,6 +237,7 @@ public class mainRemis {
         if(frmViajeAltaDialog == null)
             frmViajeAltaDialog = new frmViajeAltaDialog(parent, modal, per);
         
+        frmViajeAltaDialog.resetForm();
         return frmViajeAltaDialog;
     }
     
@@ -238,6 +254,8 @@ public class mainRemis {
         if(frmViajeModificacionDialog == null)
             frmViajeModificacionDialog = new frmViajeModificacionDialog(parent, modal);
         
+        frmViajeModificacionDialog.listaViajes();
+        frmViajeModificacionDialog.resetForm();
         return frmViajeModificacionDialog;
     }
     

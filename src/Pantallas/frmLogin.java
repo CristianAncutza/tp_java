@@ -23,6 +23,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
 
 
 /**
@@ -35,10 +40,18 @@ public class frmLogin extends javax.swing.JFrame {
      * Creates new form frmLogin
      */
     public frmLogin() {
+        
+        
         initComponents();
         rdbChofer.setVisible(false);
         rdbRecepcionista.setVisible(false);
         Centrado();
+        
+        try{
+            UIManager.setLookAndFeel("com.birosoft.liquid.LiquidLookAndFeel");             
+
+        }catch(Exception ex){
+        }
     }
     
     /**
@@ -164,7 +177,7 @@ public class frmLogin extends javax.swing.JFrame {
     private int id_recepcionista;
     
     private void btnAceptarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMousePressed
-        // TODO add your handling code here:
+        
         frmMenu menu;
         if (LoginRecepcionista())
             {
@@ -174,110 +187,37 @@ public class frmLogin extends javax.swing.JFrame {
                 menu.setLocationRelativeTo(this);
                 this.dispose();
             }
-        /*
-        if(rdbRecepcionista.isSelected())
-        {                
-            if (LoginRecepcionista())
-            {
-                recepcionista rep = new recepcionista(id_recepcionista);
-                menu = new frmMenu(rep);
-                menu.setVisible(true);
-                menu.setLocationRelativeTo(this);
-                this.dispose();
-            }
-        }
-        else
-        {
-           if (LoginChofer())
-           {
-                chofer ch = new chofer(id_chofer);
-                //ch.getChofer(id_chofer);
-                //ch.setNombre("Juan");
-                menu = new frmMenu(ch);
-                menu.setVisible(true);
-                menu.setLocationRelativeTo(this);
-                this.dispose();
-           }
-        }
-        */
-        
-        
+       
         
       
     }//GEN-LAST:event_btnAceptarMousePressed
 
     private void rdbRecepcionistaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdbRecepcionistaMousePressed
-        // TODO add your handling code here:
+        
         jLabel2.setVisible(true);
         txtContraseña.setVisible(true);
     }//GEN-LAST:event_rdbRecepcionistaMousePressed
 
     private void rdbChoferMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdbChoferMousePressed
-// TODO add your handling code here:
+
         jLabel2.setVisible(false);
         txtContraseña.setVisible(false);        // TODO add your handling code here:
     }//GEN-LAST:event_rdbChoferMousePressed
-
-    /**
-     * validacion de logion del chofer
-     * @return 
-     */
-    private boolean LoginChofer()
-    {
-        Connection conn = null;
-        Conectar cn = new Conectar();
-        
-        try {
-            Class.forName(cn.getDriver()).newInstance();
-            conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
-            CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_CHOFER_LOGIN] ?");
-            statement.setString(1, txtUsuario.getText());
-            
-            boolean hadResults = statement.execute();
-        
-            int rowCount = 0;    
-            while (hadResults) 
-            {
-                ResultSet resultSet = statement.getResultSet();
-                
-              
-                // process result set
-                while (resultSet.next()) {
-                    rowCount++;
-                    id_chofer = Integer.parseInt(resultSet.getString("LEGAJO"));
-                    String title = resultSet.getString("NOMBRE");
-                    String description = resultSet.getString("APELLIDO");
-                  
-                    lblMensaje.setText("| " + title + " | " + description + " | ");
-                }
- 
-                hadResults = statement.getMoreResults();
-                
-            }
- 
-            statement.close();
-            conn.close();
-            
-            if(rowCount < 1)
-            {
-                 lblMensaje.setText("Usuario o Contraseña incorrecta!!!");
-                 return false;
-            }
-            
-        } catch (Exception e) {
-             lblMensaje.setText("Usuario o Contraseña incorrecta!!!");
-            e.getMessage();
-               return false;
-        }
-        return true;
-    }
-    
+   
     /**
      * validacion de login de la recpcionista
      * @return 
      */
     private boolean LoginRecepcionista()
     {
+        int minLength = 2;
+        int maxLength = 20;
+        int validacion = 0;
+        
+        Border highlightBorder = BorderFactory.createLineBorder(java.awt.Color.RED);
+        Border noBorder = BorderFactory.createLineBorder(java.awt.Color.gray);
+        
+        
         Connection conn = null;
         Conectar cn = new Conectar();
         
@@ -312,24 +252,46 @@ public class frmLogin extends javax.swing.JFrame {
             statement.close();
             conn.close();
             
+            //Validacion de usuario
+            if(!lengthCheck(txtUsuario.getText(),minLength, maxLength) || txtUsuario.getText().equals("") ){                        
+                txtUsuario.setBorder(highlightBorder);                   
+            } else {    txtUsuario.setBorder(noBorder);   }                                      
+
+
+            //Validacion de contraseña
+            if(!lengthCheck(txtContraseña.getText(),minLength, maxLength)){             
+                txtContraseña.setBorder(highlightBorder);                   
+            }else{    txtContraseña.setBorder(noBorder);   }
+
             if(rowCount < 1)
             {
-                 lblMensaje.setText("Usuario o Contraseña incorrecta!!!");
+                 JOptionPane.showMessageDialog(this, "Error! Usuario y contraseña incorrecta.\n","",JOptionPane.ERROR_MESSAGE); 
                  return false;
             }
             
         } catch (Exception e) {
-             lblMensaje.setText("Usuario o Contraseña incorrecta!!!");
+             JOptionPane.showMessageDialog(this, "Error! Usuario o contraseña incorrecta.\n","",JOptionPane.ERROR_MESSAGE); 
             e.getMessage();
                return false;
         }
         return true;
     }
     
+    private boolean lengthCheck(String text, int minLength, int maxLength) {
+        return maxLength > text.length() && text.length() > minLength;
+    }
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
+                try{
+            UIManager.setLookAndFeel("UpperEssential.UpperEssentialLookAndFeel");             
+
+        }catch(Exception ex){
+        }
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

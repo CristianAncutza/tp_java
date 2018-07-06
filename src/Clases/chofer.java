@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -30,6 +31,8 @@ public class chofer extends persona{
     private int legajo;
     private String licencia;
     private auto suAuto;
+
+
 
     @Override
     public int hashCode() {
@@ -72,7 +75,6 @@ public class chofer extends persona{
         this.suAuto = suAuto;
     }
 
-    
     /**
      * @return the legajo
      */
@@ -101,7 +103,7 @@ public class chofer extends persona{
         this.licencia = licencia;
     }
        
-      public void altaChofer(){
+      public int altaChofer(){
      Connection conn = null;
         Conectar cn = new Conectar();
         
@@ -117,26 +119,34 @@ public class chofer extends persona{
             statement.setString(4, this.licencia);
             statement.setInt(5, this.suAuto.getid_auto());
    
-           boolean hadResults = statement.execute();
+           //verifico que no exista el chofer
+            String query = "SELECT * FROM CHOFER WHERE LEGAJO ='" + this.legajo + "' AND BAJA = 1";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);                            
+           
+            if(!rs.next()){
+                return 0;
+           }
+            if (conn != null) {
+                System.out.println("La operación fue realizada correctamente");
+             }
         
             statement.close();
-            conn.close();
-            
-           
+            conn.close();         
             
         } catch (Exception e) {
              
-            e.getMessage();
-              
+            e.getMessage();              
         }
+        return 1;
     
     }
     public void modifCchofer(){
-     Connection conn = null;
+        Connection conn = null;
         Conectar cn = new Conectar();
         
         try {      
-               Class.forName(cn.getDriver()).newInstance();
+             Class.forName(cn.getDriver()).newInstance();
              conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
              
 
@@ -212,9 +222,11 @@ public class chofer extends persona{
         return 0;
     }
     
+    public chofer(){
+        
+    };    
     
-    public chofer(){};
-            
+    
     public chofer(int legajo, String licencia, String nombre, String apellido){
         
         this.legajo = legajo;
@@ -223,9 +235,9 @@ public class chofer extends persona{
         this.setApellido(apellido);  
         
     }
-    
+            
+
     public chofer(int id){
-        
         Connection conn = null;
         Conectar cn = new Conectar();
         
@@ -233,9 +245,8 @@ public class chofer extends persona{
         
             conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
               CallableStatement statement = conn.prepareCall("SELECT * FROM CHOFER WHERE LEGAJO = "+ id);
-              
           
-             boolean hadResults = statement.execute();
+            boolean hadResults = statement.execute();
             int rowCount = 0;    
             while (hadResults) 
             {
@@ -248,9 +259,7 @@ public class chofer extends persona{
                    this.setNombre(resultSet.getString("NOMBRE"));
                    this.setApellido(resultSet.getString("APELLIDO"));
                    this.licencia = (resultSet.getString("LICENCIA"));
-                    
-                
-                   
+                 
                 }
                
                 hadResults = statement.getMoreResults();
@@ -285,10 +294,9 @@ public class chofer extends persona{
          try {             
          
             conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
-              CallableStatement statement = conn.prepareCall("SELECT * FROM CHOFER WHERE LEGAJO = "+ id);
-              
-          
-             boolean hadResults = statement.execute();
+            CallableStatement statement = conn.prepareCall("SELECT * FROM CHOFER WHERE LEGAJO = "+ id);
+                        
+            boolean hadResults = statement.execute();
             int rowCount = 0;    
             while (hadResults) 
             {
@@ -299,11 +307,9 @@ public class chofer extends persona{
                     rowCount++;
                     ch.setLegajo(Integer.parseInt(resultSet.getString("LEGAJO")));
                     ch.setNombre(resultSet.getString("NOMBRE"));
-                        ch.setApellido(resultSet.getString("APELLIDO"));
-                        ch.setLicencia(resultSet.getString("LICENCIA"));
-                    
-                
-                   
+                    ch.setApellido(resultSet.getString("APELLIDO"));
+                    ch.setLicencia(resultSet.getString("LICENCIA"));
+
                 }
                
                 hadResults = statement.getMoreResults();
@@ -312,8 +318,6 @@ public class chofer extends persona{
                
             statement.close();
             conn.close();
-                
-            
 
            } catch (SQLException ex) {
                  ex.printStackTrace();

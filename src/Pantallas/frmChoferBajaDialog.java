@@ -11,7 +11,10 @@ import ConexionDB.Conectar;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
@@ -21,17 +24,25 @@ import net.proteanit.sql.DbUtils;
  * @author ex1fernajo
  */
 public class frmChoferBajaDialog extends java.awt.Dialog {
-
+    
+   
     /**
      * Creates new form frmChoferBajaDialog
+     * @param parent
+     * @param modal
      */
     public frmChoferBajaDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
-        listaChofer();
+        listaChoferes();        
     }
-
+    
+    public void resetForm(){    
+        lblID.setText("");
+        lblMensaje.setText("");
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -48,6 +59,7 @@ public class frmChoferBajaDialog extends java.awt.Dialog {
         lblMensaje = new javax.swing.JLabel();
         lblID = new javax.swing.JLabel();
 
+        setName(""); // NOI18N
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 closeDialog(evt);
@@ -91,18 +103,17 @@ public class frmChoferBajaDialog extends java.awt.Dialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(117, 117, 117)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblID)
-                                .addGap(87, 87, 87)
-                                .addComponent(btnBaja))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(32, 32, 32)
-                                .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(157, 157, 157)
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(lblID)
+                            .addGap(87, 87, 87)
+                            .addComponent(btnBaja))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(149, 149, 149)
+                            .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(82, 82, 82)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -133,7 +144,7 @@ public class frmChoferBajaDialog extends java.awt.Dialog {
  /**
      * llena la grilla con todos los choferes
      */
-    private void listaChofer()
+    public void listaChoferes()
     {
         Connection conn = null;
          Conectar cn = new Conectar();
@@ -163,25 +174,25 @@ public class frmChoferBajaDialog extends java.awt.Dialog {
     }//GEN-LAST:event_closeDialog
 
     private void tblChoferMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblChoferMousePressed
-        // TODO add your handling code here:
+       
         DefaultTableModel model =(DefaultTableModel)tblChofer.getModel();
         int selectedRowIndex = tblChofer.getSelectedRow();
         lblID.setText(model.getValueAt(selectedRowIndex, 0).toString());
     }//GEN-LAST:event_tblChoferMousePressed
 
     private void btnBajaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBajaMousePressed
-        // TODO add your handling code here:
+        
           //obtengo el id de la row seleccionada.
         int selectedRowIndex = tblChofer.getSelectedRow();                       
         int id_chofer = (int) tblChofer.getModel().getValueAt(selectedRowIndex, 0);
         
         chofer ch = new chofer();                
         if(ch.bajaChofer(id_chofer) == 0){
-                lblMensaje.setText("Se eliminó correctamente el chofer");
-                listaChofer();
+                lblMensaje.setText("Se eliminó correctamente el chofer.");
+                listaChoferes();
         }
         else{
-            lblMensaje.setText("Error: no se pudo eliminar el chofer");
+            lblMensaje.setText("Error: no se pudo eliminar el chofer.");
         }    
     }//GEN-LAST:event_btnBajaMousePressed
 
@@ -191,12 +202,15 @@ public class frmChoferBajaDialog extends java.awt.Dialog {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+
                 frmChoferBajaDialog dialog = new frmChoferBajaDialog(new java.awt.Frame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
                     }
-                });
+                });           
+               
+                
                 dialog.setVisible(true);
             }
         });
