@@ -33,7 +33,6 @@ public class chofer extends persona{
     private auto suAuto;
 
 
-
     @Override
     public int hashCode() {
         int hash = 3;
@@ -125,6 +124,7 @@ public class chofer extends persona{
             ResultSet rs = st.executeQuery(query);                            
            
             if(!rs.next()){
+                statement.execute();
                 return 0;
            }
             if (conn != null) {
@@ -141,7 +141,7 @@ public class chofer extends persona{
         return 1;
     
     }
-    public void modifCchofer(){
+    public void modifChofer(){
         Connection conn = null;
         Conectar cn = new Conectar();
         
@@ -157,10 +157,8 @@ public class chofer extends persona{
             statement.setInt(4, this.legajo);
             statement.setString(5, this.licencia);
             statement.setInt(6, this.suAuto.getid_auto());
+            statement.execute();       
             
-   
-           boolean hadResults = statement.execute();
-        
             statement.close();
             conn.close();
             

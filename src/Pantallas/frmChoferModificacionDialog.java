@@ -59,7 +59,7 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
         try{
             conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
             auto autos;
-            String query = "SELECT C.ID_CHOFER, C.NOMBRE, C.APELLIDO, C.LEGAJO, C.LICENCIA,a.marca as MARCA  FROM CHOFER C "
+            String query = "SELECT C.ID_CHOFER, C.NOMBRE, C.APELLIDO, C.LEGAJO, C.LICENCIA, a.ID_AUTO, (a.marca +', '+ a.modelo) as AUTO  FROM CHOFER C "
                     + "INNER JOIN AUTO A ON C.ID_AUTO = A.ID_AUTO WHERE C.BAJA = 1";
 
             Statement st = conn.createStatement();
@@ -81,12 +81,13 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
         Connection conn = null;
         Conectar cn = new Conectar();
         
-         /*cargado con query*/
-        try {
+         /*CARGADO CON QUERY*/
+        /*try {
              
             Class.forName(cn.getDriver()).newInstance();
             conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
-            CallableStatement statement = conn.prepareCall("SELECT MARCA FROM AUTO WHERE BAJA = 1");
+            CallableStatement statement = conn.prepareCall("SELECT ID_AUTO, MARCA, MODELO FROM AUTO WHERE BAJA = 1");
+            
             boolean hadResults = statement.execute();
                     
             while (hadResults) 
@@ -96,7 +97,7 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
 
                 while (rs.next()) {                   
                     
-                    cboAuto.addItem(rs.getString("MARCA"));
+                    cboAuto.addItem(rs.getString("MARCA")+", "+rs.getString("MODELO"));
                 }
                 hadResults = statement.getMoreResults(); 
             }
@@ -106,9 +107,9 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
             
         } catch (Exception e) {
             System.out.println(e);
-        }
+        }*/
+        /*CARGADO CON OBJETO*/
         
-        /*
         try {
             Class.forName(cn.getDriver()).newInstance();
             conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
@@ -162,7 +163,7 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
              lblMensaje.setText( e.getMessage());
             
           
-        }*/
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -244,8 +245,6 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
             }
         });
 
-        cboAuto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         lblApellido4.setText("Auto :");
 
         txtApellido.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -264,71 +263,83 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(228, 228, 228)
-                .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(194, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(lblApellido4)
-                        .addGap(18, 18, 18)
-                        .addComponent(cboAuto, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblApellido2)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblLegajo)
-                        .addGap(37, 37, 37)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(lblApellido4)
+                            .addGap(18, 18, 18)
+                            .addComponent(cboAuto, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lblApellido2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblLegajo)
+                                .addGap(116, 116, 116))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblID)))))
                 .addGap(240, 240, 240))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(228, 228, 228)
+                        .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(394, 394, 394)
+                        .addComponent(btnAceptar)))
+                .addContainerGap(194, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(155, 155, 155)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                            .addGap(210, 210, 210)
-                            .addComponent(jLabel1))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
                             .addGap(74, 74, 74)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(lblNombre)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(lblApellido3)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(txtLicencia, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(lblApellido)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jLabel2)
-                                            .addGap(36, 36, 36)
-                                            .addComponent(lblID)))
-                                    .addGap(268, 268, 268))
-                                .addComponent(btnAceptar))))
-                    .addContainerGap(155, Short.MAX_VALUE)))
+                                    .addComponent(lblNombre)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(lblApellido3)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtLicencia, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(lblApellido)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addContainerGap(460, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(210, 210, 210)
+                                    .addComponent(jLabel1))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addContainerGap(155, Short.MAX_VALUE)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(238, Short.MAX_VALUE)
+                .addGap(0, 218, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(lblID))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblApellido2)
-                    .addComponent(jLabel3)
                     .addComponent(lblLegajo))
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblApellido4)
                     .addComponent(cboAuto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(96, 96, 96)
+                .addGap(26, 26, 26)
+                .addComponent(btnAceptar)
+                .addGap(31, 31, 31)
                 .addComponent(lblMensaje)
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -337,27 +348,19 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
                     .addComponent(jLabel1)
                     .addGap(18, 18, 18)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(32, 32, 32)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblNombre)
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGap(18, 18, 18)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2)
-                        .addComponent(lblID))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblNombre)
-                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblApellido)
-                                .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(26, 26, 26)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblApellido3)
-                                .addComponent(txtLicencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(115, 115, 115)
-                            .addComponent(btnAceptar)))
-                    .addContainerGap(38, Short.MAX_VALUE)))
+                        .addComponent(lblApellido)
+                        .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(26, 26, 26)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblApellido3)
+                        .addComponent(txtLicencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(90, Short.MAX_VALUE)))
         );
 
         pack();
@@ -373,6 +376,8 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
 
     private void tblChoferMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblChoferMousePressed
         
+        auto auto = null;
+        
         DefaultTableModel model =(DefaultTableModel)tblChofer.getModel();
         int selectedRowIndex = tblChofer.getSelectedRow();
         lblID.setText(model.getValueAt(selectedRowIndex, 0).toString());
@@ -380,41 +385,35 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
         txtApellido.setText(model.getValueAt(selectedRowIndex, 2).toString());
         lblLegajo.setText(model.getValueAt(selectedRowIndex, 3).toString());
         txtLicencia.setText(model.getValueAt(selectedRowIndex, 4).toString());
-       
+        //cboAuto.setSelectedItem(model.getValueAt(selectedRowIndex, 5).toString());
         //LOGICA PARA LA SELECCION DE AUTO
                  
-        Connection conn = null;
+       /* Connection conn = null;
         Conectar cn = new Conectar();
         
         try {
             Class.forName(cn.getDriver()).newInstance();
             conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
-            CallableStatement statement = conn.prepareCall("SELECT * FROM auto WHERE MARCA LIKE '%"+ model.getValueAt(selectedRowIndex,5)+"%'");
-                   //statement.setString(1, txtUsuario.getText());
+            String query = "SELECT id_auto, marca, modelo FROM auto WHERE id_auto =" + model.getValueAt(selectedRowIndex,5) +"";
             
-            boolean hadResults = statement.execute();
+            Statement st = conn.createStatement();
+            @SuppressWarnings("LocalVariableHidesMemberVariable")
+            ResultSet resultado = st.executeQuery(query);
+                                                
                     
-            while (hadResults) 
-            {
-                ResultSet resultado = statement.getResultSet();
-                         
-                while(resultado.next()){
-                     this.lblID.setText(resultado.getString(1));
-                     this.cboAuto.setSelectedItem(resultado.getString(1));
-                    
-                }                   
-               
-                
-                hadResults = statement.getMoreResults();
-                
+           while(resultado.next()){
+             auto = new auto(resultado.getString(2), resultado.getString(3));
             }
+        
  
-            statement.close();
+            this.cboAuto.setSelectedItem(auto);            
+            
+            st.close();
             conn.close();
             
         
         }catch(Exception e){} 
-        
+        */
         
     }//GEN-LAST:event_tblChoferMousePressed
 
@@ -468,9 +467,9 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
             ch.setNombre(txtNombre.getText());
             ch.setLicencia(txtLicencia.getText());
             ch.setLegajo(Integer.parseInt(lblLegajo.getText()));
-            //ch.setAuto(Integer.parseInt(cboAuto.getSelectedItem().toString()));
+            ch.setSuAuto((auto)cboAuto.getSelectedItem());
             
-            ch.modifCchofer();
+            ch.modifChofer();
         
         listaChoferes();
         lblMensaje.setText("Se inserto correctamente el chofer");

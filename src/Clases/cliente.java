@@ -79,7 +79,7 @@ public class cliente extends persona{
             ResultSet rs = st.executeQuery(query);                            
            
             if(!rs.next()){
-                boolean hadResults = statement.execute();
+                statement.execute();
                 return 0;
             }
             if (conn != null) {

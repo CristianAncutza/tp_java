@@ -111,7 +111,7 @@ public class ticket {
             CallableStatement statement = conn.prepareCall("EXEC [dbo].[SP_TICKET_ALTA] ?");
             
             statement.setInt(1, this.idViaje);
-            boolean hadResults = statement.execute();
+            statement.execute();
         
             statement.close();
             conn.close();

@@ -55,7 +55,7 @@ public class frmViajeAltaDialog extends java.awt.Dialog {
         txtCalleOrigen.setText("");
         txtNumeroOrigen.setText("");
         lblMensaje.setText("");
-        lblRecepcionista.setText("");
+        //lblRecepcionista.setText("");
     }
     
     /**

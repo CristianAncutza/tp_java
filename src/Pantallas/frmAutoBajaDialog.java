@@ -151,7 +151,7 @@ public class frmAutoBajaDialog extends java.awt.Dialog {
         try{
             conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
             auto autos;
-            String query = "SELECT * FROM auto";
+            String query = "SELECT * FROM auto WHERE BAJA= 1";
 
             Statement st = conn.createStatement();
             @SuppressWarnings("LocalVariableHidesMemberVariable")

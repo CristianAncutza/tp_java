@@ -79,6 +79,15 @@ public class auto {
     this.modelo = modelo;
   }  
     
+    /*public auto(){}
+    
+    public auto(String marca, String modelo){    
+        
+        this.marca = marca;
+        this.modelo = modelo;
+    }*/
+    
+    
     /**
      *Este metodo se usa para dar de alta un auto.
      */
@@ -102,11 +111,12 @@ public class auto {
              }
             
              //verifico que no exista el auto
-            String query = "SELECT * FROM AUTO WHERE PATENTE ='" + this.patente + "'";
+            String query = "SELECT * FROM AUTO WHERE BAJA = 1 AND PATENTE ='" + this.patente + "'";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);                            
            
-            if(!rs.next()){                
+            if(!rs.next()){ 
+                statement.execute();
                 return 0;
             }
             if (conn != null) {
@@ -195,7 +205,7 @@ public class auto {
             boolean hadResults = statement.execute();             
             
             //verifico que se haya borrado correctamente el auto
-            CallableStatement statement_test = conn.prepareCall("SELECT * FROM AUTO WHERE ID_AUTO = "+ id_auto);
+            CallableStatement statement_test = conn.prepareCall("SELECT * FROM AUTO WHERE BAJA= 1 AND ID_AUTO = "+ id_auto);
             boolean hadResults_test = statement_test.execute();                                  
             
             if(hadResults_test == false){
@@ -223,6 +233,7 @@ public class auto {
         return 0;
     }
 
+    
     @Override
     public String toString() {
         return   marca + ", " + modelo ;

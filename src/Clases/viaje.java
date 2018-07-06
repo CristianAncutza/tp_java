@@ -174,7 +174,7 @@ public class viaje {
             statement.setInt(13, 1);//@ID_ESTADO int,
             statement.setInt(14, this.Recepcionista.getIdPersona());//@ID_RECEPCIONISTA_CREADO int
            
-            boolean hadResults = statement.execute();
+            statement.execute();
         
             statement.close();
             conn.close();

@@ -97,7 +97,7 @@ public class frmChoferAltaDialog extends java.awt.Dialog {
 
         lblNombre.setText("Nombre :");
 
-        cboAuto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboAuto.setToolTipText("");
 
         lblApellido.setText("Apellido :");
 
@@ -130,24 +130,22 @@ public class frmChoferAltaDialog extends java.awt.Dialog {
                                 .addComponent(lblApellido4)
                                 .addGap(18, 18, 18)
                                 .addComponent(cboAuto, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(lblApellido3)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtLicencia, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(70, 70, 70)
-                                        .addComponent(lblApellido2)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtLegajo, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGap(163, 163, 163)
-                                        .addComponent(btnAceptar))))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(140, 140, 140)
-                        .addComponent(jLabel1))
+                                    .addComponent(jLabel1)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(lblApellido3)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(txtLicencia, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(lblApellido2)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(txtLegajo, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(btnAceptar)
+                                            .addGap(157, 157, 157)))))))
                     .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(77, Short.MAX_VALUE))
         );
@@ -305,11 +303,11 @@ public class frmChoferAltaDialog extends java.awt.Dialog {
      */
     public void CargarAUTOS()
     {
-         Connection conn = null;
+        Connection conn = null;
         Conectar cn = new Conectar();
         
-         /*cargado con query*/
-        try {
+         /*CARGADO CON QUERY*/
+       /* try {
              
             Class.forName(cn.getDriver()).newInstance();
             conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
@@ -327,7 +325,7 @@ public class frmChoferAltaDialog extends java.awt.Dialog {
                 ResultSet rs = statement.getResultSet();
 
                 while (rs.next()) {                   
-                    cboAuto.addItem(rs.getString("MARCA") + "," + rs.getString("MODELO"));
+                    cboAuto.addItem(rs.getString("ID_AUTO")+"- "+rs.getString("MARCA") + "," + rs.getString("MODELO"));
                 }
                 hadResults = statement.getMoreResults(); 
             }
@@ -338,7 +336,9 @@ public class frmChoferAltaDialog extends java.awt.Dialog {
         } catch (Exception e) {
             System.out.println(e);
         }
-        /*
+        */
+         /*CARGADO CON OBJETO*/
+         
         
         try {
             Class.forName(cn.getDriver()).newInstance();
@@ -359,7 +359,7 @@ public class frmChoferAltaDialog extends java.awt.Dialog {
             {
                 ResultSet resultSet = statement.getResultSet();
                 
-               /* List<auto> autoList = new ArrayList<auto>();
+                List<auto> autoList = new ArrayList<auto>();
                  
                  auto au;
                 // process result set
@@ -392,7 +392,7 @@ public class frmChoferAltaDialog extends java.awt.Dialog {
              lblMensaje.setText( e.getMessage());
             
           
-        }*/
+        }
     }
     
     private boolean lengthCheck(String text, int minLength, int maxLength) {
