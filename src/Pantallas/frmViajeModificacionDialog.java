@@ -90,43 +90,7 @@ public class frmViajeModificacionDialog extends java.awt.Dialog {
         Connection conn = null;
         Conectar cn = new Conectar();                
         
-        
-        /*cargado con query*/
-        /*try {
-             
-            Class.forName(cn.getDriver()).newInstance();
-            conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
-            CallableStatement statement = conn.prepareCall("SELECT [ID_CHOFER]\n" +
-                                                            "      ,[NOMBRE]\n" +
-                                                            "      ,[APELLIDO]\n" +
-                                                            "      ,[LEGAJO]\n" +
-                                                            "      ,[LICENCIA]\n" +
-                                                            "      ,[ID_AUTO]\n" +
-                                                            "  FROM [RemisJava].[dbo].[CHOFER] \n " +
-                                                            "WHERE BAJA = 1 ");         
-            boolean hadResults = statement.execute();
-                    
-            while (hadResults) 
-            {
-           
-                ResultSet rs = statement.getResultSet();
-
-                while (rs.next()) {                   
-                    cboChofer.addItem(rs.getString("NOMBRE") + "," + rs.getString("APELLIDO"));
-                }
-                hadResults = statement.getMoreResults(); 
-            }
-            statement.close();
-            conn.close();
-        
-            
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        */
-            
-        
-        /*COMBO CARGADO CON ARRAYLIST*/
+        /*COMBO CARGADO CON OBJECT*/
         try {
             Class.forName(cn.getDriver()).newInstance();
             conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
@@ -136,8 +100,7 @@ public class frmViajeModificacionDialog extends java.awt.Dialog {
                                                             "      ,[LEGAJO]\n" +
                                                             "      ,[LICENCIA]\n" +
                                                             "      ,[ID_AUTO]\n" +
-                                                            "  FROM [RemisJava].[dbo].[CHOFER] \n " +
-                                                            "WHERE BAJA = 1 ");         
+                                                            "  FROM [RemisJava].[dbo].[CHOFER] \n ");         
             
             boolean hadResults = statement.execute();
                     
@@ -166,14 +129,10 @@ public class frmViajeModificacionDialog extends java.awt.Dialog {
  
             statement.close();
             conn.close();
-        
             
-          
             
         } catch (Exception e) {
-             lblMensaje.setText( e.getMessage());
-            
-          
+             lblMensaje.setText( e.getMessage());                      
         }
         
     }
@@ -354,6 +313,8 @@ public class frmViajeModificacionDialog extends java.awt.Dialog {
     }//GEN-LAST:event_closeDialog
 
     private void tbViajesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbViajesMousePressed
+        Connection conn = null;
+        Conectar cn = new Conectar();
             
            DefaultTableModel model =(DefaultTableModel)tbViajes.getModel();
            int selectedRowIndex = tbViajes.getSelectedRow();
@@ -361,10 +322,41 @@ public class frmViajeModificacionDialog extends java.awt.Dialog {
            lblId.setText(model.getValueAt(selectedRowIndex, 0).toString());
            txtKMS.setText(model.getValueAt(selectedRowIndex, 3).toString());
            txtValor.setText(model.getValueAt(selectedRowIndex, 6).toString());           
-           //cboChofer.setSelectedItem(model.getValueAt(selectedRowIndex, 8));
-           //cboEstado.setSelectedItem(model.getValueAt(selectedRowIndex, 10));
-           //cboChofer.addItem(model.getValueAt(selectedRowIndex, 8).toString());
-            //cboEstado.addItem(model.getValueAt(selectedRowIndex, 10).toString());       
+
+                      
+        try{
+            String query = "SELECT ID_ESTADO FROM ESTADO WHERE DESCRIPCION LIKE '%"+model.getValueAt(selectedRowIndex, 10)+"%'"; 
+            conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());   
+            Statement st = conn.createStatement();
+            @SuppressWarnings("LocalVariableHidesMemberVariable")
+            ResultSet rs = st.executeQuery(query);
+        
+            while(rs.next()){
+               cboEstado.setSelectedIndex(rs.getInt(1)-1);       
+            }
+                st.close();
+                conn.close();
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        
+        try{
+            String query = "SELECT ID_CHOFER FROM CHOFER WHERE (NOMBRE+' '+APELLIDO)= '"+model.getValueAt(selectedRowIndex, 8)+"'"; 
+            conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
+            Statement st = conn.createStatement();
+            @SuppressWarnings("LocalVariableHidesMemberVariable")
+            ResultSet rs = st.executeQuery(query);
+        
+            while(rs.next()){
+               cboChofer.setSelectedIndex(rs.getInt(1)-1);       
+            }
+            st.close();
+            conn.close();
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        
+        
     }//GEN-LAST:event_tbViajesMousePressed
 
     /**

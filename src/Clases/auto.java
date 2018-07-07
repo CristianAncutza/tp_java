@@ -236,7 +236,7 @@ public class auto {
     
     @Override
     public String toString() {
-        return   marca + ", " + modelo ;
+        return   marca +", "+ modelo ;
     }
     
 }

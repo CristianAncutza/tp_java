@@ -72,6 +72,7 @@ public class chofer extends persona{
 
     public void setSuAuto(auto suAuto) {
         this.suAuto = suAuto;
+
     }
 
     /**

@@ -119,7 +119,8 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
                                                             "      ,[MARCA]\n" +
                                                             "      ,[MODELO]\n" +
                                                             "      ,[PATENTE]\n" +
-                                                            "  FROM [RemisJava].[dbo].[AUTO]");
+                                                            "  FROM [RemisJava].[dbo].[AUTO]"
+                                                            + "WHERE BAJA = 1");
             //statement.setString(1, txtUsuario.getText());
             
             boolean hadResults = statement.execute();
@@ -148,6 +149,7 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
                     autoList.add(au);                                        
                    
                 }
+                
                 cboAuto.setModel(new DefaultComboBoxModel(autoList.toArray()));
                 hadResults = statement.getMoreResults();
                 
@@ -376,7 +378,8 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
 
     private void tblChoferMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblChoferMousePressed
         
-        auto auto = null;
+        Connection conn = null;
+        Conectar cn = new Conectar();
         
         DefaultTableModel model =(DefaultTableModel)tblChofer.getModel();
         int selectedRowIndex = tblChofer.getSelectedRow();
@@ -385,36 +388,20 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
         txtApellido.setText(model.getValueAt(selectedRowIndex, 2).toString());
         lblLegajo.setText(model.getValueAt(selectedRowIndex, 3).toString());
         txtLicencia.setText(model.getValueAt(selectedRowIndex, 4).toString());
-        //cboAuto.setSelectedItem(model.getValueAt(selectedRowIndex, 5).toString());
-        //LOGICA PARA LA SELECCION DE AUTO
-                 
-       /* Connection conn = null;
-        Conectar cn = new Conectar();
-        
-        try {
-            Class.forName(cn.getDriver()).newInstance();
-            conn = DriverManager.getConnection(cn.getUrl(), cn.getDatabaseUserName(), cn.getDatabasePassword());
-            String query = "SELECT id_auto, marca, modelo FROM auto WHERE id_auto =" + model.getValueAt(selectedRowIndex,5) +"";
-            
+          
+        try{
+            String query = "SELECT ID_AUTO FROM AUTO WHERE (MARCA+', '+MODELO) LIKE '%"+model.getValueAt(selectedRowIndex, 6)+"%'"; 
+            conn = DriverManager.getConnection(cn.getUrl(),cn.getDatabaseUserName(),cn.getDatabasePassword());
             Statement st = conn.createStatement();
             @SuppressWarnings("LocalVariableHidesMemberVariable")
-            ResultSet resultado = st.executeQuery(query);
-                                                
-                    
-           while(resultado.next()){
-             auto = new auto(resultado.getString(2), resultado.getString(3));
-            }
+            ResultSet rs = st.executeQuery(query);
         
- 
-            this.cboAuto.setSelectedItem(auto);            
-            
-            st.close();
-            conn.close();
-            
-        
-        }catch(Exception e){} 
-        */
-        
+        while(rs.next()){
+           cboAuto.setSelectedIndex(rs.getInt(1)-1);       
+        }
+        }catch(Exception e){
+            System.out.println(e);
+        }
     }//GEN-LAST:event_tblChoferMousePressed
 
     private void btnAceptarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMousePressed
@@ -468,6 +455,8 @@ public class frmChoferModificacionDialog extends java.awt.Dialog {
             ch.setLicencia(txtLicencia.getText());
             ch.setLegajo(Integer.parseInt(lblLegajo.getText()));
             ch.setSuAuto((auto)cboAuto.getSelectedItem());
+            
+            System.out.println(((auto)cboAuto.getSelectedItem()));
             
             ch.modifChofer();
         
